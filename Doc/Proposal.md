@@ -1,3 +1,7 @@
+https://www.figma.com/community/file/1345335852353749746/eduowel-online-learning-app-mobile-ui-kit
+UI风格参考
+
+
 # Step 1
 
 | Quension           | Answer  |
@@ -59,6 +63,8 @@
 | CardVIew 3<br>Help & Feedback | XXX |
 | CardVIew 3<br>About Do | XXX |
 
+![myProfile.PNG](image/myProfile.PNG)
+
 #### 6.1 头像照片/用户名点击之后的页面
 ![clickedProfilePhoto.png](image/clickedProfilePhoto.png)
 
@@ -81,7 +87,7 @@
 | 运动风险须知 | XX |
 | 软件logo和版本号 | XX |
 
-
+![clickedAboutDo.PNG](image/clickedAboutDo.PNG)
 ### 6.4 
 
 
