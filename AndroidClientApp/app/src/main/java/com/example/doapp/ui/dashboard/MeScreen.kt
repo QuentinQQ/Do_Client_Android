@@ -22,8 +22,11 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -44,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.ui.theme.DarkSecondary
 
 @Composable
 fun Me(
@@ -218,6 +222,19 @@ fun Me(
                     Text("About Do")
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // 4. Log Out Button
+        Button(
+            onClick = { /* To do */ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = DarkSecondary)
+        ) {
+            Text("Log Out")
         }
 
     }
