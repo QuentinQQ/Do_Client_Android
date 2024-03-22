@@ -46,7 +46,9 @@ import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home(navController: NavHostController) {
+fun Home(
+    navController: NavHostController
+) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -107,7 +109,7 @@ fun Home(navController: NavHostController) {
 
 
         Text(
-            text = "Tomorrow",
+            text = "Coming Up",
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -162,5 +164,5 @@ fun Home(navController: NavHostController) {
 //@Preview(showBackground = true)
 //@Composable
 //fun PreviewHome() {
-//    Home(navController)
+//    Home()
 //}
