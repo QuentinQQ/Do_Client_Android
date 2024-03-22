@@ -21,58 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun BottomNavigationBar(navViewModel: NavigationViewModel) {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = {
-            BottomNavigation (backgroundColor= Color.LightGray ){
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+fun BottomNavigationBar() {
 
-                NavBarItem().NavBarItems().forEach {
-                        navItem -> BottomNavigationItem(
-                    icon = {
-                        Icon(
-                            Icons.Filled.Home,
-                            contentDescription = null
-                        )
-                    },
-                    label = { Text(navItem.label) },
-                    selected = currentDestination?.hierarchy?.any
-                    {
-                        it.route == navItem.route
-                    } == true,
-                    onClick = {
-                        navController.navigate(navItem.route) { // popUpTo is used to pop up to a given destination before navigating
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true // popUpTo is used to pop up to a given
-                            }
-                            //at most one copy of a given destination on the
-                            launchSingleTop = true
-                            // this navigation action should restore any
-                            restoreState = true
-                        }
-                    }
-                )
-                }
-
-            }
-        }
-    ) {
-            paddingValues ->
-        NavHost(
-            navController,
-            startDestination = Routes.Home.value,
-            Modifier.padding(paddingValues)
-        ) {
-            composable(Routes.Home.value) {
-                Home(navController, navViewModel)
-            }
-            composable(Routes.Profile.value) {
-                Profile(navController, navViewModel) }
-            composable(Routes.About.value) {
-                About(navController)
-            }
-        }
-    }
 }

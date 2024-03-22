@@ -8,7 +8,7 @@ UI风格参考
 | ------------------ | ------- |
 | Application domain | fitness |
 | Use and purpose | XXX |
-| User group | People who want to begin fitness or already do it |
+| User group | people who fitness in gym |
 | the scope and limitations |  limited age from around 18 to 50 years old |
 
 # Step 2
