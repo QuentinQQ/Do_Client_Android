@@ -1,6 +1,8 @@
 package com.example.doapp.ui.onboarding.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,10 +17,12 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -29,10 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.doapp.R
 
 @Composable
 fun SignUpScreen() {
@@ -44,6 +50,17 @@ fun SignUpScreen() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        Row(
+            verticalAlignment = Alignment.Top,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "BACK",
+                modifier = Modifier.size(24.dp),
+                tint = Color.Black
+            )
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -108,31 +125,12 @@ fun SignUpScreen() {
                 )
             ) {
                 Text(
-                    "Login now",
+                    "Sign Up",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-            }
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-            ){
-                Text(
-                    text = "Forget Password？",
-                    fontSize = 14.sp,
-//                    modifier = Modifier
-//                        .clickable(onClick = onForgotPasswordClick),
-                    color = Color.Blue
-                )
-                Text(
-                    text = "Sign up",
-                    fontSize = 14.sp,
-//                    modifier = Modifier
-//                        .clickable(onClick = onForgotPasswordClick),
-                    color = Color.Blue
-                )
             }
         }
 
