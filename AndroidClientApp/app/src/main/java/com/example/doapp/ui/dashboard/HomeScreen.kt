@@ -42,10 +42,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home() {
+fun Home(navController: NavHostController) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -61,8 +62,7 @@ fun Home() {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .background(color = MaterialTheme.colorScheme.primary),
+                    .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             ) {
@@ -94,7 +94,7 @@ fun Home() {
                     }
                     Button(
                         onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
                     ) {
                         Text("GO!", color = Color.White)
                     }
@@ -116,8 +116,7 @@ fun Home() {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .background(color = MaterialTheme.colorScheme.primary),
+                    .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             ) {
@@ -149,7 +148,7 @@ fun Home() {
                     }
                     Button(
                         onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
                     ) {
                         Text("GO!", color = Color.White)
                     }
@@ -160,8 +159,8 @@ fun Home() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewHome() {
-    Home()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHome() {
+//    Home(navController)
+//}
