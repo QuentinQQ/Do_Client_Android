@@ -28,11 +28,11 @@ fun BottomNavigationBar() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                NavBarItem().NavBarItems().forEach {
+                NavBarItem.NavBarItems().forEach {
                         navItem -> BottomNavigationItem(
                     icon = {
                         Icon(
-                            Icons.Filled.Home,
+                            navItem.icon,
                             contentDescription = null
                         )
                     },

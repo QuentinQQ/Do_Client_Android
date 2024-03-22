@@ -9,7 +9,7 @@ UI风格参考
 | Application domain | fitness |
 | Use and purpose | XXX |
 | User group | people who fitness in gym |
-| the scope and limitations |  limited age from around 18 to 50 years old |
+| the scope and limitations | 年龄,以及群体的活动范围爱好范围等,比如说限制于在健身房的人群或者热爱健身的人 |
 
 # Step 2
 

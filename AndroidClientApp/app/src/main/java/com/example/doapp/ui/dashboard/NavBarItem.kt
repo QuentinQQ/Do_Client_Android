@@ -12,41 +12,39 @@ import com.example.doapp.ui.dashboard.Routes
 
 data class NavBarItem (
     val label : String = "",
-    val iconHome : ImageVector = Icons.Filled.Home,
-    val iconCourse : ImageVector = Icons.Filled.Build,
-    val iconNew : ImageVector = Icons.Filled.AddCircle,
-    val iconHistory : ImageVector = Icons.Filled.DateRange,
-    val iconMe : ImageVector = Icons.Filled.AccountCircle,
+    val icon: ImageVector,
     val route : String = ""
 ) {
-    fun NavBarItems(): List<NavBarItem> {
-        return listOf(
-            NavBarItem(
-                label = "Home",
-                iconHome = Icons.Filled.Home,
-                route = Routes.Home.value
-            ),
-            NavBarItem(
-                label = "Course",
-                iconCourse = Icons.Filled.Build,
-                route = Routes.Course.value
-            ),
-            NavBarItem(
-                label = "New",
-                iconNew = Icons.Filled.AddCircle,
-                route = Routes.New.value
-            ),
-            NavBarItem(
-                label = "Home",
-                iconHistory = Icons.Filled.DateRange,
-                route = Routes.History.value
-            ),
-            NavBarItem(
-                label = "Home",
-                iconMe = Icons.Filled.Home,
-                route = Routes.Me.value
+    companion object {
+        fun NavBarItems(): List<NavBarItem> {
+            return listOf(
+                NavBarItem(
+                    label = "Home",
+                    icon = Icons.Filled.Home,
+                    route = Routes.Home.value
+                ),
+                NavBarItem(
+                    label = "Course",
+                    icon = Icons.Filled.Build,
+                    route = Routes.Course.value
+                ),
+                NavBarItem(
+                    label = "New",
+                    icon = Icons.Filled.AddCircle,
+                    route = Routes.New.value
+                ),
+                NavBarItem(
+                    label = "History",
+                    icon = Icons.Filled.DateRange,
+                    route = Routes.History.value
+                ),
+                NavBarItem(
+                    label = "Home",
+                    icon = Icons.Filled.Home,
+                    route = Routes.Me.value
+                )
             )
-        )
+        }
     }
 
 }
