@@ -26,6 +26,8 @@ UI风格参考
 
 主要显示训练计划(今日计划) 以及今日饮食摄入
 
+![HomeScreen.png](image/HomeScreen.PNG)
+
 ### 3. Course/Plan
 
 **导航栏第二个Button**
