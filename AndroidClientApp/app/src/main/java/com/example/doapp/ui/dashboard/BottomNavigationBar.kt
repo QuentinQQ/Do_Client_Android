@@ -65,7 +65,7 @@ fun BottomNavigationBar() {
             Modifier.padding(paddingValues)
         ) {
             composable(Routes.Home.value) {
-                Home(navController)
+                Home() //navController
             }
             composable(Routes.Course.value) {
                 Course(navController)
@@ -74,7 +74,7 @@ fun BottomNavigationBar() {
                 New(navController)
             }
             composable(Routes.History.value) {
-                History(navController)
+                History() //navController
             }
             composable(Routes.Me.value) {
                 Me()

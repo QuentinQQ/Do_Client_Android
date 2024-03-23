@@ -48,6 +48,9 @@ UI风格参考
 
 顶部有两个Button(1为日历, 2为统计)
 
+![History.PNG](image/History.PNG)
+
+![Statistics.PNG](image/Statistics.PNG)
 
 ### 6. My profile/ Me
 

@@ -21,6 +21,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -48,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.DarkSecondary
+import com.example.doapp.ui.theme.LightFouth
 
 @Composable
 fun Me(
@@ -55,6 +58,7 @@ fun Me(
 ) {
     Column(
         modifier = Modifier
+            .background(Color(0xFFF4F5F6))
             .padding(16.dp)
             .fillMaxSize()
     ) {
@@ -167,22 +171,26 @@ fun Me(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp)
-                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
+                        .clip(RoundedCornerShape(20.dp))
+                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
+                        .background(Color(0xFFFFFFFF)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         painter = rememberVectorPainter(image = Icons.Filled.Settings),
                         contentDescription = "Preferences",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(30.dp)
                     )
                     Spacer(Modifier.width(20.dp))
                     Text("Preferences")
-                    Spacer(Modifier.weight(1f)) // 使用Spacer来推动箭头图标到最右边
+                    Spacer(Modifier.weight(1f))
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "Arrow",
                         modifier = Modifier
-                            .padding(end = 10.dp) // 在箭头图标右侧添加间距，根据需要调整
+                            .padding(end = 10.dp)
                     )
                 }
 
@@ -196,12 +204,21 @@ fun Me(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Call),
+                        painter = rememberVectorPainter(image = Icons.Filled.Email),
                         contentDescription = "Call",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(30.dp)
                     )
                     Spacer(Modifier.width(20.dp))
                     Text("Help & Feedback")
+                    Spacer(Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "Arrow",
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                    )
                 }
 
                 Spacer(Modifier.height(10.dp))
@@ -214,12 +231,21 @@ fun Me(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Call),
+                        painter = rememberVectorPainter(image = Icons.Filled.Info),
                         contentDescription = "Call",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(30.dp)
                     )
                     Spacer(Modifier.width(20.dp))
                     Text("About Do")
+                    Spacer(Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "Arrow",
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                    )
                 }
             }
         }

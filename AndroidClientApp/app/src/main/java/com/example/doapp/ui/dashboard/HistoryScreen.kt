@@ -10,24 +10,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 @Composable
-fun History(navController: NavHostController)
+fun History(
+//    navController: NavHostController
+)
 {
-    Box (
-        modifier = Modifier. fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "About Screen",
-                style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.size(30.dp))
-            Text(
-                "This app was created as part of FIT5046 exercise ",
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+    Column {
+        
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewHistory() {
+    History()
 }
