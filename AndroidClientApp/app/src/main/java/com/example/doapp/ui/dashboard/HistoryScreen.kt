@@ -2,6 +2,7 @@ package com.example.doapp.ui.dashboard
 
 import android.app.ActionBar
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -126,76 +127,113 @@ fun StatisticsView() {
     // default to show the "Statistics" view
     var selectedTab by remember { mutableStateOf(0) }
 
-    // Sub navigation bar, including "Week", "Month", "Year"
-    Column {
-        TabRow(
-            selectedTabIndex = selectedTab,
+    Column (
+        Modifier.padding(start = 8.dp, end = 8.dp)
+    ){
+        // Sub navigation bar, including "Week", "Month", "Year"
+        Column (
             modifier = Modifier
-                .background(
-                    MaterialTheme.colorScheme.background,
-                    shape = RoundedCornerShape(20.dp)
+                .padding(vertical = 8.dp)
+        ){
+            TabRow(
+                selectedTabIndex = selectedTab,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(
+                        Color.Gray,
+                        shape = RoundedCornerShape(16.dp)
                     )
-                .height(32.dp)
-        ) {
-            // Week Tab
-            Tab(
-                selected = selectedTab == 0,
-                onClick = { selectedTab = 0 },
-                modifier = Modifier
-//                    .clip(RoundedCornerShape(20.dp))
-                    .background(if (selectedTab == 0) Color.White else Color.Gray)
+                    .border(5.dp, Color.Gray),
+                indicator = {}
             ) {
-                Text(
-                    "Week",
-                    color = Color.Black
-                )
-            }
-            // Month Tab
-            Tab(
-                selected = selectedTab == 1,
-                onClick = { selectedTab = 1 },
-                modifier = Modifier
-                    .background(if (selectedTab == 1) Color.White else Color.Gray)
-                ) {
-                Text(
-                    "Month",
-                    color = Color.Black
-                )
-            }
-            // Year Tab
-            Tab(
-                selected = selectedTab == 2,
-                onClick = { selectedTab = 2 },
-                modifier = Modifier
-                    .background(if (selectedTab == 2) Color.White else Color.Gray)
-            ) {
-                Text(
-                    "Year",
-                    color = Color.Black
-                )
-            }
-        }
-    }
 
-    // The specific page of the  selected tab in sub navigation bar
-    LazyColumn {
-        when (selectedTab) {
-            // Week
-            0 -> item {
-                Column(
+                // Week Tab
+                Tab(
+                    selected = selectedTab == 0,
+                    onClick = { selectedTab = 0 },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .height(40.dp)
+                        .then(if (selectedTab == 0) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 0) Color.White else Color.Gray)
                 ) {
-
+                    Text(
+                        "Week",
+                        color = Color.Black
+                    )
+                }
+                // Month Tab
+                Tab(
+                    selected = selectedTab == 1,
+                    onClick = { selectedTab = 1 },
+                    modifier = Modifier
+                        .then(if (selectedTab == 1) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 1) Color.White else Color.Gray)
+                        .height(40.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        "Month",
+                        color = Color.Black
+                    )
+                }
+                // Year Tab
+                Tab(
+                    selected = selectedTab == 2,
+                    onClick = { selectedTab = 2 },
+                    modifier = Modifier
+                        .then(if (selectedTab == 2) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 2) Color.White else Color.Gray)
+                        .height(40.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        "Year",
+                        color = Color.Black
+                    )
                 }
             }
-            // Month
-            1 -> item { /* Month view */ }
-            // Year
-            2 -> item { /* Year view */ }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // The specific page of the  selected tab in sub navigation bar
+        LazyColumn {
+            when (selectedTab) {
+                // Week
+                0 -> item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Example Week")
+                    }
+                }
+                // Month
+                1 -> item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Example Month")
+                    }
+                }
+                // Year
+                2 -> item {
+                        Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Example Year")
+                    }
+                }
+            }
         }
     }
+
 }
 
 
