@@ -47,7 +47,7 @@ import androidx.navigation.NavHostController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-//    navController: NavHostController
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
@@ -161,8 +161,8 @@ fun Home(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewHome() {
-    Home()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHome() {
+//    Home()
+//}
