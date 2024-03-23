@@ -158,14 +158,12 @@ fun Me(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .border(2.dp, Color.Gray, RectangleShape),
+                .padding(8.dp),
             color = Color.Transparent
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
             ) {
                 Row(
                     modifier = Modifier

@@ -3,7 +3,9 @@ package com.example.doapp.ui.theme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key.Companion.F
 
-val LightBackColor = Color(0xFFF4F5F6)
+val LightBackColor = Color(0xFFFFFFFF)
+val LightGray = Color(0xFFF0F3F4)
+val LightBlack = Color(0xFF000000)
 val LightSecondary = Color(0xFF3757FF)
 val LightTertiary = Color(0xFFEFB8C8)
 val LightFouth = Color(0xFFFCFCFD)
