@@ -71,8 +71,10 @@ fun SignUpScreen() {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
         ) {
+            // Control layout
+            Spacer(modifier = Modifier.weight(0.5f))
+
             // top logo
             Box(
                 modifier = Modifier
@@ -150,6 +152,8 @@ fun SignUpScreen() {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
+            // Control layout
+            Spacer(modifier = Modifier.weight(1f))
         }
 
 
