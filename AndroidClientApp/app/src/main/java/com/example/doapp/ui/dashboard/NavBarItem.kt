@@ -39,7 +39,7 @@ data class NavBarItem (
                     route = Routes.History.value
                 ),
                 NavBarItem(
-                    label = "Home",
+                    label = "Me",
                     icon = Icons.Filled.AccountCircle,
                     route = Routes.Me.value
                 )

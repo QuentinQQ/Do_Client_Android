@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -165,6 +166,35 @@ fun Me(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
+                        .background(Color(0xFFFFFFFF)),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = rememberVectorPainter(image = Icons.Filled.Person),
+                        contentDescription = "Personal Information",
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(30.dp)
+                    )
+                    Spacer(Modifier.width(20.dp))
+                    Text("Personal Information")
+                    Spacer(Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "Arrow",
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                    )
+                }
+
+                Spacer(Modifier.height(10.dp))
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
