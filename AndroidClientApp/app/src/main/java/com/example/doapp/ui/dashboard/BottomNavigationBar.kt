@@ -42,13 +42,11 @@ fun BottomNavigationBar() {
                         it.route == navItem.route
                     } == true,
                     onClick = {
-                        navController.navigate(navItem.route) { // popUpTo is used to pop up to a given destination before navigating
+                        navController.navigate(navItem.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true // popUpTo is used to pop up to a given
+                                saveState = true
                             }
-                            //at most one copy of a given destination on the
                             launchSingleTop = true
-                            // this navigation action should restore any
                             restoreState = true
                         }
                     }

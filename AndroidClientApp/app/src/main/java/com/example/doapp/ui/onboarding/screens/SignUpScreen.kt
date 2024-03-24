@@ -44,20 +44,25 @@ import com.example.doapp.R
 fun SignUpScreen() {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val confirmPassword = remember { mutableStateOf("") }
 //    val image =
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         color = MaterialTheme.colorScheme.background
     ) {
         Row(
             verticalAlignment = Alignment.Top,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "BACK",
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .size(32.dp),
                 tint = Color.Black
             )
         }
@@ -68,6 +73,7 @@ fun SignUpScreen() {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
+            // top logo
             Box(
                 modifier = Modifier
                     .size(20.dp, 20.dp)
@@ -75,7 +81,7 @@ fun SignUpScreen() {
             ) {
                 "占位 后续补充image"
             }
-
+            // Sign up text
             Text(
                 text = "Sign up",
                 style = MaterialTheme.typography.displayMedium,
@@ -84,7 +90,7 @@ fun SignUpScreen() {
                     .wrapContentWidth(Alignment.Start)
                     .padding(vertical = 16.dp)
             )
-
+            // Username Email
             OutlinedTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
@@ -96,7 +102,7 @@ fun SignUpScreen() {
                     .fillMaxWidth(0.8f),
                 shape = RoundedCornerShape(50)
             )
-
+            // Password
             OutlinedTextField(
                 value = password.value,
                 onValueChange = { password.value = it },
@@ -108,9 +114,21 @@ fun SignUpScreen() {
                     .fillMaxWidth(0.8f),
                 shape = RoundedCornerShape(50)
             )
+            // confirm password
+            OutlinedTextField(
+                value = confirmPassword.value,
+                onValueChange = { confirmPassword.value = it },
+                leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
+                label = { Text("Confirm") },
+                placeholder = { Text("Confirm your password") },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth(0.8f),
+                shape = RoundedCornerShape(50)
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
-
+            // Sign up button
             Button(
                 onClick = {
                     // Handle login logic here

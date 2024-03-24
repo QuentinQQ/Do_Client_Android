@@ -1,10 +1,12 @@
 package com.example.doapp.ui.onboarding.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -31,11 +34,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.doapp.R
 
 @Composable
 fun LoginScreen() {
@@ -49,11 +56,14 @@ fun LoginScreen() {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+//            verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp)
         ) {
+
+            Spacer(modifier = Modifier.weight(0.5f))
+
             Box(
                 modifier = Modifier
                     .size(20.dp, 20.dp)
@@ -118,6 +128,10 @@ fun LoginScreen() {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Switch to other option
             Row (
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -125,23 +139,43 @@ fun LoginScreen() {
                 Text(
                     text = "Forget Password？",
                     fontSize = 14.sp,
-//                    modifier = Modifier
-//                        .clickable(onClick = onForgotPasswordClick),
-                    color = Color.Blue
+                    modifier = Modifier.padding(start = 16.dp),
+                    color = Color.Gray
                 )
+
+                Spacer(modifier = Modifier.weight(1f))
+
                 Text(
                     text = "Sign up",
                     fontSize = 14.sp,
-//                    modifier = Modifier
-//                        .clickable(onClick = onForgotPasswordClick),
-                    color = Color.Blue
+                    modifier = Modifier.padding(end = 16.dp),
+                    color = Color.Gray
                 )
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = {
+                    // To do
+                },
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFF7F7F7)
+                )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = "Google 登录",
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
-
-
-//            Spacer(modifier = Modifier.weight(1f))
-//            Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
