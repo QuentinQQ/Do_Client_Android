@@ -1,5 +1,6 @@
 package com.example.doapp.ui.dashboard
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,16 +40,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.doapp.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
     navController: NavHostController
 ) {
+    // Declares the current time paramete
+    val currentDateString = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, EEEE"))
+
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -60,7 +69,7 @@ fun Home(
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        listOf("Task 1", "Task 2").forEach { text ->
+        listOf("Chest · Arm", "Abdomen").forEach { text ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,7 +105,7 @@ fun Home(
                     }
                     Button(
                         onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3757FF))
                     ) {
                         Text("GO!", color = Color.White)
                     }
@@ -114,7 +123,7 @@ fun Home(
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        listOf("Task 1", "Task 2").forEach { text ->
+        listOf("Lower Body Workout", "Targeted Weakness Training").forEach { text ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,10 +159,75 @@ fun Home(
                     }
                     Button(
                         onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3757FF))
                     ) {
                         Text("GO!", color = Color.White)
                     }
+                }
+            }
+        }
+
+        // split 3 part, Diet record
+        Spacer(modifier = Modifier.height(8.dp))
+        // Title of diet record
+        Text(
+            text = "Diet Record",
+            style = MaterialTheme.typography.headlineLarge
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            shape = RoundedCornerShape(12.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // The left side of Diet Record
+                Column (
+                    modifier = Modifier.weight(1f)
+                ){
+                    // current date
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(text = currentDateString)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    // data of has eaten
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = "Has eaten: "
+                        )
+                        Text(
+                            text = "375/1300 Kcal",
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+//                    Spacer(modifier = Modifier.weight(1f))
+                }
+                // The right side of Diet Record
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.diet_map),
+                        contentDescription = "Diet map"
+                    )
                 }
             }
         }

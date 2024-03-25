@@ -87,7 +87,7 @@ fun PersonalInfoScreen() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Gray)
+                .background(Color(0xFFF4F5F6))
                 .padding(
                     start = 16.dp,
                     top = 8.dp,
