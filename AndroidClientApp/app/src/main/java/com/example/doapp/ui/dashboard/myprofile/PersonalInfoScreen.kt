@@ -11,19 +11,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -37,6 +38,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.SuspendingPointerInputModifierNode
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -68,54 +72,83 @@ fun PersonalInfoScreen() {
 
     Column (
         modifier = Modifier
-            .padding(16.dp)
+            .padding(0.dp)
             .fillMaxSize()
     ){
         TopAppBar(
-            title = { Text("Personal Info") },
+            title = { Text("Personal Information") },
             navigationIcon = {
                 IconButton(onClick = { /* Handle back press */ }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
         )
-
+        // Hint
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Gray)
+                .padding(
+                    start = 16.dp,
+                    top = 8.dp,
+                    end = 16.dp,
+                    bottom = 8.dp
+                )
+        ) {
+            Text(
+                text = "The following information is used to obtain accurate recommendations, calculate exercise expenditure",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Left
+            )
+        }
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         ) {
 
             // Gender
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .padding(vertical = 0.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Gender",
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .background(Color.White)
-
+                        .background(Color.White),
+                    fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 ExposedDropdownMenuBox(
                     expanded = isExpanded,
                     onExpandedChange = { isExpanded = it }
                 ) {
                     TextField(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .menuAnchor()
                             .focusProperties {
                                 canFocus = false
                             }
                             .padding(bottom = 8.dp),
+                        textStyle = TextStyle(textAlign = TextAlign.End),
                         value = selectedGender,
                         onValueChange = {},
                         readOnly = true,
-//                        textAlignment = TextAlign.End,
+        //                        textAlignment = TextAlign.End,
                         trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                            Icon(
+                                imageVector = Icons.Filled.KeyboardArrowDown,
+                                contentDescription = "KeyboardArrowDown",
+                                modifier = Modifier.padding(end = 0.dp)
+                            )
+//                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
                         },
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        )
 
                     )
                     ExposedDropdownMenu(
@@ -135,18 +168,23 @@ fun PersonalInfoScreen() {
                 }
             }
 
+            Divider()
+
             // Birth Date
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Date of Birth",
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(start = 8.dp),
+                    fontWeight = FontWeight.Bold
                 )
+
+                Spacer(modifier = Modifier.weight(1f))
 
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
                 Text(
@@ -174,46 +212,77 @@ fun PersonalInfoScreen() {
                             }
                         }
                     )
-                    { //still column scope
+                    {
                         DatePicker(
                             state = datePickerState
                         )
                     }
                 }
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    contentDescription = "KeyboardArrowDown",
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                )
             }
+
+            Divider()
 
             // Height
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Height",
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(start = 8.dp),
+                    fontWeight = FontWeight.Bold
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(text = "180 CM")
+                Text(
+                    text = "180 CM",
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    contentDescription = "KeyboardArrowDown",
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                )
             }
+
+            Divider()
+
+            // Weight
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically)
             {
                 Text(
                     text = "Weight",
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(start = 8.dp),
+                    fontWeight = FontWeight.Bold
                 )
-
                 Spacer(modifier = Modifier.weight(1f))
-
-                Text(text = "80 KG")
+                Text(
+                    text = "80 KG",
+                    modifier = Modifier
+                        .padding(end = 8.dp))
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    contentDescription = "KeyboardArrowDown",
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                )
             }
         }
     }
