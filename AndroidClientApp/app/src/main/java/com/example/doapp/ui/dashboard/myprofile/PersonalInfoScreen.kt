@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -135,18 +136,24 @@ fun PersonalInfoScreen() {
             }
 
             // Birth Date
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "Date of Birth Entry",
+                    text = "Date of Birth",
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .background(Color.White)
                 )
 
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
                 Text(
                     text = "${formatter.format(Date(selectedDate))}",
-                    modifier = Modifier.clickable { showDatePicker = true }
+                    modifier = Modifier
+                        .clickable { showDatePicker = true }
+                        .padding(end = 8.dp)
                 )
                 if (showDatePicker) {
                     DatePickerDialog(
@@ -174,42 +181,40 @@ fun PersonalInfoScreen() {
                     }
                 }
             }
-//            if (showDatePicker) {
-//                DatePickerDialog(
-//                    onDismissRequest = { showDatePicker = false },
-//                    confirmButton = {
-//                        TextButton(onClick = {
-//                            showDatePicker = false
-//                            selectedDate = datePickerState.selectedDateMillis!!
-//                        }) {
-//                            Text(text = "OK")
-//                        }
-//                    },
-//                    dismissButton = {
-//                        TextButton(onClick = {
-//                            showDatePicker = false
-//                        }) {
-//                            Text(text = "Cancel")
-//                        }
-//                    }
-//                )
-//                { //still column scope
-//                    DatePicker(
-//                        state = datePickerState
-//                    )
-//                }
-//            }
-//            Button(
-//                onClick = {
-//                    showDatePicker = true
-//                }
-//            ) {
-//                Text(text = "Enter Date of Birth")
-//            }
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
-//            Text(
-//                text = "Date of Birth: ${formatter.format(Date(selectedDate))}"
-//            )
+
+            // Height
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Height",
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Text(text = "180 CM")
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically)
+            {
+                Text(
+                    text = "Weight",
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Text(text = "80 KG")
+            }
         }
     }
 }
