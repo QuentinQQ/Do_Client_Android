@@ -1,6 +1,8 @@
 package com.example.doapp.ui.dashboard.myprofile
 
 import android.icu.util.Calendar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -90,6 +93,8 @@ fun PersonalInfoScreen() {
                     text = "Gender",
                     modifier = Modifier
                         .padding(start = 8.dp)
+                        .background(Color.White)
+
                 )
                 ExposedDropdownMenuBox(
                     expanded = isExpanded,
@@ -109,7 +114,8 @@ fun PersonalInfoScreen() {
 //                        textAlignment = TextAlign.End,
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-                        }
+                        },
+
                     )
                     ExposedDropdownMenu(
                         expanded = isExpanded,
@@ -130,48 +136,80 @@ fun PersonalInfoScreen() {
 
             // Birth Date
             Row {
-
-            }
-            Text(
-                text = "Date of Birth Entry",
-                style = MaterialTheme.typography.headlineSmall
-            )
-            if (showDatePicker) {
-                DatePickerDialog(
-                    onDismissRequest = { showDatePicker = false },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            showDatePicker = false
-                            selectedDate = datePickerState.selectedDateMillis!!
-                        }) {
-                            Text(text = "OK")
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            showDatePicker = false
-                        }) {
-                            Text(text = "Cancel")
-                        }
-                    }
+                Text(
+                    text = "Date of Birth Entry",
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .background(Color.White)
                 )
-                { //still column scope
-                    DatePicker(
-                        state = datePickerState
+
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
+                Text(
+                    text = "${formatter.format(Date(selectedDate))}",
+                    modifier = Modifier.clickable { showDatePicker = true }
+                )
+                if (showDatePicker) {
+                    DatePickerDialog(
+                        onDismissRequest = { showDatePicker = false },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                showDatePicker = false
+                                selectedDate = datePickerState.selectedDateMillis!!
+                            }) {
+                                Text(text = "OK")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = {
+                                showDatePicker = false
+                            }) {
+                                Text(text = "Cancel")
+                            }
+                        }
                     )
+                    { //still column scope
+                        DatePicker(
+                            state = datePickerState
+                        )
+                    }
                 }
             }
-            Button(
-                onClick = {
-                    showDatePicker = true
-                }
-            ) {
-                Text(text = "Enter Date of Birth")
-            }
+//            if (showDatePicker) {
+//                DatePickerDialog(
+//                    onDismissRequest = { showDatePicker = false },
+//                    confirmButton = {
+//                        TextButton(onClick = {
+//                            showDatePicker = false
+//                            selectedDate = datePickerState.selectedDateMillis!!
+//                        }) {
+//                            Text(text = "OK")
+//                        }
+//                    },
+//                    dismissButton = {
+//                        TextButton(onClick = {
+//                            showDatePicker = false
+//                        }) {
+//                            Text(text = "Cancel")
+//                        }
+//                    }
+//                )
+//                { //still column scope
+//                    DatePicker(
+//                        state = datePickerState
+//                    )
+//                }
+//            }
+//            Button(
+//                onClick = {
+//                    showDatePicker = true
+//                }
+//            ) {
+//                Text(text = "Enter Date of Birth")
+//            }
             val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
-            Text(
-                text = "Date of Birth: ${formatter.format(Date(selectedDate))}"
-            )
+//            Text(
+//                text = "Date of Birth: ${formatter.format(Date(selectedDate))}"
+//            )
         }
     }
 }
