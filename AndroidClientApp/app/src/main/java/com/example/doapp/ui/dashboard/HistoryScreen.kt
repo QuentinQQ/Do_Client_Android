@@ -221,7 +221,7 @@ fun StatisticsView() {
 
         // The specific page of the  selected tab in sub navigation bar
         LazyColumn (
-            modifier = Modifier.padding(top = 8.dp, end = 8.dp)
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
         ){
             when (selectedTab) {
                 // Week
@@ -230,7 +230,8 @@ fun StatisticsView() {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(48.dp)
+                            .height(32.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -239,19 +240,16 @@ fun StatisticsView() {
                                 .padding(start = 10.dp)
                                 .size(40.dp)
                         )
-                        Column(
-                            modifier = Modifier
-                                .wrapContentSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Text(
-                                text = "March 25 to March 31, 2024",
-                                modifier = Modifier
-                                    .weight(1f),
-                                textAlign = TextAlign.Center
-                            )
 
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Text(
+                            text = "March 25 to March 31, 2024",
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .align(Alignment.CenterVertically),
+                            textAlign = TextAlign.Center
+                        )
 
                         Spacer(modifier = Modifier.weight(1f))
 

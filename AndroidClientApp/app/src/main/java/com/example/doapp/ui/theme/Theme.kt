@@ -16,35 +16,36 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.compose.ui.graphics.Color
 
+
 private val DarkColorScheme = darkColorScheme(
-    primary = DarkBackColor,
-    secondary = LightSecondary,
-    tertiary = LightTertiary,
-    background = Color(0xFFFFFBFE),
+    primary = Color(0xFF28272c),
+    secondary = Color(0xFF3757FF),
+    tertiary = Color(0xFFEFB8C8),
+    background = Color(0xFF28272c),
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = LightBackColor,
-    secondary = LightGray,
-    tertiary = DarkTertiary,
-    onSecondary = LightFouth,
+    primary = Color(0xFFFFFFFF),
+    secondary = Color(0xFFF0F3F4),
+    tertiary = Color(0xFF7D5260),
+    onSecondary = Color(0xFFFCFCFD),
     background = Color(0xFFF4F5F6)
     /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+background = Color(0xFFFFFBFE),
+surface = Color(0xFFFFFBFE),
+onPrimary = Color.White,
+onSecondary = Color.White,
+onTertiary = Color.White,
+onBackground = Color(0xFF1C1B1F),
+onSurface = Color(0xFF1C1B1F),
+*/
 )
 
 @Composable
 fun DoAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -65,9 +66,11 @@ fun DoAppTheme(
         }
     }
 
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
+
 }
