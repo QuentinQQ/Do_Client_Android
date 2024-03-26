@@ -190,18 +190,17 @@ fun StatisticsView() {
     ){
         // Sub navigation bar, including "Week", "Month", "Year"
         Column (
-            modifier = Modifier
-                .padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp)
         ){
             TabRow(
                 selectedTabIndex = selectedTab,
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .background(
-                        FontGray,
+                        CardWhite,
                         shape = RoundedCornerShape(16.dp)
                     )
-                    .border(5.dp, FontGray),
+                    .border(5.dp, CardWhite),
 //                colors = CardDefaults.cardColors(
 //                    containerColor = CardWhite,
 //                ),
@@ -214,8 +213,8 @@ fun StatisticsView() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
-                        .then(if (selectedTab == 0) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
-                        .background(if (selectedTab == 0) Color.White else Color.Gray)
+//                        .then(if (selectedTab == 0) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 0) Color.Gray else CardWhite)
                 ) {
                     Text(
                         "Week",
@@ -227,10 +226,10 @@ fun StatisticsView() {
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
                     modifier = Modifier
-                        .then(if (selectedTab == 1) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
-                        .background(if (selectedTab == 1) Color.White else Color.Gray)
                         .height(40.dp)
                         .fillMaxWidth()
+//                        .then(if (selectedTab == 1) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 1) Color.Gray else CardWhite)
                 ) {
                     Text(
                         "Month",
@@ -242,8 +241,8 @@ fun StatisticsView() {
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
                     modifier = Modifier
-                        .then(if (selectedTab == 2) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
-                        .background(if (selectedTab == 2) Color.White else Color.Gray)
+//                        .then(if (selectedTab == 2) Modifier.clip(RoundedCornerShape(20.dp)) else Modifier)
+                        .background(if (selectedTab == 2) Color.Gray else CardWhite)
                         .height(40.dp)
                         .fillMaxWidth()
                 ) {

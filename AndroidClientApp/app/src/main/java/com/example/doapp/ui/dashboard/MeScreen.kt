@@ -18,11 +18,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -50,18 +52,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.ui.theme.ButtonBlue
+import com.example.doapp.ui.theme.CardWhite
 import com.example.doapp.ui.theme.DarkSecondary
+import com.example.doapp.ui.theme.FontGray
+import com.example.doapp.ui.theme.LightBackground
 import com.example.doapp.ui.theme.LightFouth
 
 @Composable
 fun Me(
-    navController: NavHostController
+//    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
-            .background(Color(0xFFF4F5F6))
-            .padding(16.dp)
             .fillMaxSize()
+            .background(LightBackground)
+            .padding(16.dp)
     ) {
         // 1. First Part, including profile photo and username
         Card (
@@ -103,9 +109,13 @@ fun Me(
         Card (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
-            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+                .padding(8.dp),
+//                .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
+            colors = CardDefaults.cardColors(
+                containerColor = CardWhite,
+            ),
+            shape = RoundedCornerShape(12.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             // Left side
             Row (
@@ -127,6 +137,8 @@ fun Me(
                         )
                         Icons.AutoMirrored.Filled
                     }
+
+                    Spacer(modifier = Modifier.height(16.dp))
                     Row {
                         Text("180cm")
                         Spacer(Modifier.width(20.dp))
@@ -171,13 +183,14 @@ fun Me(
                         .fillMaxWidth()
                         .height(60.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
-                        .background(Color(0xFFFFFFFF)),
+//                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
+                        .background(CardWhite),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Person),
+                    Icon(
+                        imageVector = Icons.Filled.Person,
                         contentDescription = "Personal Information",
+                        tint = ButtonBlue,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .size(30.dp)
@@ -186,10 +199,11 @@ fun Me(
                     Text("Personal Information")
                     Spacer(Modifier.weight(1f))
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow",
                         modifier = Modifier
-                            .padding(end = 10.dp)
+                            .padding(end = 10.dp),
+                        tint = FontGray
                     )
                 }
 
@@ -200,13 +214,14 @@ fun Me(
                         .fillMaxWidth()
                         .height(60.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
-                        .background(Color(0xFFFFFFFF)),
+//                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp))
+                        .background(CardWhite),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Settings),
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
                         contentDescription = "Preferences",
+                        tint = ButtonBlue,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .size(30.dp)
@@ -215,10 +230,11 @@ fun Me(
                     Text("Preferences")
                     Spacer(Modifier.weight(1f))
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow",
                         modifier = Modifier
-                            .padding(end = 10.dp)
+                            .padding(end = 10.dp),
+                        tint = FontGray
                     )
                 }
 
@@ -228,12 +244,15 @@ fun Me(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp)
-                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(CardWhite),
+//                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Email),
-                        contentDescription = "Call",
+                    Icon(
+                        imageVector = Icons.Filled.Email,
+                        contentDescription = "Help&Feedback",
+                        tint = ButtonBlue,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .size(30.dp)
@@ -242,10 +261,11 @@ fun Me(
                     Text("Help & Feedback")
                     Spacer(Modifier.weight(1f))
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow",
                         modifier = Modifier
-                            .padding(end = 10.dp)
+                            .padding(end = 10.dp),
+                        tint = FontGray
                     )
                 }
 
@@ -255,12 +275,15 @@ fun Me(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp)
-                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(CardWhite),
+//                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberVectorPainter(image = Icons.Filled.Info),
-                        contentDescription = "Call",
+                    Icon(
+                        imageVector = Icons.Filled.Info,
+                        contentDescription = "Info",
+                        tint = ButtonBlue,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .size(30.dp)
@@ -269,10 +292,11 @@ fun Me(
                     Text("About Do")
                     Spacer(Modifier.weight(1f))
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow",
                         modifier = Modifier
-                            .padding(end = 10.dp)
+                            .padding(end = 10.dp),
+                        tint = FontGray
                     )
                 }
             }
@@ -295,8 +319,8 @@ fun Me(
 
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewMe() {
-//    Me()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewMe() {
+    Me()
+}

@@ -7,13 +7,16 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.doapp.ui.dashboard.Routes
+import com.example.doapp.ui.theme.ButtonBlue
 
 data class NavBarItem (
     val label : String = "",
     val icon: ImageVector,
-    val route : String = ""
+    val route : String = "",
+    val iconTint: Color = ButtonBlue
 ) {
     companion object {
         fun NavBarItems(): List<NavBarItem> {
