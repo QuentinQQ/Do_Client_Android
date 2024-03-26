@@ -1,6 +1,9 @@
 package com.example.doapp.ui.dashboard
 
 import android.app.ActionBar
+import android.graphics.drawable.Icon
+import android.graphics.drawable.PaintDrawable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +17,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -30,10 +43,19 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.doapp.R
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 import io.github.boguszpawlowski.composecalendar.StaticWeekCalendar
@@ -198,17 +220,146 @@ fun StatisticsView() {
         Spacer(modifier = Modifier.height(10.dp))
 
         // The specific page of the  selected tab in sub navigation bar
-        LazyColumn {
+        LazyColumn (
+            modifier = Modifier.padding(top = 8.dp, end = 8.dp)
+        ){
             when (selectedTab) {
                 // Week
                 0 -> item {
-                    Column(
+                    // Week choosing element
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .height(48.dp)
                     ) {
-                        Text(text = "Example Week")
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "Arrow",
+                            modifier = Modifier
+                                .padding(start = 10.dp)
+                                .size(40.dp)
+                        )
+                        Column(
+                            modifier = Modifier
+                                .wrapContentSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Text(
+                                text = "March 25 to March 31, 2024",
+                                modifier = Modifier
+                                    .weight(1f),
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "Arrow",
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .size(40.dp)
+                        )
+
                     }
+                    // Weekly workout duration part
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = "Workout Duration",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Image(
+                                painter = painterResource(id = R.drawable.weekly_record_lastweek_bule),
+                                contentDescription = "Statistics weekly record"
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Divider()
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Image(
+                                painter = painterResource(id = R.drawable.weekly_record_thisweek_bule),
+                                contentDescription = "Statistics weekly record"
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            // Describe of weekly workout duration analysis
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Box(modifier = Modifier.weight(0.5f)) {
+                                    Text(text = buildAnnotatedString {
+                                        append("This week's total workout time is ")
+                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color(0xFF3757FF))) {
+                                            append("0")
+                                        }
+                                        append(" minutes.\nThe number of workouts compared to the previous period:")
+                                    })
+                                }
+                                Text(text = "-33 mins  \uD83D\uDE2B",
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                        .align(Alignment.CenterVertically),
+                                    textAlign = TextAlign.Right,
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        color = Color(0xFF3757FF)
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    // Capacity Curve part
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = "Capacity Curve",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Image(
+                                painter = painterResource(id = R.drawable.weekly_record_lastweek_bule),
+                                contentDescription = "Statistics weekly record"
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Divider()
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Image(
+                                painter = painterResource(id = R.drawable.weekly_record_thisweek_bule),
+                                contentDescription = "Statistics weekly record"
+                            )
+                        }
+                    }
+
                 }
                 // Month
                 1 -> item {

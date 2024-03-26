@@ -53,7 +53,7 @@ import java.time.format.FormatStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navController: NavHostController
+//    navController: NavHostController
 ) {
     // Declares the current time paramete
     val currentDateString = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, EEEE"))
@@ -235,8 +235,8 @@ fun Home(
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewHome() {
-//    Home()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewHome() {
+    Home()
+}
