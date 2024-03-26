@@ -147,7 +147,8 @@ fun TopNavBar(selectedTab: HistoryTopNav, setSelectedTab: (HistoryTopNav) -> Uni
 fun CalendarView() {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(16.dp),
     ) {
         SelectableCalendar(
             dayContent = { dayState ->
@@ -343,13 +344,21 @@ fun StatisticsView() {
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Box(modifier = Modifier.weight(0.5f)) {
-                                    Text(text = buildAnnotatedString {
-                                        append("This week's total workout time is ")
-                                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color(0xFF3757FF))) {
-                                            append("0")
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            append("This week's total workout time is ")
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 20.sp,
+                                                    color = Color(0xFF3757FF)
+                                                )
+                                            ) {
+                                                append("0")
+                                            }
+                                            append(" minutes. \nCompared to the last week:")
                                         }
-                                        append(" minutes.\nThe number of workouts compared to the previous period:")
-                                    })
+                                    )
                                 }
                                 Text(text = "-33 mins  \uD83D\uDE2B",
                                     modifier = Modifier

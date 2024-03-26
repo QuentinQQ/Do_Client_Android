@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.example.doapp.ui.dashboard.BottomNavigationBar
 import com.example.doapp.ui.dashboard.myprofile.PersonalInfoScreen
 import com.example.doapp.ui.onboarding.screens.LoginScreen
+import com.example.doapp.ui.onboarding.screens.SignUpScreen
 import com.example.doapp.ui.theme.DoAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,8 +26,10 @@ class MainActivity : ComponentActivity() {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
-            BottomNavigationBar()
-//            PersonalInfoScreen()
+//            BottomNavigationBar()
+            PersonalInfoScreen()
+//            LoginScreen()
+//            SignUpScreen()
 
         }
     }

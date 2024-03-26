@@ -80,7 +80,7 @@ fun BottomNavigationBar() {
                 History(navController) //navController
             }
             composable(Routes.Me.value) {
-                Me()
+                Me(navController)
             }
         }
     }

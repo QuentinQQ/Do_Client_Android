@@ -61,7 +61,7 @@ import com.example.doapp.ui.theme.LightFouth
 
 @Composable
 fun Me(
-//    navController: NavHostController
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
@@ -319,8 +319,8 @@ fun Me(
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMe() {
-    Me()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewMe() {
+//    Me()
+//}
