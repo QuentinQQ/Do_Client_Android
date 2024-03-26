@@ -3,6 +3,7 @@ package com.example.doapp.ui.dashboard
 import android.app.ActionBar
 import android.graphics.drawable.Icon
 import android.graphics.drawable.PaintDrawable
+import android.widget.CalendarView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,6 +59,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.ui.theme.ButtonBlue
+import com.example.doapp.ui.theme.CardWhite
+import com.example.doapp.ui.theme.FontBlack
+import com.example.doapp.ui.theme.FontGray
+import com.example.doapp.ui.theme.LightBackground
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 import io.github.boguszpawlowski.composecalendar.StaticWeekCalendar
@@ -72,16 +80,23 @@ enum class HistoryTopNav(val index: Int) {
  */
 @Composable
 fun History(
-//    navController: NavHostController
+    navController: NavHostController
 ) {
     // Default to showing the "History" view
     val (selectedTab, setSelectedTab) = remember { mutableStateOf(HistoryTopNav.Calendar) }
 
     Column {
         TopNavBar(selectedTab, setSelectedTab)
-        when (selectedTab) {
-            HistoryTopNav.Calendar -> CalendarView()
-            HistoryTopNav.Statistics -> StatisticsView()
+        Column(
+            modifier = Modifier
+                .background(color = LightBackground)//MaterialTheme.colorScheme.background
+                .padding(start = 8.dp, end = 8.dp)
+                .fillMaxSize()
+        ) {
+            when (selectedTab) {
+                HistoryTopNav.Calendar -> CalendarView()
+                HistoryTopNav.Statistics -> StatisticsView()
+            }
         }
     }
 }
@@ -89,16 +104,38 @@ fun History(
 
 @Composable
 fun TopNavBar(selectedTab: HistoryTopNav, setSelectedTab: (HistoryTopNav) -> Unit) {
-    TabRow(selectedTabIndex = selectedTab.index) {
+    val indicatorHeight = 4.dp
+    val indicatorColor = ButtonBlue
+
+    TabRow(
+        selectedTabIndex = selectedTab.index,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                color = indicatorColor,
+                height = indicatorHeight,
+                modifier = Modifier
+                    .tabIndicatorOffset(tabPositions[selectedTab.index])
+//                    .align(Alignment.BottomCenter)
+            )
+        },
+        modifier = Modifier
+            .background(LightBackground)
+            .border(1.dp, Color.Transparent),
+        containerColor = LightBackground
+        ) {
         Tab(
             text = { Text("Calendar") },
             selected = selectedTab == HistoryTopNav.Calendar,
-            onClick = { setSelectedTab(HistoryTopNav.Calendar) }
+            onClick = { setSelectedTab(HistoryTopNav.Calendar) },
+            selectedContentColor = FontBlack,
+            unselectedContentColor = FontGray
         )
         Tab(
             text = { Text("Statistics") },
             selected = selectedTab == HistoryTopNav.Statistics,
-            onClick = { setSelectedTab(HistoryTopNav.Statistics) }
+            onClick = { setSelectedTab(HistoryTopNav.Statistics) },
+            selectedContentColor = FontBlack,
+            unselectedContentColor = FontGray,
         )
     }
 }
@@ -130,7 +167,6 @@ fun CalendarView() {
             }
         )
     }
-
 }
 
 /**
@@ -162,13 +198,15 @@ fun StatisticsView() {
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .background(
-                        Color.Gray,
+                        FontGray,
                         shape = RoundedCornerShape(16.dp)
                     )
-                    .border(5.dp, Color.Gray),
+                    .border(5.dp, FontGray),
+//                colors = CardDefaults.cardColors(
+//                    containerColor = CardWhite,
+//                ),
                 indicator = {}
             ) {
-
                 // Week Tab
                 Tab(
                     selected = selectedTab == 0,
@@ -221,7 +259,9 @@ fun StatisticsView() {
 
         // The specific page of the  selected tab in sub navigation bar
         LazyColumn (
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            modifier = Modifier
+                .background(LightBackground)
+                .padding(start = 8.dp, end = 8.dp)
         ){
             when (selectedTab) {
                 // Week
@@ -268,7 +308,10 @@ fun StatisticsView() {
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
                         shape = RoundedCornerShape(12.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = CardWhite,
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     ) {
                         Column(
                             modifier = Modifier
@@ -329,8 +372,11 @@ fun StatisticsView() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = CardWhite,
+                        ),
                         shape = RoundedCornerShape(12.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     ) {
                         Column(
                             modifier = Modifier

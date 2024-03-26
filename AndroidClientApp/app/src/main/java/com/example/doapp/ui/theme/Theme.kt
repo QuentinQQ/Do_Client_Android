@@ -21,7 +21,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFF28272c),
     secondary = Color(0xFF3757FF),
     tertiary = Color(0xFFEFB8C8),
-    background = Color(0xFF28272c),
+    background = Color(0xFF7D5260),
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = Color(0xFFF0F3F4),
     tertiary = Color(0xFF7D5260),
     onSecondary = Color(0xFFFCFCFD),
-    background = Color(0xFFF4F5F6)
+    background = Color(0xFFF4F5F6) //0xFFF4F5F6
     /* Other default colors to override
 background = Color(0xFFFFFBFE),
 surface = Color(0xFFFFFBFE),

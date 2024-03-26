@@ -57,14 +57,14 @@ import java.time.format.FormatStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-//    navController: NavHostController
+    navController: NavHostController
 ) {
     // Declares the current time paramete
     val currentDateString = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, EEEE"))
 
     LazyColumn(
         modifier = Modifier
-            .background(color = LightBackground)
+            .background(color = LightBackground)//MaterialTheme.colorScheme.background
             .padding(16.dp)
             .fillMaxSize()
     ) {
@@ -253,8 +253,8 @@ fun Home(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewHome() {
-    Home()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHome() {
+//    Home()
+//}

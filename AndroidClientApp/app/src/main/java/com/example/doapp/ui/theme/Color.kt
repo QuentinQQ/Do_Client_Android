@@ -11,6 +11,8 @@ val ButtonBlue = Color(0xFF3757FF)
 val CardWhite = Color(0xFFFFFFFF)
 val LightTertiary = Color(0xFFEFB8C8)
 val LightFouth = Color(0xFFFCFCFD)
+val FontGray = Color(0xFFA7A7A7)
+val FontBlack = Color(0xFF020202)
 
 val DarkBackColor = Color(0xFF141416)
 val DarkSecondary = Color(0xFF3757FF)
