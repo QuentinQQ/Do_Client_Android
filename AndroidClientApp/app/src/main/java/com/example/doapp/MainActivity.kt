@@ -26,8 +26,8 @@ class MainActivity : ComponentActivity() {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
-//            BottomNavigationBar()
-            PersonalInfoScreen()
+            BottomNavigationBar()
+//            PersonalInfoScreen()
 //            LoginScreen()
 //            SignUpScreen()
 

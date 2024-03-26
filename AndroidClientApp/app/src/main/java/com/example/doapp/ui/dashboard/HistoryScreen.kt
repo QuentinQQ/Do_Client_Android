@@ -323,6 +323,7 @@ fun StatisticsView() {
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                             Image(
                                 painter = painterResource(id = R.drawable.weekly_record_lastweek_bule),
                                 contentDescription = "Statistics weekly record"
@@ -396,19 +397,13 @@ fun StatisticsView() {
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
                             Image(
-                                painter = painterResource(id = R.drawable.weekly_record_lastweek_bule),
+                                painter = painterResource(id = R.drawable.capacity_curve),
                                 contentDescription = "Statistics weekly record"
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
-                            Divider()
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Image(
-                                painter = painterResource(id = R.drawable.weekly_record_thisweek_bule),
-                                contentDescription = "Statistics weekly record"
-                            )
                         }
                     }
 
