@@ -71,7 +71,7 @@ fun LoginScreen() {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.client_logo),
-                    contentDescription = "Google 登录",
+                    contentDescription = "Client logo",
                     modifier = Modifier.fillMaxSize()
                 )
             }

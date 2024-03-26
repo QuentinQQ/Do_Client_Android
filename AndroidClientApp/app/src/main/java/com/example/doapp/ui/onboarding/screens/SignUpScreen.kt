@@ -78,10 +78,14 @@ fun SignUpScreen() {
             // top logo
             Box(
                 modifier = Modifier
-                    .size(20.dp, 20.dp)
-                    .background(Color.Blue)
+                    .size(80.dp, 80.dp)
+                    .background(Color.Transparent)
             ) {
-                "占位 后续补充image"
+                Image(
+                    painter = painterResource(id = R.drawable.client_logo),
+                    contentDescription = "Client logo",
+                    modifier = Modifier.fillMaxSize()
+                )
             }
             // Sign up text
             Text(
