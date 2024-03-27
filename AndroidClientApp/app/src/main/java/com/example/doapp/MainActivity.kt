@@ -27,9 +27,6 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationBar()
 //            }
             BottomNavigationBar()
-//            PersonalInfoScreen()
-//            LoginScreen()
-//            SignUpScreen()
 
         }
     }
