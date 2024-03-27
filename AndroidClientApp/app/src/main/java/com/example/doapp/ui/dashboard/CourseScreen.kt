@@ -229,7 +229,7 @@ fun PlanItem(title: String, imageRes: Int, modifier: Modifier = Modifier) {
             },
 //        colors = CardDefaults.cardColors(containerColor = CardWhite),
 //        shape = RoundedCornerShape(50.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
     ) {
         Box(
 //            modifier = Modifier

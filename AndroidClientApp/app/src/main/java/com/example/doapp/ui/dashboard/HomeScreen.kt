@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
@@ -43,9 +44,11 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navController: NavHostController
+    navController: NavHostController,
+    showNewPageOverlay: Boolean,
+    onShowNewPageChange: (Boolean) -> Unit
 ) {
-    // Declares the current time paramete
+    // Declares the current time parameter
     val currentDateString = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, EEEE"))
 
     LazyColumn(
@@ -238,6 +241,19 @@ fun Home(
                     }
                 }
             }
+        }
+    }
+
+    //  When clicked on "New" button in HomeScreen
+    if (showNewPageOverlay) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Cover a scrim
+            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+
+            // add content in this scrim
+            New(navController)
         }
     }
 }

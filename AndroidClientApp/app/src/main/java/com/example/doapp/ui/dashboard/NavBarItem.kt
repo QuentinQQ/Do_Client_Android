@@ -34,7 +34,7 @@ data class NavBarItem (
                 NavBarItem(
                     label = "New",
                     icon = Icons.Filled.AddCircle,
-                    route = Routes.New.value
+                    route = Routes.New.value,
                 ),
                 NavBarItem(
                     label = "History",
