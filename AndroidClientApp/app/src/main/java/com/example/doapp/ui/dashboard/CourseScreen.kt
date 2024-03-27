@@ -68,13 +68,11 @@ fun Course(
             Pair("Upper-lower body split", R.drawable.upper_lower_body_split),
             Pair("Basic full-body workout for male", R.drawable.basic_full_body_workout_for_male),
             Pair("High-frequency 5-day split", R.drawable.high_frequency_5_day_split),
+            Pair("Regular three-phase differentiation", R.drawable.regular_three_phase_differentiation),
             Pair("6 exercises for legs push-pull", R.drawable.six_exercises_for_legs_push_pull),
-//            Pair("Regular three-phase differentiation", R.drawable.regular_three_phase_differentiation),
-//            Pair("High-frequency 5-day split", R.drawable.high_frequency_5_day_split),
-//            Pair("Upper-lower body split", R.drawable.upper_lower_body_split),
-//            Pair("High-frequency 5-day split", R.drawable.high_frequency_5_day_split),
             Pair("Advanced 5-day split", R.drawable.advanced_5_day_split),
             Pair("Advanced four-phase differentiation", R.drawable.advanced_four_phase_differentiation)
+
         ),
         2 to listOf(
             Pair("One workout one rest", R.drawable.client_logo),
@@ -263,100 +261,6 @@ fun PlanItem(title: String, imageRes: Int, modifier: Modifier = Modifier) {
         }
     }
 }
-
-/**
- *  The previous version
- *  use 1 lazyColumn that consist of many rows, ans each row contain 2 cards
- *  However, the application will be crash when contain more than 2 cards
- */
-//@OptIn(ExperimentalMaterialApi::class)
-//@Composable
-//fun Course(
-//    navController: NavHostController
-//)
-//{
-//    var selectedTab by remember { mutableStateOf(0) }
-//    val tabs = listOf("Official plan", "Personal template")
-//    var selectedTag by remember { mutableStateOf(0) }
-//    val tags = listOf("Reduce fat and shape", "Increase muscle", "Shape", "Relax", "Other")
-//
-//    Column {
-//        // Tabs for official plans and personal templates
-//        TabRow(selectedTabIndex = selectedTab) {
-//            tabs.forEachIndexed { index, title ->
-//                Tab(
-//                    text = { Text(title) },
-//                    selected = selectedTab == index,
-//                    onClick = { selectedTab = index }
-//                )
-//            }
-//        }
-//
-//        // Tags for filtering plans and courses
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .horizontalScroll(rememberScrollState())
-//                .padding(8.dp),
-//            horizontalArrangement = Arrangement.SpaceEvenly
-//        ) {
-//            tags.forEachIndexed { index, tag ->
-//                tags.forEachIndexed { index, tag ->
-//                    Chip(
-//                        text = tag,
-//                        selected = selectedTag == index,
-//                        onSelected = { selectedTag = index })
-//                }
-//            }
-//        }
-//
-//        // Plans and courses list
-//        LazyColumn {
-//            items(count = 10) { // Replace this count with the actual number of plans
-//                PlanItem(title = "Plan title $it", description = "Plan description $it")
-//            }
-//        }
-//
-//    }
-//}
-//
-//@Composable
-//fun Chip(text: String, selected: Boolean, onSelected: () -> Unit) {
-//    Box(
-//        modifier = Modifier
-//            .clickable { onSelected() }
-//            .padding(8.dp)
-//            .background(color = LightBackground)
-//            .padding(horizontal = 16.dp, vertical = 8.dp),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Text(
-//            text = text,
-//            color = FontBlack
-////            color = if (selected) FontBlack else FontGray,
-////            TextUnit = if (selected) 18.dp else 12.dp
-//        )
-//    }
-//}
-//
-//
-//@Composable
-//fun PlanItem(title: String, description: String) {
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(8.dp)
-//            .clickable {
-//                // Handle plan item click here
-//            }
-//    ) {
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            Text(text = title)
-//            Spacer(modifier = Modifier.height(4.dp))
-//            Text(text = description)
-//        }
-//    }
-//}
 
 
 //@Preview(showBackground = true)
