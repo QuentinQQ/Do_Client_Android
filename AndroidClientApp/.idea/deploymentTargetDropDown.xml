@@ -5,6 +5,12 @@
       <entry key="PreviewCourse">
         <State />
       </entry>
+      <entry key="PreviewPersonalInfoScreen">
+        <State />
+      </entry>
+      <entry key="PreviewSignUpScreen">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

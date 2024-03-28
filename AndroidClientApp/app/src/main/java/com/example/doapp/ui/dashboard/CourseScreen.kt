@@ -57,7 +57,13 @@ fun Course(
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Official Plan", "Customization")
     var selectedTag by remember { mutableStateOf(0) }
-    val tags = listOf("Reduce fat and shape", "Increase muscle for male", "Increase muscle for female", "Shape", "Relax", "Other")
+    val tags = listOf(
+        "Reduce fat and shape",
+        "Increase muscle for male",
+        "Increase muscle for female",
+        "Shape",
+        "Relax",
+        "Other")
     val tagPlans = mapOf(
         0 to listOf(
             Pair("Shortcut for male fat loss and shaping", R.drawable.reverse_pyramid),
