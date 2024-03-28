@@ -51,7 +51,9 @@ import com.example.doapp.ui.theme.LightBackground
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Course(
-    navController: NavHostController
+    navController: NavHostController,
+    showNewPageOverlay: Boolean,
+    onShowNewPageChange: (Boolean) -> Unit
 )
 {
     var selectedTab by remember { mutableStateOf(0) }
@@ -198,6 +200,18 @@ fun Course(
             }
         }
     }
+    //  When clicked on "New" button in CourseScreen
+    if (showNewPageOverlay) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Cover a scrim
+            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+
+            // add content in this scrim
+            New(navController)
+        }
+    }
 }
 
 @Composable
@@ -266,6 +280,7 @@ fun PlanItem(title: String, imageRes: Int, modifier: Modifier = Modifier) {
             )
         }
     }
+
 }
 
 

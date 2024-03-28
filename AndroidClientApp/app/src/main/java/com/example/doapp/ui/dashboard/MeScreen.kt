@@ -61,7 +61,9 @@ import com.example.doapp.ui.theme.LightFouth
 
 @Composable
 fun Me(
-    navController: NavHostController
+    navController: NavHostController,
+    showNewPageOverlay: Boolean,
+    onShowNewPageChange: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -315,6 +317,18 @@ fun Me(
             Text("Log Out")
         }
 
+    }
+    //  When clicked on "New" button in MeScreen
+    if (showNewPageOverlay) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Cover a scrim
+            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+
+            // add content in this scrim
+            New(navController)
+        }
     }
 
 }

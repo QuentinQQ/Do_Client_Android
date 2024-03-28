@@ -82,7 +82,9 @@ enum class HistoryTopNav(val index: Int) {
  */
 @Composable
 fun History(
-    navController: NavHostController
+    navController: NavHostController,
+    showNewPageOverlay: Boolean,
+    onShowNewPageChange: (Boolean) -> Unit
 ) {
     // Default to showing the "History" view
     val (selectedTab, setSelectedTab) = remember { mutableStateOf(HistoryTopNav.Calendar) }
@@ -99,6 +101,18 @@ fun History(
                 HistoryTopNav.Calendar -> CalendarView()
                 HistoryTopNav.Statistics -> StatisticsView()
             }
+        }
+    }
+    //  When clicked on "New" button in HistoryScreen
+    if (showNewPageOverlay) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Cover a scrim
+            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+
+            // add content in this scrim
+            New(navController)
         }
     }
 }

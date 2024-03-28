@@ -83,19 +83,34 @@ fun BottomNavigationBar() {
             Modifier.padding(paddingValues)
         ) {
             composable(Routes.Home.value) {
-                Home(navController, showNewPageOverlay.value, onShowNewPageChange = { showNewPageOverlay.value = it }) //navController
+                Home(navController,
+                    showNewPageOverlay.value,
+                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                ) //navController
             }
             composable(Routes.Course.value) {
-                Course(navController)
+                Course(
+                    navController,
+                    showNewPageOverlay.value,
+                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                )
             }
             composable(Routes.New.value) {
                 New(navController)
             }
             composable(Routes.History.value) {
-                History(navController) //navController
+                History(
+                    navController,
+                    showNewPageOverlay.value,
+                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                ) //navController
             }
             composable(Routes.Me.value) {
-                Me(navController)
+                Me(
+                    navController,
+                    showNewPageOverlay.value,
+                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                )
             }
         }
     }
