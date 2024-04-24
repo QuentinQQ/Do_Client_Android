@@ -42,10 +42,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.doapp.R
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 //    val image =
@@ -113,6 +114,9 @@ fun LoginScreen() {
 
             Button(
                 onClick = {
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
                     // Handle login logic here
                 },
                 modifier = Modifier
@@ -152,7 +156,11 @@ fun LoginScreen() {
                 Text(
                     text = "Sign up",
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(end = 16.dp),
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clickable {
+                            navController.navigate("signup")
+                        },
                     color = Color.Gray
                 )
             }
@@ -183,8 +191,8 @@ fun LoginScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewLogIn() {
-    LoginScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewLogIn() {
+//    LoginScreen()
+//}

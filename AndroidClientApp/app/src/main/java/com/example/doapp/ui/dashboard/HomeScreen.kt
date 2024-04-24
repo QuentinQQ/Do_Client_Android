@@ -28,12 +28,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.CardWhite
 import com.example.doapp.ui.theme.LightBackground
@@ -44,8 +48,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun Home(
     navController: NavHostController,
-    showNewPageOverlay: Boolean,
-    onShowNewPageChange: (Boolean) -> Unit
+    showNewPageOverlay: MutableState<Boolean>,
 ) {
     // Declares the current time parameter
     val currentDateString = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, EEEE"))
@@ -69,7 +72,8 @@ fun Home(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 8.dp)
+                        .wrapContentHeight(),
                     colors = CardDefaults.cardColors(
                         containerColor = CardWhite,
                     ),
@@ -80,7 +84,8 @@ fun Home(
                         modifier = Modifier.padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
+                    )
+                    {
                         Column(
                             modifier = Modifier.weight(1f),
                             verticalArrangement = Arrangement.Center
@@ -89,7 +94,7 @@ fun Home(
                                 text = text,
                                 style = MaterialTheme.typography.titleMedium
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+//                            Spacer(modifier = Modifier.height(4.dp))
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     Icons.Default.DateRange,
@@ -244,7 +249,7 @@ fun Home(
     }
 
     //  When clicked on "New" button in HomeScreen
-    if (showNewPageOverlay) {
+    if (showNewPageOverlay.value) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -252,14 +257,17 @@ fun Home(
             Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
 
             // add content in this scrim
-            New(navController)
+            // 在这个遮罩层中添加内容
+            New(navController, onDismiss = { showNewPageOverlay.value = false })
         }
     }
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewHome() {
-//    Home()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewHome() {
+    val navController = rememberNavController()
+    val showOverlay = remember { mutableStateOf(false) }
+    Home(navController, showOverlay)
+}

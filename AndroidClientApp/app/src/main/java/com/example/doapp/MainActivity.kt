@@ -13,7 +13,9 @@ import androidx.compose.ui.input.key.Key.Companion.D
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.doapp.ui.App
 import com.example.doapp.ui.dashboard.BottomNavigationBar
+import com.example.doapp.ui.dashboard.MainNavigationBar
 import com.example.doapp.ui.dashboard.myprofile.PersonalInfoScreen
 import com.example.doapp.ui.onboarding.screens.LoginScreen
 import com.example.doapp.ui.onboarding.screens.SignUpScreen
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
-            BottomNavigationBar()
+            App()
 
         }
     }

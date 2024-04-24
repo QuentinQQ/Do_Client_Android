@@ -43,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.ButtonBlue
 
@@ -50,6 +51,7 @@ import com.example.doapp.ui.theme.ButtonBlue
 @Composable
 fun New (
     navController: NavHostController,
+    onDismiss: () -> Unit
 ) {
     // Scrim Layout
     Box(
@@ -80,7 +82,7 @@ fun New (
 
         // add cancel button at the bottom
         FloatingActionButton(
-            onClick = { /* TODO: handle click */ },
+            onClick = { onDismiss() },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(16.dp),
@@ -112,8 +114,10 @@ fun ButtonWithIconAndText(@DrawableRes iconResourceId: Int, text: String) {
     }
 }
 
-//@Preview
-//@Composable
-//fun PreviewMainScreen() {
-//    New()
-//}
+@Preview
+@Composable
+fun PreviewMainScreen() {
+    val navController = rememberNavController()
+    val onDismiss: () -> Unit = { /* Placeholder dismiss action */ }
+    New(navController, onDismiss)
+}

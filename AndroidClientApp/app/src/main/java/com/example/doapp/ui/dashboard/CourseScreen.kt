@@ -27,6 +27,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.FontBlack
 import com.example.doapp.ui.theme.FontGray
@@ -52,8 +54,7 @@ import com.example.doapp.ui.theme.LightBackground
 @Composable
 fun Course(
     navController: NavHostController,
-    showNewPageOverlay: Boolean,
-    onShowNewPageChange: (Boolean) -> Unit
+    showNewPageOverlay: MutableState<Boolean>,
 )
 {
     var selectedTab by remember { mutableStateOf(0) }
@@ -69,7 +70,7 @@ fun Course(
     val tagPlans = mapOf(
         0 to listOf(
             Pair("Shortcut for male fat loss and shaping", R.drawable.reverse_pyramid),
-            Pair("Shortcut for female fat loss and shaping",R.drawable.weekly_record_thisweek_bule)
+            Pair("Shortcut for female fat loss and shaping",R.drawable.upper_lower_body_split)
         ),
         1 to listOf(
             Pair("Reverse pyramid", R.drawable.reverse_pyramid),
@@ -201,15 +202,22 @@ fun Course(
         }
     }
     //  When clicked on "New" button in CourseScreen
-    if (showNewPageOverlay) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Cover a scrim
+    if (showNewPageOverlay.value) {
+//        Box(
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            // Cover a scrim
+//            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+//
+//            // add content in this scrim
+//            New(navController)
+//        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            // 覆盖一个遮罩层
             Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
 
-            // add content in this scrim
-            New(navController)
+            // 在这个遮罩层中添加内容
+            New(navController, onDismiss = { showNewPageOverlay.value = false }) // 提供 onDismiss 参数
         }
     }
 }
@@ -284,8 +292,10 @@ fun PlanItem(title: String, imageRes: Int, modifier: Modifier = Modifier) {
 }
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCourse(){
-//    Course()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewCourse(){
+    val navController = rememberNavController()
+    val showOverlay = remember { mutableStateOf(false) }
+    Course(navController, showOverlay)
+}

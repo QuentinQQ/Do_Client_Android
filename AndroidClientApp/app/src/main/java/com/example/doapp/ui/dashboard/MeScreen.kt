@@ -38,6 +38,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +54,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.CardWhite
@@ -62,8 +66,7 @@ import com.example.doapp.ui.theme.LightFouth
 @Composable
 fun Me(
     navController: NavHostController,
-    showNewPageOverlay: Boolean,
-    onShowNewPageChange: (Boolean) -> Unit
+    showNewPageOverlay: MutableState<Boolean>,
 ) {
     Column(
         modifier = Modifier
@@ -319,7 +322,7 @@ fun Me(
 
     }
     //  When clicked on "New" button in MeScreen
-    if (showNewPageOverlay) {
+    if (showNewPageOverlay.value) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -327,14 +330,17 @@ fun Me(
             Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
 
             // add content in this scrim
-            New(navController)
+            // 在这个遮罩层中添加内容
+            New(navController, onDismiss = { showNewPageOverlay.value = false }) // 提供 onDismiss 参数
         }
     }
 
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewMe() {
-//    Me()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewMe() {
+    val navController = rememberNavController()
+    val showOverlay = remember { mutableStateOf(false) }
+    Me(navController, showOverlay)
+}

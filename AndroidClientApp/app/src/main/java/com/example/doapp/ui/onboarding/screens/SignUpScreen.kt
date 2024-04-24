@@ -38,10 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.doapp.R
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(navController: NavHostController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
@@ -137,7 +138,10 @@ fun SignUpScreen() {
             // Sign up button
             Button(
                 onClick = {
-                    // Handle login logic here
+                    // 假设注册成功
+                    navController.navigate("login") {
+                        popUpTo("signup") { inclusive = true }  // 清除回退栈中的注册页面
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -166,8 +170,8 @@ fun SignUpScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignUpScreen() {
-    SignUpScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSignUpScreen() {
+//    SignUpScreen()
+//}

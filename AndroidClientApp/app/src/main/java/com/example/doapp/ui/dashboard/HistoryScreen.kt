@@ -37,6 +37,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.CardWhite
@@ -83,8 +85,7 @@ enum class HistoryTopNav(val index: Int) {
 @Composable
 fun History(
     navController: NavHostController,
-    showNewPageOverlay: Boolean,
-    onShowNewPageChange: (Boolean) -> Unit
+    showNewPageOverlay: MutableState<Boolean>,
 ) {
     // Default to showing the "History" view
     val (selectedTab, setSelectedTab) = remember { mutableStateOf(HistoryTopNav.Calendar) }
@@ -104,7 +105,7 @@ fun History(
         }
     }
     //  When clicked on "New" button in HistoryScreen
-    if (showNewPageOverlay) {
+    if (showNewPageOverlay.value) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -112,7 +113,8 @@ fun History(
             Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
 
             // add content in this scrim
-            New(navController)
+            // 在这个遮罩层中添加内容
+            New(navController, onDismiss = { showNewPageOverlay.value = false }) // 提供 onDismiss 参数
         }
     }
 }
@@ -156,14 +158,16 @@ fun TopNavBar(selectedTab: HistoryTopNav, setSelectedTab: (HistoryTopNav) -> Uni
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewHistory() {
-//    History()
-//}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewHistory() {
-    StatisticsView()
+    val navController = rememberNavController()
+    val showOverlay = remember { mutableStateOf(false) }
+    History(navController, showOverlay)
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHistory() {
+//    StatisticsView()
+//}

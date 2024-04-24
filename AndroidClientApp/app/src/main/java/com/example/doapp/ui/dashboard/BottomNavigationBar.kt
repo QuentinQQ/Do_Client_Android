@@ -1,5 +1,8 @@
 package com.example.doapp.ui.dashboard
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -9,109 +12,108 @@ import androidx.compose.material.icons.filled.Home import androidx.compose.mater
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination.Companion.hierarchy import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.bottomnavigationbar.NavBarItem
+import com.example.doapp.ui.NewScreenScrim
 import com.example.doapp.ui.dashboard.Routes
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.LightBackground
 
+
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(navController: NavHostController, showNewPageOverlay: MutableState<Boolean>) {
+    BottomNavigation(backgroundColor = LightBackground) {
+        NavBarItem.NavBarItems().forEach { navItem ->
+            // 判断当前项是否被选中
+            val isSelected = navController.currentBackStackEntryAsState().value?.destination?.route == navItem.route
+
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        navItem.icon,
+                        contentDescription = null,
+                        // 当前选中时图标为ButtonBlue，否则为Gray
+                        tint = if (isSelected) ButtonBlue else Color.Gray
+                    )
+                },
+                label = { Text(navItem.label) },
+                selected = isSelected,
+                onClick = {
+                    if (navItem.route == Routes.New.value) {
+                        showNewPageOverlay.value = true
+                    } else {
+                        if (navController.currentDestination?.route != navItem.route) {
+                            navController.navigate(navItem.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+
+
+
+@Composable
+fun MainNavigationBar() {
     val navController = rememberNavController()
     val showNewPageOverlay = remember { mutableStateOf(false) }
 
-//    if (showNewPageOverlay.value) {
-//        // If the "New" page is visible, the page of the Scrim package will be displayed.
-//        New(navController, onDismiss = { showNewPageOverlay.value = false })
-//    } else {
     Scaffold(
         bottomBar = {
-            BottomNavigation (backgroundColor= LightBackground ){
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-
-                NavBarItem.NavBarItems().forEach {
-                        navItem ->
-                    val isSelected = currentDestination?.hierarchy?.any { it.route == navItem.route } == true
-                    BottomNavigationItem(
-                        icon = {
-                            Icon(
-                                navItem.icon,
-                                contentDescription = null,
-                                tint = if (isSelected) ButtonBlue else Color.Gray
-                            )
-                        },
-                        label = { Text(navItem.label) },
-                        selected = currentDestination?.hierarchy?.any
-                        {
-                            it.route == navItem.route
-                        } == true,
-                        onClick = {
-                            // When click on "New" button
-                            if (navItem.route == Routes.New.value) {
-                                showNewPageOverlay.value = true
-                            } else {
-                                // Others dashboard screen
-                                navController.navigate(navItem.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        }
-                    )
-
-                }
-            }
+            BottomNavigationBar(navController, showNewPageOverlay)
         }
     ) {
-            paddingValues ->
+        paddingValues ->
         NavHost(
             navController,
             startDestination = Routes.Home.value,
-            Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues)
         ) {
+
             composable(Routes.Home.value) {
                 Home(navController,
-                    showNewPageOverlay.value,
-                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                    showNewPageOverlay
                 ) //navController
             }
             composable(Routes.Course.value) {
                 Course(
                     navController,
-                    showNewPageOverlay.value,
-                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                    showNewPageOverlay
                 )
-            }
-            composable(Routes.New.value) {
-                New(navController)
             }
             composable(Routes.History.value) {
                 History(
                     navController,
-                    showNewPageOverlay.value,
-                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                    showNewPageOverlay
                 ) //navController
             }
             composable(Routes.Me.value) {
                 Me(
                     navController,
-                    showNewPageOverlay.value,
-                    onShowNewPageChange = { showNewPageOverlay.value = it }
+                    showNewPageOverlay
                 )
             }
         }
+    }
+    if (showNewPageOverlay.value) {
+        NewScreenScrim(navController, onDismiss = { showNewPageOverlay.value = false })
     }
 }
