@@ -25,11 +25,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,13 +45,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(navController: NavHostController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
-//    val image =
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val db = Firebase.firestore
 
     Surface(
         modifier = Modifier
@@ -55,6 +65,9 @@ fun SignUpScreen(navController: NavHostController) {
             .padding(16.dp),
         color = MaterialTheme.colorScheme.background
     ) {
+        // Snackbar host setup
+        SnackbarHost(hostState = snackbarHostState)
+
         Row(
             verticalAlignment = Alignment.Top,
             modifier = Modifier
@@ -139,35 +152,32 @@ fun SignUpScreen(navController: NavHostController) {
             // Sign up button
             Button(
                 onClick = {
-                    // 假设注册成功
-                    navController.navigate("login") {
-                        popUpTo("signup") { inclusive = true }  // 清除回退栈中的注册页面
+                    if (password.value == confirmPassword.value) {
+                        // Create user data hash map
+                        val user = hashMapOf("email" to email.value, "password" to password.value)
+                        // Add user to Firestore
+                        db.collection("users").add(user).addOnSuccessListener {
+                            navController.navigate("login") { popUpTo("signup") { inclusive = true } }
+                        }.addOnFailureListener { e ->
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Error adding document: ${e.message}")
+                            }
+                        }
+                    } else {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("Passwords do not match", duration = SnackbarDuration.Short)
+                        }
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(60.dp),
+                modifier = Modifier.fillMaxWidth(0.8f).height(60.dp),
                 shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3757FF),
-                    contentColor = Color.White
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3757FF), contentColor = Color.White)
             ) {
-                Text(
-                    "Sign Up",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+                Text("Sign Up", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
             // Control layout
             Spacer(modifier = Modifier.weight(1f))
         }
-
-
-//            Spacer(modifier = Modifier.weight(1f))
-//            Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

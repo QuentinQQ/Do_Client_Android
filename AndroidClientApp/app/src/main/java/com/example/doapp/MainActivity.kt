@@ -20,6 +20,7 @@ import com.example.doapp.ui.dashboard.myprofile.PersonalInfoScreen
 import com.example.doapp.ui.onboarding.screens.LoginScreen
 import com.example.doapp.ui.onboarding.screens.SignUpScreen
 import com.example.doapp.ui.theme.DoAppTheme
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
+            FirebaseApp.initializeApp(this)
             App()
 
         }
