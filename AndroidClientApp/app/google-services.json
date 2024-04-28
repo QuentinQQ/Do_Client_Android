@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178691960784",
+    "project_id": "doapp-a327f",
+    "storage_bucket": "doapp-a327f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178691960784:android:96168d1e557fd7e7d753d5",
+        "android_client_info": {
+          "package_name": "com.example.doapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANjhaSzBnQWhWX-gC8-LsVM3MvYLpozc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

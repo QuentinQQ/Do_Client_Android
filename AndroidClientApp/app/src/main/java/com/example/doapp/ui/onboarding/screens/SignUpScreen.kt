@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 
 @Composable
@@ -170,8 +171,9 @@ fun SignUpScreen(navController: NavHostController) {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewSignUpScreen() {
-//    SignUpScreen()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewSignUpScreen() {
+    val navController = rememberNavController()
+    SignUpScreen(navController)
+}
