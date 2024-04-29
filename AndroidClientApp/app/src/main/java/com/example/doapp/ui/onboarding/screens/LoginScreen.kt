@@ -18,20 +18,27 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,17 +51,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-//    val image =
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val db = Firebase.firestore
+    val isLoading = remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        SnackbarHost(hostState = snackbarHostState)
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
 //            verticalArrangement = Arrangement.Center,
@@ -112,29 +133,30 @@ fun LoginScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate("home") {
-                        popUpTo("login") { inclusive = true }
-                    }
-                    // Handle login logic here
-                },
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(60.dp),
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3757FF),
-                    contentColor = Color.White
-                )
-            ) {
-                Text(
-                    "Login now",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+            if (isLoading.value) {
+                CircularProgressIndicator()  // Show progress indicator if loading
+            } else {
+                Button(
+                    onClick = {
+                        handleLogin(email.value, password.value, db, snackbarHostState, coroutineScope, navController, isLoading)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .height(60.dp),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF3757FF),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(
+                        "Login now",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -181,7 +203,7 @@ fun LoginScreen(navController: NavHostController) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google 登录",
+                    contentDescription = "Google Login",
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -191,6 +213,59 @@ fun LoginScreen(navController: NavHostController) {
     }
 }
 
+
+fun handleLogin(
+    email: String,
+    password: String,
+    db: FirebaseFirestore,
+    snackbarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope,
+    navController: NavHostController,
+    isLoading: MutableState<Boolean>
+) {
+    isLoading.value = true  // Start loading
+
+    if (email.isEmpty() || password.isEmpty()) {
+        coroutineScope.launch {
+            snackbarHostState.showSnackbar("Email and password cannot be empty", duration = SnackbarDuration.Short)
+            isLoading.value = false // Stop loading
+        }
+        return
+    }
+
+    db.collection("users")
+        .whereEqualTo("email", email)
+        .get()
+        .addOnSuccessListener { documents ->
+            if (documents.isEmpty) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Invalid login or password.", duration = SnackbarDuration.Short)
+                }
+            } else {
+                var loginStatus = false
+                for (document in documents) {
+                    if (document.getString("password") == password) {
+                        navController.navigate("home") {
+                            popUpTo("login") { inclusive = true }
+                        }
+                        loginStatus = true
+                        break
+                    }
+                }
+                if (!loginStatus) {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("Invalid login or password.", duration = SnackbarDuration.Short)
+                    }
+                }
+            }
+        }
+        .addOnFailureListener { exception ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar("Failed to query database: ${exception.message}", duration = SnackbarDuration.Short)
+            }
+        }
+    isLoading.value = false // Stop loading
+}
 //@Preview(showBackground = true)
 //@Composable
 //fun PreviewLogIn() {

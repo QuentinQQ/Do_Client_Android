@@ -81,11 +81,10 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
 
-    implementation("com.google.firebase:firebase-firestore:24.11.1")
-
-    // Import the Firebase BoM
+    // import google
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-    // 使用 BOM 管理版本的 Firebase 库
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-analytics")
+    // Firebase services using BOM for version management
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }
