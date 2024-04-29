@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -266,8 +267,11 @@ fun handleLogin(
         }
     isLoading.value = false // Stop loading
 }
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewLogIn() {
-//    LoginScreen()
-//}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLogIn() {
+    val navController = rememberNavController()
+    LoginScreen(navController)
+}

@@ -12,7 +12,20 @@
           "package_name": "com.example.doapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "178691960784-vpnp5rsr3i6buhtbvb09vf2itjlkjcd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.doapp",
+            "certificate_hash": "64f5b6e7851f7b38a92cdb6a5ecd4da33fa2fb6b"
+          }
+        },
+        {
+          "client_id": "178691960784-5n554cbqlh42jeseu5362v93h9jbhnpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyANjhaSzBnQWhWX-gC8-LsVM3MvYLpozc4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178691960784-5n554cbqlh42jeseu5362v93h9jbhnpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

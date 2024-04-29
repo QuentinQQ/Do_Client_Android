@@ -84,7 +84,11 @@ dependencies {
     // import google
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     // Firebase services using BOM for version management
-    implementation("com.google.firebase:firebase-auth-ktx")
+//    implementation("com.google.firebase:firebase-auth-ktx")
+
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.1.0")
+
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 }
