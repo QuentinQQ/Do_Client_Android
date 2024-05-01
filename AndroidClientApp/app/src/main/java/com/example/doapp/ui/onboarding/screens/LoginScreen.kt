@@ -1,5 +1,8 @@
 package com.example.doapp.ui.onboarding.screens
 
+import android.content.IntentSender
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,15 +46,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.startIntentSenderForResult
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
+import com.example.doapp.login.GoogleLogin
+import com.example.doapp.login.SignInViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
@@ -63,13 +70,19 @@ import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(
+    navController: NavHostController
+//    googleLogin: GoogleLogin,
+//    signInViewModel: SignInViewModel,
+//    signInResultLauncher: ActivityResultLauncher<IntentSenderRequest>
+) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val db = Firebase.firestore
     val isLoading = remember { mutableStateOf(false) }
+//    val context = LocalContext.current  // 正确声明本地上下文
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -190,9 +203,19 @@ fun LoginScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.weight(1f))
 
+
             Button(
                 onClick = {
-                    // To do
+//                    // 使用rememberCoroutineScope获取到的协程作用域来启动新协程
+//                    coroutineScope.launch {
+//                        // 调用signIn挂起函数，尝试获取IntentSender
+//                        val signInIntentSender = googleLogin.signIn()
+//                        // 如果获取成功，则构建IntentSenderRequest并启动它
+//                        signInIntentSender?.let {
+//                            val request = IntentSenderRequest.Builder(it).build()
+//                            signInResultLauncher.launch(request)  // 在ActivityResultLauncher中启动IntentSender
+//                        }
+//                    }
                 },
                 modifier = Modifier
                     .size(48.dp)
@@ -269,9 +292,9 @@ fun handleLogin(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewLogIn() {
-    val navController = rememberNavController()
-    LoginScreen(navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewLogIn() {
+//    val navController = rememberNavController()
+//    LoginScreen(navController)
+//}
