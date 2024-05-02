@@ -1,8 +1,12 @@
 package com.example.doapp.ui.onboarding.screens
 
 import android.content.IntentSender
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +42,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +63,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
 import com.example.doapp.login.GoogleLogin
+import com.example.doapp.login.SignInState
 import com.example.doapp.login.SignInViewModel
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
@@ -67,14 +76,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
 @Composable
 fun LoginScreen(
-    navController: NavHostController
-//    googleLogin: GoogleLogin,
+    navController: NavHostController,
+//    signInViewModel: SignInViewModel
+//    googleLogin: GoogleLogin
 //    signInViewModel: SignInViewModel,
 //    signInResultLauncher: ActivityResultLauncher<IntentSenderRequest>
+    signInState: SignInState,
+    onSignInClick: () -> Unit
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -82,7 +96,30 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
     val db = Firebase.firestore
     val isLoading = remember { mutableStateOf(false) }
-//    val context = LocalContext.current  // 正确声明本地上下文
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = signInState.signInError) {
+        signInState.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+//    val signInClient: SignInClient = Identity.getSignInClient(context)
+//    val signInRequest = BeginSignInRequest.builder()
+//
+//    val launcher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.StartIntentSenderForResult()
+//    ) { result ->
+//        if (result.resultCode == ComponentActivity.RESULT_OK) {
+//            val credential = Identity.getSignInClient(context).getSignInCredentialFromIntent(result.data)
+//            val idToken = credential.googleIdToken
+//            // 这里可以使用 idToken 进行进一步的处理，例如使用Firebase进行身份验证
+//        }
+//    }
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -206,6 +243,8 @@ fun LoginScreen(
 
             Button(
                 onClick = {
+                    onSignInClick()
+                          //第一种
 //                    // 使用rememberCoroutineScope获取到的协程作用域来启动新协程
 //                    coroutineScope.launch {
 //                        // 调用signIn挂起函数，尝试获取IntentSender
@@ -216,6 +255,14 @@ fun LoginScreen(
 //                            signInResultLauncher.launch(request)  // 在ActivityResultLauncher中启动IntentSender
 //                        }
 //                    }
+                          //第二种
+//                    coroutineScope.launch {
+//                        googleLogin.signIn()?.let { intentSender ->
+//                            val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
+//                            launcher.launch(intentSenderRequest)
+//                        }
+//                    }
+                          //第三种
                 },
                 modifier = Modifier
                     .size(48.dp)

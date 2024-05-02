@@ -1,11 +1,11 @@
 package com.example.doapp.login
 
-class SignInResult(
+data class SignInResult(
     val data: UserData?,
     val errorMessage: String?
 )
 
-class UserData(
+data class UserData(
     val userId: String,
     val username: String?,
     val profilePictureUrl: String?

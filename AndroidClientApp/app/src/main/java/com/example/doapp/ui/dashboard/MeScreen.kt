@@ -47,15 +47,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontVariation.weight
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.doapp.R
+import com.example.doapp.login.UserData
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.CardWhite
 import com.example.doapp.ui.theme.DarkSecondary
@@ -67,6 +71,8 @@ import com.example.doapp.ui.theme.LightFouth
 fun Me(
     navController: NavHostController,
     showNewPageOverlay: MutableState<Boolean>,
+    userData: UserData?,
+    onSignOut: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -88,24 +94,49 @@ fun Me(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
-                    contentDescription = "Profile Picture",
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.Gray, CircleShape)
-                )
+                if(userData?.profilePictureUrl != null) {
+                    AsyncImage(
+                        model = userData.profilePictureUrl,
+//                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color.Gray, CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+
+//                if(userData?.profilePictureUrl != null) {
+//                    AsyncImage(
+//                        model = userData.profilePictureUrl,
+//                        contentDescription = "Profile picture",
+//                        modifier = Modifier
+//                            .size(150.dp)
+//                            .clip(CircleShape),
+//                        contentScale = ContentScale.Crop
+//                    )
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                }
 
                 Spacer(Modifier.width(20.dp))
 
                 Column {
-                    Text(
-                        text = "Quentin",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
-                    )
-                    Text(text = "User ID: 7894495")
+//                    Text(
+//                        text = "Quentin",
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 25.sp
+//                    )
+                    if(userData?.username != null) {
+                        Text(
+                            text = userData.username,
+                            textAlign = TextAlign.Center,
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+//                        Text(text = "User ID: 7894495")
+                    }
                 }
             }
 
@@ -337,10 +368,10 @@ fun Me(
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMe() {
-    val navController = rememberNavController()
-    val showOverlay = remember { mutableStateOf(false) }
-    Me(navController, showOverlay)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewMe() {
+//    val navController = rememberNavController()
+//    val showOverlay = remember { mutableStateOf(false) }
+//    Me(navController, showOverlay)
+//}

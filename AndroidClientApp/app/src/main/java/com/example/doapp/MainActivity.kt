@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.doapp.login.GoogleLogin
 import com.example.doapp.login.SignInViewModel
 import com.example.doapp.ui.onboarding.screens.LoginScreen
 import com.google.firebase.FirebaseApp
@@ -26,11 +25,12 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        googleLogin = GoogleLogin(this)
         setContent {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
-            FirebaseApp.initializeApp(this)
+//            FirebaseApp.initializeApp(this)
             App()
 
         }
