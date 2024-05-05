@@ -59,10 +59,11 @@ import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat.startIntentSenderForResult
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
-import com.example.doapp.login.GoogleLogin
+import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.login.SignInState
 import com.example.doapp.login.SignInViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -83,12 +84,8 @@ import kotlin.coroutines.CoroutineContext
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-//    signInViewModel: SignInViewModel
-//    googleLogin: GoogleLogin
-//    signInViewModel: SignInViewModel,
-//    signInResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     signInState: SignInState,
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }

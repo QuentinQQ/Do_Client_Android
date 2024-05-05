@@ -105,6 +105,15 @@ fun Me(
                             .border(2.dp, Color.Gray, CircleShape),
                         contentScale = ContentScale.Crop
                     )
+                }else {
+                    Image(
+                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color.Gray, CircleShape)
+                    )
                 }
 
 
@@ -136,6 +145,13 @@ fun Me(
                             fontWeight = FontWeight.Bold
                         )
 //                        Text(text = "User ID: 7894495")
+                    } else {
+                        Text(
+                            text = "User",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 25.sp
+                        )
+                        Text(text = "User ID: ")
                     }
                 }
             }

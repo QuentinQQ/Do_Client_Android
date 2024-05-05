@@ -54,7 +54,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-//import androidx.lifecycle.lifecycleScope package
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,21 +64,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.math.sign
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.compose.setContent
 
 @Composable
 fun App(
-//    googleLogin: GoogleLogin
+    lifecycleScope: CoroutineScope
 ) {
     val navController = rememberNavController()
     val showNewPageOverlay = remember { mutableStateOf(false) }
     val showOverlay = remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
 
+    // 初始化GoogleAuthClient
     val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = context,
@@ -144,27 +141,25 @@ fun App(
             }
 //            composable("login") { LoginScreen(navController) }  // 确保 LoginScreen 可以进行导航
             composable("signup") { SignUpScreen(navController) }
-//            composable("profile") {
-//                ProfileScreen(
-//                    userData = googleAuthUiClient.getSignedInUser(),
-//                    onSignOut = {
-//                        lifecycleScope.launch {
-//                            googleAuthUiClient.signOut()
-//                            Toast.makeText(
-//                                applicationContext,
-//                                "Signed out",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//
-//                            navController.popBackStack()
-//                        }
-//                    }
-//                )
-//            }
             composable("home") { Home(navController, showOverlay) }  // 假设有一个 HomeScreen
             composable("course") { Course(navController, showOverlay) }  // 假设有一个 CourseScreen
             composable("history") { History(navController, showOverlay) }  // 假设有一个 HistoryScreen
-            composable("profile") { Me(navController, showOverlay) }  // 假设有一个 ProfileScreen
+            composable("me") { Me(
+                navController,
+                showOverlay,
+                userData = googleAuthUiClient.getSignedInUser(),
+                onSignOut = {
+                    lifecycleScope.launch {
+                        googleAuthUiClient.signOut()
+                        Toast.makeText(
+                            context,
+                            "Signed out",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        navController.popBackStack()
+                    }
+                }
+            ) }
         }
 
         // 使用当前后退栈条目获取当前路由
@@ -172,7 +167,7 @@ fun App(
         val currentRoute = navBackStackEntry?.destination?.route
 
         if (currentRoute != "login" && currentRoute != "signup" && !showNewPageOverlay.value) {
-            MainNavigationBar()
+            MainNavigationBar(googleAuthUiClient, lifecycleScope    )
         }
     }
 }

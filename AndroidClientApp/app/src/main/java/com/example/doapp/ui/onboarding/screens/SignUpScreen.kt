@@ -73,13 +73,18 @@ fun SignUpScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "BACK",
-                modifier = Modifier
-                    .size(32.dp),
-                tint = Color.Black
-            )
+            IconButton(
+                onClick = {
+                    navController.navigateUp()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "BACK",
+                    modifier = Modifier.size(32.dp),
+                    tint = Color.Black
+                )
+            }
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -169,6 +174,26 @@ fun SignUpScreen(navController: NavHostController) {
                         }
                     }
                 },
+//                onClick = {
+//                    if (password.value == confirmPassword.value) {
+//                        coroutineScope.launch {
+//                            try {
+//                                val user = hashMapOf("email" to email.value, "password" to password.value)
+//                                db.collection("users").add(user).addOnSuccessListener {
+//                                    navController.navigate("login") { popUpTo("signup") { inclusive = true } }
+//                                }.addOnFailureListener { e ->
+//                                    snackbarHostState.showSnackbar("Error adding document: ${e.message}")
+//                                }
+//                            } catch (e: Exception) {
+//                                snackbarHostState.showSnackbar("Failed to create user: ${e.message}")
+//                            }
+//                        }
+//                    } else {
+//                        coroutineScope.launch {
+//                            snackbarHostState.showSnackbar("Passwords do not match", duration = SnackbarDuration.Short)
+//                        }
+//                    }
+//                },
                 modifier = Modifier.fillMaxWidth(0.8f).height(60.dp),
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3757FF), contentColor = Color.White)

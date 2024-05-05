@@ -21,17 +21,28 @@ import com.example.doapp.ui.App
 import com.example.doapp.ui.theme.DoAppTheme
 import kotlinx.coroutines.launch
 
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.input.ImeAction.Companion.Go
+import com.example.doapp.ui.App
+import com.example.doapp.login.GoogleAuthUiClient
+
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        googleLogin = GoogleLogin(this)
+        FirebaseApp.initializeApp(this)
+
         setContent {
 //            DoAppTheme {
 //                BottomNavigationBar()
 //            }
 //            FirebaseApp.initializeApp(this)
-            App()
+            val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
+            App(lifecycleScope)
 
         }
     }
