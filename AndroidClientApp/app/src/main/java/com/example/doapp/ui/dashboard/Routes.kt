@@ -7,5 +7,6 @@ enum class Routes(val value: String) {
     History("History"),
     Me("Me"),
     AboutDo("About"),
-    HelpAndFeedback("HelpAndFeedback")
+    HelpAndFeedback("HelpAndFeedback"),
+    DetailScreen("DetialScreen")
 }

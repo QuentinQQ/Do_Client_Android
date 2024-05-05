@@ -8,12 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.LightBackground
 import com.example.doapp.ui.theme.FontBlack
 
 @Composable
-fun DetailsScreen() {
+fun DetailsScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -21,7 +22,7 @@ fun DetailsScreen() {
                     color = FontBlack) },
                 backgroundColor = LightBackground,
                 actions = {
-                    TextButton(onClick = { /* Handle cancel button click */ } ,
+                    TextButton(onClick = { navController.popBackStack() } ,
                         colors = ButtonDefaults.textButtonColors(contentColor = FontBlack))
                     {
                         Text("Cancel")
@@ -89,8 +90,8 @@ fun TrainingItem(title: String, details: String, modifier: Modifier = Modifier) 
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewDetailsScreen() {
-    DetailsScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewDetailsScreen() {
+//    DetailsScreen()
+//}

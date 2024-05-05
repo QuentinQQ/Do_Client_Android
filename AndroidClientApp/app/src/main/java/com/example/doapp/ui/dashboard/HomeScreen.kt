@@ -108,7 +108,7 @@ fun Home(
                             }
                         }
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { navController.navigate(Routes.DetailScreen.value) },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3757FF))
                         ) {
                             Text("GO!", color = Color.White)

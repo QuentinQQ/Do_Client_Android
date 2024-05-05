@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bottomnavigationbar.NavBarItem
 import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
+import com.example.doapp.ui.dashboard.HomeSubScreens.DetailsScreen
 import com.example.doapp.ui.dashboard.Routes
 import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.example.doapp.ui.dashboard.myprofile.HelpScreen
@@ -147,6 +148,11 @@ fun MainNavigationBar(
             }
             composable(Routes.HelpAndFeedback.value){
                 HelpScreen(navController = navController)
+            }
+            composable(Routes.DetailScreen.value) {
+                DetailsScreen(
+                    navController
+                ) //navController
             }
         }
     }
