@@ -3,6 +3,7 @@ package com.example.doapp.ui.dashboard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -297,7 +298,10 @@ fun Me(
                         .fillMaxWidth()
                         .height(60.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(CardWhite),
+                        .background(CardWhite)
+                        .clickable {
+                            navController.navigate("HelpAndFeedback")
+                        },
 //                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -328,8 +332,11 @@ fun Me(
                         .fillMaxWidth()
                         .height(60.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(CardWhite),
+                        .background(CardWhite)
 //                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
+                        .clickable {
+                            navController.navigate("about")
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(

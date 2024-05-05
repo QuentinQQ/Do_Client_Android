@@ -32,6 +32,8 @@ import com.example.bottomnavigationbar.NavBarItem
 import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
 import com.example.doapp.ui.dashboard.Routes
+import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
+import com.example.doapp.ui.dashboard.myprofile.HelpScreen
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
@@ -137,6 +139,14 @@ fun MainNavigationBar(
                         }
                     }
                 )
+            }
+            composable(Routes.AboutDo.value) {
+                AboutDoScreen(
+                    navController
+                ) //navController
+            }
+            composable(Routes.HelpAndFeedback.value){
+                HelpScreen(navController = navController)
             }
         }
     }

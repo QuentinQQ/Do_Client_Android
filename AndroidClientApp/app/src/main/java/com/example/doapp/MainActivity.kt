@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.input.ImeAction.Companion.Go
 import com.example.doapp.ui.App
 import com.example.doapp.login.GoogleAuthUiClient
+import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -41,8 +42,12 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationBar()
 //            }
 //            FirebaseApp.initializeApp(this)
+
             val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
             App(lifecycleScope)
+
+//            val navController = rememberNavController()
+//            AboutDoScreen(navController)
 
         }
     }

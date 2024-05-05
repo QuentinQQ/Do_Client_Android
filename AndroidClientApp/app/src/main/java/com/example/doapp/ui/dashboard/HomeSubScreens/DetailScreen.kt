@@ -1,6 +1,5 @@
-package com.example.doapp.ui.dashboard
+package com.example.doapp.ui.dashboard.HomeSubScreens
 
-import android.telecom.Call.Details
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable

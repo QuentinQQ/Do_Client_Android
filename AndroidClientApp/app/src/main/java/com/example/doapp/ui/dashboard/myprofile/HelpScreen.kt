@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,13 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.ui.dashboard.Course
 
 @Composable
-fun HelpScreen(modifier: Modifier = Modifier) {
+fun HelpScreen(navController: NavHostController) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -34,11 +36,18 @@ fun HelpScreen(modifier: Modifier = Modifier) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "BACK",
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                navController.popBackStack()
+                            },
                         tint = Color.Black
                     )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
-                        text = "Help",
+                        text = "Help & Feedback",
                         style = MaterialTheme.typography.h6
                     )
                 }
@@ -90,6 +99,7 @@ fun HelpScreen(modifier: Modifier = Modifier) {
 @Composable
 fun HelpScreenPreview() {
     MaterialTheme {
-        HelpScreen()
+        val navController = rememberNavController()
+        HelpScreen(navController)
     }
 }

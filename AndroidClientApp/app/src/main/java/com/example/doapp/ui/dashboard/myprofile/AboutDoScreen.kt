@@ -1,42 +1,46 @@
 package com.example.doapp.ui.dashboard.myprofile
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.doapp.ui.dashboard.Course
 
 @Composable
-fun AboutDoScreen(modifier: Modifier = Modifier) {
+fun AboutDoScreen(navController: NavHostController) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         TopAppBar(
             title = {
-                Row {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically, // This aligns the children vertically in the center
+                    modifier = Modifier.fillMaxWidth()
+                ){
                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "BACK",
-                        modifier = Modifier.size(24.dp),
-                        tint = Color.Black
+                       imageVector = Icons.Filled.ArrowBack,
+                       contentDescription = "BACK",
+                       modifier = Modifier
+                           .size(48.dp) // Increased size
+                           .padding(12.dp) // Adequate padding for clickable area
+                           .clickable {
+                               navController.popBackStack()
+                           },
+                       tint = Color.Black
                     )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
                         text = "AboutDO",
                         style = MaterialTheme.typography.h6
@@ -89,7 +93,6 @@ fun AboutDoScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun AboutDoScreenPreview() {
-    MaterialTheme {
-        AboutDoScreen()
-    }
+    val navController = rememberNavController()
+    AboutDoScreen(navController)
 }

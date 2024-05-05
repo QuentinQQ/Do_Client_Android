@@ -63,6 +63,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -141,6 +142,7 @@ fun App(
             }
 //            composable("login") { LoginScreen(navController) }  // 确保 LoginScreen 可以进行导航
             composable("signup") { SignUpScreen(navController) }
+//            composable("about") { AboutDoScreen(navController)}
             composable("home") { Home(navController, showOverlay) }  // 假设有一个 HomeScreen
             composable("course") { Course(navController, showOverlay) }  // 假设有一个 CourseScreen
             composable("history") { History(navController, showOverlay) }  // 假设有一个 HistoryScreen
