@@ -24,9 +24,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.doapp.login.GoogleAuthUiClient
+//import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.onboarding.screens.LoginScreen
-import com.example.doapp.login.SignInViewModel
+//import com.example.doapp.login.SignInViewModel
 
 import com.example.doapp.ui.dashboard.Course
 import com.example.doapp.ui.dashboard.Home
@@ -40,84 +40,92 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.example.doapp.db.ViewModel
 import com.example.doapp.db.users.Users
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun App(
     lifecycleScope: CoroutineScope,
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    googleSignInClient: GoogleSignInClient,
+    auth: FirebaseAuth
 ) {
     val navController = rememberNavController()
     val showNewPageOverlay = remember { mutableStateOf(false) }
     val showOverlay = remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
 
+    // initial room viewModel
     val users by viewModel.allUsers.observeAsState()
     val selectedUser = remember { mutableStateOf<Users?>(null) }
     val insertDialog = remember { mutableStateOf(false) }
 
-    // 初始化GoogleAuthClient
-    val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            context = context,
-            oneTapClient = Identity.getSignInClient(context)
-        )
-    }
+//    // 谷歌登录初始化
+//    val auth = FirebaseAuth.getInstance()
+//    val currentUser = auth.currentUser
+//    // 检查是否登录, 登录则跳转主页面
+//    LaunchedEffect(key1 = currentUser) {
+//        if (currentUser != null) {
+//            // 如果用户已登录，导航到主页面
+//            navController.navigate("home")
+//        }
+//    }
+//    // 使用 remember 获取 SignInViewModel 实例
+//    val signInViewModel = viewModel<SignInViewModel>()
+//    // 初始化GoogleAuthClient
+//    val googleAuthUiClient by lazy {
+//        GoogleAuthUiClient(
+//            context = context,
+//            oneTapClient = Identity.getSignInClient(context)
+//        )
+//    }
 
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         NavHost(navController = navController, startDestination = "login") {
             composable("login") {
-                val viewModel = viewModel<SignInViewModel>()
-                val state by viewModel.state.collectAsStateWithLifecycle()
+//                val viewModel = viewModel<SignInViewModel>()
+//                val state by viewModel.state.collectAsStateWithLifecycle()
 
-                LaunchedEffect(key1 = Unit) {
-                    if(googleAuthUiClient.getSignedInUser() != null) {
-                        navController.navigate("profile")
-                    }
-                }
+//                LaunchedEffect(key1 = Unit) {
+//                    if(googleAuthUiClient.getSignedInUser() != null) {
+//                        navController.navigate("profile")
+//                    }
+//                }
 
-                val launcher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.StartIntentSenderForResult(),
-                    onResult = { result ->
-                        if(result.resultCode == RESULT_OK) {
-                            lifecycleScope.launch {
-                                val signInResult = googleAuthUiClient.signInWithIntent(
-                                    intent = result.data ?: return@launch
-                                )
-                                viewModel.onSignInResult(signInResult)
-                            }
-                        }
-                    }
-                )
+//                val launcher = rememberLauncherForActivityResult(
+//                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+//                    onResult = { result ->
+//                        if(result.resultCode == RESULT_OK) {
+//                            lifecycleScope.launch {
+//                                val signInResult = googleAuthUiClient.signInWithIntent(
+//                                    intent = result.data ?: return@launch
+//                                )
+//                                viewModel.onSignInResult(signInResult)
+//                            }
+//                        }
+//                    }
+//                )
 
-                LaunchedEffect(key1 = state.isSignInSuccessful) {
-                    if(state.isSignInSuccessful) {
-                        Toast.makeText(
-                            context,
-                            "Sign in successful",
-                            Toast.LENGTH_LONG
-                        ).show()
-
-                        navController.navigate("profile")
-                        viewModel.resetState()
-                    }
-                }
+//                LaunchedEffect(key1 = state.isSignInSuccessful) {
+//                    if(state.isSignInSuccessful) {
+//                        Toast.makeText(
+//                            context,
+//                            "Sign in successful",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//
+//                        navController.navigate("profile")
+//                        viewModel.resetState()
+//                    }
+//                }
 
                 LoginScreen(
                     navController,
-                    signInState = state,
-                    onSignInClick = {
-                        lifecycleScope.launch {
-                            val signInIntentSender = googleAuthUiClient.signIn()
-                            launcher.launch(
-                                IntentSenderRequest.Builder(
-                                    signInIntentSender ?: return@launch
-                                ).build()
-                            )
-                        }
-                    }
+                    googleSignInClient,
+                    auth
                 )
             }
 //            composable("login") { LoginScreen(navController) }  // 确保 LoginScreen 可以进行导航
@@ -129,18 +137,20 @@ fun App(
             composable("me") { Me(
                 navController,
                 showOverlay,
-                userData = googleAuthUiClient.getSignedInUser(),
-                onSignOut = {
-                    lifecycleScope.launch {
-                        googleAuthUiClient.signOut()
-                        Toast.makeText(
-                            context,
-                            "Signed out",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        navController.popBackStack()
-                    }
-                }
+                googleSignInClient,
+                auth
+//                userData = googleAuthUiClient.getSignedInUser(),
+//                onSignOut = {
+//                    lifecycleScope.launch {
+//                        googleAuthUiClient.signOut()
+//                        Toast.makeText(
+//                            context,
+//                            "Signed out",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                        navController.popBackStack()
+//                    }
+//                }
             ) }
         }
 
@@ -149,7 +159,11 @@ fun App(
         val currentRoute = navBackStackEntry?.destination?.route
 
         if (currentRoute != "login" && currentRoute != "signup" && !showNewPageOverlay.value) {
-            MainNavigationBar(googleAuthUiClient, lifecycleScope    )
+            MainNavigationBar(
+                lifecycleScope,
+                googleSignInClient,
+                auth
+            )
         }
     }
 }

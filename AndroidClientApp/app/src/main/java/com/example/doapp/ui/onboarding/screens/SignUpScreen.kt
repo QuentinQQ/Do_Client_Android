@@ -180,9 +180,12 @@ fun SignUpScreen(
 //                        val userHashMap = hashMapOf("uid" to uid,"email" to email.value, "password" to password.value)
                         // Add user to Firestore
                         db.collection("users").add(userHashMap).addOnSuccessListener {documentReference ->
-                            // Firestore 自动生成的 UID
+                        // Firestore 自动生成的 UID
                             val firestoreUid = documentReference.id
                             val newUser = Users(uid = firestoreUid, email = email.value, password = password.value)
+                            coroutineScope.launch {
+                                viewModel.insertUsers(newUser)
+                            }
                             navController.navigate("login") { popUpTo("signup") { inclusive = true } }
 //                            Toast.makeText(LocalContext.current, "Signup successful", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener { e ->

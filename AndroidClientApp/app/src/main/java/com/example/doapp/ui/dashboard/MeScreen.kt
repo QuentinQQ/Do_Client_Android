@@ -60,20 +60,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.doapp.R
-import com.example.doapp.login.UserData
+//import com.example.doapp.login.UserData
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.CardWhite
 import com.example.doapp.ui.theme.DarkSecondary
 import com.example.doapp.ui.theme.FontGray
 import com.example.doapp.ui.theme.LightBackground
 import com.example.doapp.ui.theme.LightFouth
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun Me(
     navController: NavHostController,
     showNewPageOverlay: MutableState<Boolean>,
-    userData: UserData?,
-    onSignOut: () -> Unit
+    googleSignInClient: GoogleSignInClient,
+    auth: FirebaseAuth
+//    userData: UserData?,
+//    onSignOut: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -95,18 +99,18 @@ fun Me(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if(userData?.profilePictureUrl != null) {
-                    AsyncImage(
-                        model = userData.profilePictureUrl,
-//                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
-                        contentDescription = "Profile Picture",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                }else {
+//                if(userData?.profilePictureUrl != null) {
+//                    AsyncImage(
+//                        model = userData.profilePictureUrl,
+////                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
+//                        contentDescription = "Profile Picture",
+//                        modifier = Modifier
+//                            .size(60.dp)
+//                            .clip(CircleShape)
+//                            .border(2.dp, Color.Gray, CircleShape),
+//                        contentScale = ContentScale.Crop
+//                    )
+//                }else {
                     Image(
                         painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
                         contentDescription = "Profile Picture",
@@ -115,7 +119,7 @@ fun Me(
                             .clip(CircleShape)
                             .border(2.dp, Color.Gray, CircleShape)
                     )
-                }
+//                }
 
 
 //                if(userData?.profilePictureUrl != null) {
@@ -138,22 +142,22 @@ fun Me(
 //                        fontWeight = FontWeight.Bold,
 //                        fontSize = 25.sp
 //                    )
-                    if(userData?.username != null) {
-                        Text(
-                            text = userData.username,
-                            textAlign = TextAlign.Center,
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-//                        Text(text = "User ID: 7894495")
-                    } else {
+//                    if(userData?.username != null) {
+//                        Text(
+//                            text = userData.username,
+//                            textAlign = TextAlign.Center,
+//                            fontSize = 25.sp,
+//                            fontWeight = FontWeight.Bold
+//                        )
+////                        Text(text = "User ID: 7894495")
+//                    } else {
                         Text(
                             text = "User",
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp
                         )
                         Text(text = "User ID: ")
-                    }
+//                    }
                 }
             }
 

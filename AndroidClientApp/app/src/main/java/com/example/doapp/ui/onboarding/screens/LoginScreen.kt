@@ -1,16 +1,11 @@
 package com.example.doapp.ui.onboarding.screens
 
-import android.content.IntentSender
-import android.widget.Toast
-import androidx.activity.ComponentActivity
+import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,18 +16,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -42,7 +34,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,38 +45,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat.startIntentSenderForResult
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
-import com.example.doapp.login.GoogleAuthUiClient
-import com.example.doapp.login.SignInState
-import com.example.doapp.login.SignInViewModel
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
-import kotlinx.coroutines.coroutineScope
+import com.example.doapp.login.firebaseAuthWithGoogle
+import com.example.doapp.login.initiateGoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
+//import com.example.doapp.login.GoogleAuthUiClient
+//import com.example.doapp.login.GoogleSignIn
+//import com.example.doapp.login.SignInState
+//import com.example.doapp.login.SignInViewModel
+//import com.google.android.gms.auth.api.identity.BeginSignInRequest
+//import com.google.android.gms.auth.api.identity.Identity
+//import com.google.android.gms.auth.api.identity.SignInClient
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    signInState: SignInState,
-    onSignInClick: () -> Unit,
+    googleSignInClient: GoogleSignInClient,
+    auth: FirebaseAuth
+//    signInState: SignInState,
+//    signInViewModel: SignInViewModel,
+//    googleAuthUiClient: GoogleAuthUiClient,
+//    onSignInClick: () -> Unit,
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -95,28 +89,95 @@ fun LoginScreen(
     val isLoading = remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = signInState.signInError) {
-        signInState.signInError?.let { error ->
-            Toast.makeText(
-                context,
-                error,
-                Toast.LENGTH_LONG
-            ).show()
+    // 创建 Google 登录的启动器
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                // 使用 Google 令牌进行 Firebase 认证
+                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                auth.signInWithCredential(credential).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        navController.navigate("home")  // 成功后导航至主页
+                    } else {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("Authentication Failed.")
+                        }
+                    }
+                }
+            } catch (e: ApiException) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Google sign-in failed: ${e.localizedMessage}")
+                }
+            }
         }
     }
-//    val signInClient: SignInClient = Identity.getSignInClient(context)
-//    val signInRequest = BeginSignInRequest.builder()
-//
-//    val launcher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.StartIntentSenderForResult()
-//    ) { result ->
-//        if (result.resultCode == ComponentActivity.RESULT_OK) {
-//            val credential = Identity.getSignInClient(context).getSignInCredentialFromIntent(result.data)
-//            val idToken = credential.googleIdToken
-//            // 这里可以使用 idToken 进行进一步的处理，例如使用Firebase进行身份验证
+
+//    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//        .requestIdToken(context.getString(R.string.web_client_id))
+//        .requestEmail()
+//        .build()
+//    val googleSignInClient = GoogleSignIn.getClient(context, gso)
+//    val signInIntent = googleSignInClient.signInIntent
+//    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result.resultCode == RESULT_OK) {
+//            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+//            val account = task.getResult(ApiException::class.java)
+//            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+//            FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { authTask ->
+//                if (authTask.isSuccessful) {
+//                    navController.navigate("home")
+//                } else {
+//                    Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
 //        }
 //    }
 
+//    // 处理 Google 登录的启动器
+//    val googleSignInLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.StartIntentSenderForResult()
+//    ) { result ->
+//        coroutineScope.launch {
+//            isLoading.value = true
+//            try {
+//                val signInResult = googleAuthUiClient.signInWithIntent(result.data ?: return@launch)
+//                signInViewModel.onSignInResult(signInResult)
+//                if (signInResult.data != null) {
+//                    navController.navigate("home") { popUpTo("login") { inclusive = true } }
+//                }
+//            } catch (e: Exception) {
+//                snackbarHostState.showSnackbar("Google sign-in failed: ${e.localizedMessage}")
+//            } finally {
+//                isLoading.value = false
+//            }
+//        }
+//    }
+//
+//    // 当按钮被点击时触发 Google 登录
+//    val onGoogleSignInClick = {
+//        coroutineScope.launch {
+//            val intentSender = googleAuthUiClient.signIn()
+//            if (intentSender != null) {
+//                googleSignInLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
+//            } else {
+//                snackbarHostState.showSnackbar("Error initiating Google sign-in")
+//            }
+//        }
+//    }
+
+//    LaunchedEffect(key1 = signInState.signInError) {
+//        signInState.signInError?.let { error ->
+//            Toast.makeText(
+//                context,
+//                error,
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
+//    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -240,26 +301,11 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    onSignInClick()
-                          //第一种
-//                    // 使用rememberCoroutineScope获取到的协程作用域来启动新协程
-//                    coroutineScope.launch {
-//                        // 调用signIn挂起函数，尝试获取IntentSender
-//                        val signInIntentSender = googleLogin.signIn()
-//                        // 如果获取成功，则构建IntentSenderRequest并启动它
-//                        signInIntentSender?.let {
-//                            val request = IntentSenderRequest.Builder(it).build()
-//                            signInResultLauncher.launch(request)  // 在ActivityResultLauncher中启动IntentSender
-//                        }
-//                    }
-                          //第二种
-//                    coroutineScope.launch {
-//                        googleLogin.signIn()?.let { intentSender ->
-//                            val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
-//                            launcher.launch(intentSenderRequest)
-//                        }
-//                    }
-                          //第三种
+//                    val signInIntent = googleSignInClient.signInIntent
+//                    googleSignInLauncher.launch(signInIntent)
+                    isLoading.value = true
+                    // 调用 initiateGoogleSignIn 函数触发 Google 登录
+                    initiateGoogleSignIn(googleSignInClient, auth, googleSignInLauncher)
                 },
                 modifier = Modifier
                     .size(48.dp)

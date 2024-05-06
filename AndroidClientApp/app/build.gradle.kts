@@ -53,6 +53,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.13.1")
@@ -84,14 +85,12 @@ dependencies {
 
     // import google
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-    // Firebase services using BOM for version management
-//    implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-auth")
 
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
+//    implementation("com.google.firebase:firebase-analytics-ktx")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")

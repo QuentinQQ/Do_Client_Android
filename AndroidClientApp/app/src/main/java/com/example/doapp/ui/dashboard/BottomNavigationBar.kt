@@ -29,7 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.bottomnavigationbar.NavBarItem
-import com.example.doapp.login.GoogleAuthUiClient
+//import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
 import com.example.doapp.ui.dashboard.HomeSubScreens.DetailsScreen
 import com.example.doapp.ui.dashboard.Routes
@@ -37,6 +37,8 @@ import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.example.doapp.ui.dashboard.myprofile.HelpScreen
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.LightBackground
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -86,8 +88,10 @@ fun BottomNavigationBar(
 
 @Composable
 fun MainNavigationBar(
-    googleAuthUiClient: GoogleAuthUiClient,
+//    googleAuthUiClient: GoogleAuthUiClient,
     lifecycleScope: CoroutineScope,
+    googleSignInClient: GoogleSignInClient,
+    auth: FirebaseAuth,
     context: Context = LocalContext.current
 ) {
     val navController = rememberNavController()
@@ -126,19 +130,21 @@ fun MainNavigationBar(
                 Me(
                     navController,
                     showNewPageOverlay,
-                    userData = googleAuthUiClient.getSignedInUser(),
-                    onSignOut = {
-                        lifecycleScope.launch {
-                            googleAuthUiClient.signOut()
-                            Toast.makeText(
-                                context,
-                                "Signed out",
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            navController.popBackStack()
-                        }
-                    }
+                    googleSignInClient,
+                    auth
+//                    userData = googleAuthUiClient.getSignedInUser(),
+//                    onSignOut = {
+//                        lifecycleScope.launch {
+//                            googleAuthUiClient.signOut()
+//                            Toast.makeText(
+//                                context,
+//                                "Signed out",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//
+//                            navController.popBackStack()
+//                        }
+//                    }
                 )
             }
             composable(Routes.AboutDo.value) {
