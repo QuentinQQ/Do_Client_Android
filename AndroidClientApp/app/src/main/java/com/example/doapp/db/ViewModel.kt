@@ -1,24 +1,27 @@
-//import android.app.Application
-//import androidx.lifecycle.AndroidViewModel
-//import androidx.lifecycle.LiveData
-//import androidx.lifecycle.asLiveData
-//import androidx.lifecycle.viewModelScope
-//import com.example.doapp.db.UserInfo
-//import com.example.doapp.db.UserRepository
-//import com.google.firebase.firestore.auth.User
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.launch
-//
-//
-//class UserViewModel(application: Application) : AndroidViewModel(application) {
-//    private val cRepository: UserRepository
-//    init{
-//        cRepository = UserRepository(application) }
-//    val allUsers: LiveData<List<UserInfo>> = cRepository.allUsers.asLiveData()
-//    fun insertUser(userInfo: UserInfo) = viewModelScope.launch(Dispatchers.IO) { cRepository.insertUser(userInfo)
-//    }
-//    fun updateUser(userInfo: UserInfo) = viewModelScope.launch(Dispatchers.IO) { cRepository.updateUser(userInfo)
-//    }
-//    fun deleteUser(userInfo: UserInfo) = viewModelScope.launch(Dispatchers.IO) { cRepository.deleteUser(userInfo)
-//    }
-//}
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.doapp.db.Repository
+import com.example.doapp.db.userinfo.UserInfo
+import com.example.doapp.db.users.Users
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.security.auth.Subject
+
+
+class UserViewModel(application: Application) : AndroidViewModel(application) {
+    private val cRepository: Repository
+    init{
+        cRepository = Repository(application) }
+
+    /*-----Users-----*/
+    val allUsers: LiveData<List<Users>> = cRepository.allUsers.asLiveData()
+    fun insertUsers(users: Users) = viewModelScope.launch(Dispatchers.IO) { cRepository.insertUsers(users)
+    }
+    fun updateSubject(users: Users) = viewModelScope.launch(Dispatchers.IO) { cRepository.updateUsers(users)
+    }
+    fun deleteSubject(users: Users) = viewModelScope.launch(Dispatchers.IO) { cRepository.deleteUsers(users)
+    }
+}

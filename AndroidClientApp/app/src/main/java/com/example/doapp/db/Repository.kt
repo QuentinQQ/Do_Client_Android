@@ -22,20 +22,33 @@ class Repository(application: Application) {
     val allPersonalInfos: Flow<List<PersonalInfo>> = personalInfoDao.getAllPersonalInfos()
     val allPreferences: Flow<List<Preferences>> = preferencesDao.getAllPreferences()
 
-
-    suspend fun insertUser(userInfo: UserInfo) {
-        userInfoDao.insertUser(userInfo)
+    /*-------Users-------*/
+    suspend fun insertUsers(users: Users) {
+        usersDao.insertUser(users)
     }
 
-    suspend fun deleteUser(userInfo: UserInfo) {
-        userInfoDao.deleteUser(userInfo)
+    suspend fun deleteUsers(users: Users) {
+        usersDao.deleteUser(users)
+    }
+
+    suspend fun updateUsers(users: Users) {
+        usersDao.updateUser(users)
+    }
+
+    /*-------Users Info-------*/
+    suspend fun insertUserInfo(userInfo: UserInfo) {
+        userInfoDao.insertUserInfo(userInfo)
+    }
+
+    suspend fun deleteUserInfo(userInfo: UserInfo) {
+        userInfoDao.deleteUserInfo(userInfo)
     }
 
     suspend fun updateUser(userInfo: UserInfo) {
-        userInfoDao.updateUser(userInfo)
+        userInfoDao.updateUserInfo(userInfo)
     }
 
-    // Personal Info-related methods
+    /*-------Personal Info-------*/
     suspend fun insertPersonalInfo(personalInfo: PersonalInfo) {
         personalInfoDao.insertPersonalInfo(personalInfo)
     }
@@ -48,7 +61,7 @@ class Repository(application: Application) {
         personalInfoDao.updatePersonalInfo(personalInfo)
     }
 
-    // Preferences-related methods
+    /*-------Preferences-------*/
     suspend fun insertPreferences(preferences: Preferences) {
         preferencesDao.insertPreferences(preferences)
     }
