@@ -1,5 +1,6 @@
 package com.example.doapp.ui.onboarding.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,12 +47,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
+import com.example.doapp.db.ViewModel
+import com.example.doapp.db.users.Users
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpScreen(navController: NavHostController) {
+fun SignUpScreen(
+    navController: NavHostController,
+    viewModel: ViewModel
+    ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
@@ -157,12 +165,26 @@ fun SignUpScreen(navController: NavHostController) {
             // Sign up button
             Button(
                 onClick = {
-                    if (password.value == confirmPassword.value) {
+                    if (
+                        password.value == confirmPassword.value
+                        && password.value.isNotEmpty()
+                        && confirmPassword.value.isNotEmpty()
+                    ){
                         // Create user data hash map
-                        val user = hashMapOf("email" to email.value, "password" to password.value)
+                        val userHashMap = hashMapOf("email" to email.value, "password" to password.value)
+                        // 本地Room存储用户数据
+//                        val user = Users(email = email.value, password = password.value)
+//                        viewModel.insertUsers(user)
+                        // 用户数据同步云端
+                        // Create user data hash map
+//                        val userHashMap = hashMapOf("uid" to uid,"email" to email.value, "password" to password.value)
                         // Add user to Firestore
-                        db.collection("users").add(user).addOnSuccessListener {
+                        db.collection("users").add(userHashMap).addOnSuccessListener {documentReference ->
+                            // Firestore 自动生成的 UID
+                            val firestoreUid = documentReference.id
+                            val newUser = Users(uid = firestoreUid, email = email.value, password = password.value)
                             navController.navigate("login") { popUpTo("signup") { inclusive = true } }
+//                            Toast.makeText(LocalContext.current, "Signup successful", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener { e ->
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Error adding document: ${e.message}")
@@ -206,9 +228,10 @@ fun SignUpScreen(navController: NavHostController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignUpScreen() {
-    val navController = rememberNavController()
-    SignUpScreen(navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewSignUpScreen() {
+//    val navController = rememberNavController()
+//    val viewModel: ViewModel
+//    SignUpScreen(navController, viewModel)
+//}

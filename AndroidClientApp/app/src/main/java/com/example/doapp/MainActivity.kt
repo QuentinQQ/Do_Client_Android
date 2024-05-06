@@ -1,41 +1,20 @@
 package com.example.doapp
 
-import UserViewModel
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.doapp.login.SignInViewModel
-import com.example.doapp.ui.onboarding.screens.LoginScreen
 import com.google.firebase.FirebaseApp
 import androidx.lifecycle.lifecycleScope
 import com.example.doapp.ui.App
-import com.example.doapp.ui.theme.DoAppTheme
-import kotlinx.coroutines.launch
 
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.text.input.ImeAction.Companion.Go
-import com.example.doapp.ui.App
-import com.example.doapp.login.GoogleAuthUiClient
-import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
+import com.example.doapp.db.ViewModel
 
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: UserViewModel by viewModels()
+    private val viewModel: ViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
