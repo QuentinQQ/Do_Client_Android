@@ -1,5 +1,6 @@
 package com.example.doapp.ui
 
+import UserViewModel
 import android.app.Activity.RESULT_OK
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -70,12 +71,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun App(
-    lifecycleScope: CoroutineScope
+    lifecycleScope: CoroutineScope,
+    userViewModel: UserViewModel
 ) {
     val navController = rememberNavController()
     val showNewPageOverlay = remember { mutableStateOf(false) }
     val showOverlay = remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
+    // for room db
+//    val users by UserViewModel.allUsers.observeAsState(emptyList())
 
     // 初始化GoogleAuthClient
     val googleAuthUiClient by lazy {

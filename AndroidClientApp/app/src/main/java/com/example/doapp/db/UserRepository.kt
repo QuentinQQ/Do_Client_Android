@@ -1,6 +1,12 @@
 package com.example.doapp.db
 
 import android.app.Application
+import com.example.doapp.db.personalInfo.PersonalInfo
+import com.example.doapp.db.personalInfo.PersonalInfoDAO
+import com.example.doapp.db.preferences.Preferences
+import com.example.doapp.db.preferences.PreferencesDAO
+import com.example.doapp.db.userinfo.UserInfo
+import com.example.doapp.db.userinfo.UserInfoDAO
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository(application: Application) {

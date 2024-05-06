@@ -1,5 +1,6 @@
 package com.example.doapp
 
+import UserViewModel
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -22,6 +23,7 @@ import com.example.doapp.ui.theme.DoAppTheme
 import kotlinx.coroutines.launch
 
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -32,6 +34,8 @@ import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +48,7 @@ class MainActivity : ComponentActivity() {
 //            FirebaseApp.initializeApp(this)
 
             val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
-            App(lifecycleScope)
+            App(lifecycleScope, viewModel)
 
 //            val navController = rememberNavController()
 //            AboutDoScreen(navController)

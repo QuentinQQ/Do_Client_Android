@@ -14,7 +14,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val cRepository: UserRepository
     init{
         cRepository = UserRepository(application) }
-    val allUser: LiveData<List<UserInfo>> = cRepository.allUsers.asLiveData()
+    val allUsers: LiveData<List<UserInfo>> = cRepository.allUsers.asLiveData()
     fun insertUser(userInfo: UserInfo) = viewModelScope.launch(Dispatchers.IO) { cRepository.insertUser(userInfo)
     }
     fun updateUser(userInfo: UserInfo) = viewModelScope.launch(Dispatchers.IO) { cRepository.updateUser(userInfo)
