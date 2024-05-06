@@ -69,6 +69,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.*
+import androidx.compose.material3.CircularProgressIndicator
+
 
 
 @Composable
@@ -97,11 +99,10 @@ fun LoginScreen(
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                // 使用 Google 令牌进行 Firebase 认证
-                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                auth.signInWithCredential(credential).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        navController.navigate("home")  // 成功后导航至主页
+                firebaseAuthWithGoogle(account.idToken!!, auth) { isSuccess ->
+                    isLoading.value = false
+                    if (isSuccess) {
+                        navController.navigate("home")
                     } else {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar("Authentication Failed.")
@@ -109,8 +110,16 @@ fun LoginScreen(
                     }
                 }
             } catch (e: ApiException) {
+                isLoading.value = false
                 coroutineScope.launch {
                     snackbarHostState.showSnackbar("Google sign-in failed: ${e.localizedMessage}")
+                }
+            }
+        } else {
+            isLoading.value = false
+            if (result.resultCode == Activity.RESULT_CANCELED) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Google sign-in cancelled")
                 }
             }
         }
@@ -183,6 +192,10 @@ fun LoginScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+//        if (isLoading.value) {
+//            CircularProgressIndicator()
+//        }
+
         SnackbarHost(hostState = snackbarHostState)
 
         Column(
@@ -301,11 +314,12 @@ fun LoginScreen(
 
             Button(
                 onClick = {
+//                    isLoading.value = true
+//                    initiateGoogleSignIn(googleSignInClient, auth, googleSignInLauncher)
+                    isLoading.value = true
 //                    val signInIntent = googleSignInClient.signInIntent
 //                    googleSignInLauncher.launch(signInIntent)
-                    isLoading.value = true
-                    // 调用 initiateGoogleSignIn 函数触发 Google 登录
-                    initiateGoogleSignIn(googleSignInClient, auth, googleSignInLauncher)
+                    initiateGoogleSignIn(googleSignInClient, googleSignInLauncher)
                 },
                 modifier = Modifier
                     .size(48.dp)
