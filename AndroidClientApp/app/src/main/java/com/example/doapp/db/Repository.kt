@@ -7,16 +7,18 @@ import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.preferences.PreferencesDAO
 import com.example.doapp.db.userinfo.UserInfo
 import com.example.doapp.db.userinfo.UserInfoDAO
+import com.example.doapp.db.users.Users
+import com.example.doapp.db.users.UsersDAO
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository(application: Application) {
+class Repository(application: Application) {
+    private var usersDao: UsersDAO = AppDatabase.getDatabase(application).usersDao()
     private var userInfoDao: UserInfoDAO = AppDatabase.getDatabase(application).userInfoDAO()
-    private var personalInfoDao: PersonalInfoDAO =
-        AppDatabase.getDatabase(application).personalInfoDAO()
-    private var preferencesDao: PreferencesDAO =
-        AppDatabase.getDatabase(application).preferencesDAO()
+    private var personalInfoDao: PersonalInfoDAO = AppDatabase.getDatabase(application).personalInfoDAO()
+    private var preferencesDao: PreferencesDAO = AppDatabase.getDatabase(application).preferencesDAO()
 
-    val allUsers: Flow<List<UserInfo>> = userInfoDao.getAllUsers()
+    val allUsers: Flow<List<Users>> = usersDao.getAllUsersByUid()
+    val allUserInfo: Flow<List<UserInfo>> = userInfoDao.getAllUserInfoByUid()
     val allPersonalInfos: Flow<List<PersonalInfo>> = personalInfoDao.getAllPersonalInfos()
     val allPreferences: Flow<List<Preferences>> = preferencesDao.getAllPreferences()
 
