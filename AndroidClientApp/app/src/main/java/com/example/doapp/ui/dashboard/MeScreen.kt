@@ -119,13 +119,13 @@ fun Me(
                         AsyncImage(
                             model = url,
                             contentDescription = "Profile Picture",
-                            modifier = Modifier.size(60.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape),
+                            modifier = Modifier.size(80.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape),
                             contentScale = ContentScale.Crop
                         )
                     } ?: Image(
                         painter = rememberVectorPainter(image = Icons.Default.AccountCircle),
                         contentDescription = "Default Profile Picture",
-                        modifier = Modifier.size(60.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape)
+                        modifier = Modifier.size(80.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape)
                     )
                 }
 
@@ -133,11 +133,15 @@ fun Me(
 
                 Column {
                     Text(
-                        text = "User",
+                        text = userInfo?.userName ?: "Do",
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
                     )
-                    Text(text = "User ID: ")
+
+                    // 如果用户 ID 不为空，则显示 "User ID: [ID]"，否则显示 "User ID: [默认值]"
+                    Text(
+                        text = "User ID: ${userInfo?.userId ?: "default ID"}"
+                    )
                 }
             }
 

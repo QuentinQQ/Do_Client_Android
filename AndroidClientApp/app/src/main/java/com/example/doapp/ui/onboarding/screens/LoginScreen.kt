@@ -104,7 +104,7 @@ fun LoginScreen(
                         val userPhotoUrl = account.photoUrl.toString()
                         val userEmail = account.email.toString()
                         coroutineScope.launch {
-                            viewModel.insertUserInfo(UserInfo(userId, userId, userEmail, userName, userPhotoUrl)) // 保存用户数据到本地
+                            viewModel.updateUserInfo(UserInfo(userId, userId, userEmail, userName, userPhotoUrl)) // 保存用户数据到本地
                             saveUserId(context, userId) //保存userId
                         }
                         navController.navigate("home")

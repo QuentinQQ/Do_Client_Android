@@ -33,7 +33,15 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         return cRepository.getUserInfoById(userId).asLiveData()
     }
     fun insertUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.insertUserInfo(userInfo)}
-    fun updateUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.updateUserInfo(userInfo)}
+    fun updateUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){
+        cRepository.getUserInfoById(userInfo.userId).collect { existingUser ->
+            if (existingUser != null) {
+                cRepository.updateUserInfo(userInfo)
+            } else {
+                cRepository.insertUserInfo(userInfo)
+            }
+        }
+    }
     fun deleteUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.deleteUserInfo(userInfo)}
 
 }
