@@ -101,8 +101,9 @@ fun LoginScreen(
                         val userId = account.id.toString()
                         val userName = account.displayName.toString()
                         val userPhotoUrl = account.photoUrl.toString()
-                        val userEmail = account.email
+                        val userEmail = account.email.toString()
                         coroutineScope.launch {
+                            viewModel.insertUserInfo(UserInfo(userId, userId, userEmail, userName, userPhotoUrl))
                         }
                         navController.navigate("home")
                     } else {

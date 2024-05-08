@@ -44,7 +44,7 @@ class Repository(application: Application) {
         userInfoDao.deleteUserInfo(userInfo)
     }
 
-    suspend fun updateUser(userInfo: UserInfo) {
+    suspend fun updateUserInfo(userInfo: UserInfo) {
         userInfoDao.updateUserInfo(userInfo)
     }
 

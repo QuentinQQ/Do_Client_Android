@@ -62,6 +62,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.doapp.R
+import com.example.doapp.db.ViewModel
 import com.example.doapp.login.UserData
 //import com.example.doapp.login.UserData
 import com.example.doapp.ui.theme.ButtonBlue
@@ -80,9 +81,11 @@ fun Me(
     showNewPageOverlay: MutableState<Boolean>,
     googleSignInClient: GoogleSignInClient,
     auth: FirebaseAuth,
-    userData: UserData?
+    viewModel: ViewModel
+//    userData: UserData?
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val currentUserId =
 
     Column(
         modifier = Modifier
@@ -104,48 +107,25 @@ fun Me(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                if(userData?.profilePictureUrl != null) {
-//                    AsyncImage(
-//                        model = userData.profilePictureUrl,
-////                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
-//                        contentDescription = "Profile Picture",
-//                        modifier = Modifier
-//                            .size(60.dp)
-//                            .clip(CircleShape)
-//                            .border(2.dp, Color.Gray, CircleShape),
-//                        contentScale = ContentScale.Crop
-//                    )
-//                }else {
-                    Image(
-//                        painter = rememberVectorPainter(image = Icons.Filled.AccountCircle),
-//                        contentDescription = "Profile Picture",
-//                        modifier = Modifier
-//                            .size(60.dp)
-//                            .clip(CircleShape)
-//                            .border(2.dp, Color.Gray, CircleShape)
-
-                        painter = if (userData?.profilePictureUrl != null) rememberImagePainter(userData.profilePictureUrl) else rememberVectorPainter(Icons.Default.AccountCircle),
+                currentUserInfo?.profilePictureUrl?.let { url ->
+                    AsyncImage(
+                        model = url,
                         contentDescription = "Profile Picture",
                         modifier = Modifier
                             .size(60.dp)
                             .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
+                            .border(2.dp, Color.Gray, CircleShape),
+                        contentScale = ContentScale.Crop
                     )
+                } ?: Image(
+                    painter = rememberVectorPainter(image = Icons.Default.AccountCircle),
+                    contentDescription = "Default Profile Picture",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .border(2.dp, Color.Gray, CircleShape)
+                )
 //                }
-
-
-//                if(userData?.profilePictureUrl != null) {
-//                    AsyncImage(
-//                        model = userData.profilePictureUrl,
-//                        contentDescription = "Profile picture",
-//                        modifier = Modifier
-//                            .size(150.dp)
-//                            .clip(CircleShape),
-//                        contentScale = ContentScale.Crop
-//                    )
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                }
-
                 Spacer(Modifier.width(20.dp))
 
                 Column {

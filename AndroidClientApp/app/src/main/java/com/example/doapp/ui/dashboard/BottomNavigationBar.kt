@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.bottomnavigationbar.NavBarItem
+import com.example.doapp.db.ViewModel
 import com.example.doapp.login.UserData
 //import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
@@ -93,7 +94,8 @@ fun MainNavigationBar(
     lifecycleScope: CoroutineScope,
     googleSignInClient: GoogleSignInClient,
     auth: FirebaseAuth,
-    userData: UserData?,
+    viewModel: ViewModel,
+//    userData: UserData?,
     context: Context = LocalContext.current
 ) {
     val navController = rememberNavController()
@@ -134,7 +136,8 @@ fun MainNavigationBar(
                     showNewPageOverlay,
                     googleSignInClient,
                     auth,
-                    userData = userData
+                    viewModel
+//                    userData = userData
 //                    userData = googleAuthUiClient.getSignedInUser(),
 //                    onSignOut = {
 //                        lifecycleScope.launch {

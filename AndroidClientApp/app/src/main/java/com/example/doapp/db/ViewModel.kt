@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.doapp.db.Repository
+import com.example.doapp.db.userinfo.UserInfo
 import com.example.doapp.db.users.Users
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,4 +26,11 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun deleteSubject(users: Users) = viewModelScope.launch(Dispatchers.IO) { cRepository.deleteUsers(users)
     }
+
+    /*-----User Info-----*/
+    val allUserInfo: LiveData<List<UserInfo>> = cRepository.allUserInfo.asLiveData()
+    fun insertUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.insertUserInfo(userInfo)}
+    fun updateUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.updateUserInfo(userInfo)}
+    fun deleteUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.deleteUserInfo(userInfo)}
+
 }

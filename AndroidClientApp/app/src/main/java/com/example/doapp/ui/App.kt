@@ -143,7 +143,8 @@ fun App(
                 showOverlay,
                 googleSignInClient,
                 auth,
-                userData = userData.value
+                viewModel
+//                userData = userData.value
 
 //                userData = googleAuthUiClient.getSignedInUser(),
 //                onSignOut = {
@@ -169,7 +170,8 @@ fun App(
                 lifecycleScope,
                 googleSignInClient,
                 auth,
-                userData = userData.value
+                viewModel
+//                userData = userData.value
             )
         }
     }
