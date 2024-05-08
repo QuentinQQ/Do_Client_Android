@@ -10,6 +10,7 @@ import com.example.doapp.ui.App
 import androidx.activity.viewModels
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.example.doapp.db.ViewModel
+import com.example.doapp.db.exercise.fitness_movement.FitnessMovement
 //import com.example.doapp.login.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -39,10 +40,8 @@ class MainActivity : ComponentActivity() {
         auth = FirebaseAuth.getInstance()
 
         setContent {
-//            DoAppTheme {
-//                BottomNavigationBar()
-//            }
-//            FirebaseApp.initializeApp(this)
+            // 初始化健身动作数据
+//            populateGymEquipmentMovements(viewModel)
 
             val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
             App(lifecycleScope, viewModel, googleSignInClient, auth)
@@ -52,6 +51,39 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+//    private fun populateGymEquipmentMovements(viewModel: ViewModel) {
+//        val movements = listOf(
+//            FitnessMovement("FM101", "Flat Bench Press", "Chest"),
+//            FitnessMovement("FM102", "Incline Bench Press", "Chest"),
+//            FitnessMovement("FM103", "Decline Bench Press", "Chest"),
+//            FitnessMovement("FM104", "Chest Fly Machine", "Chest"),
+//            FitnessMovement("FM105", "Cable Crossovers", "Chest"),
+//            FitnessMovement("FM201", "Lat Pull Down", "Back"),
+//            FitnessMovement("FM202", "Seated Cable Row", "Back"),
+//            FitnessMovement("FM203", "T-Bar Row", "Back"),
+//            FitnessMovement("FM204", "Pull-Ups (Assisted)", "Back"),
+//            FitnessMovement("FM205", "Back Extension", "Back"),
+//            FitnessMovement("FM301", "Leg Press", "Legs"),
+//            FitnessMovement("FM302", "Squat Machine", "Legs"),
+//            FitnessMovement("FM303", "Leg Curl Machine", "Legs"),
+//            FitnessMovement("FM304", "Leg Extension Machine", "Legs"),
+//            FitnessMovement("FM305", "Calf Raise Machine", "Legs"),
+//            FitnessMovement("FM401", "Shoulder Press Machine", "Shoulders"),
+//            FitnessMovement("FM402", "Lateral Raise Machine", "Shoulders"),
+//            FitnessMovement("FM403", "Front Raise Cable", "Shoulders"),
+//            FitnessMovement("FM404", "Reverse Fly Machine", "Shoulders"),
+//            FitnessMovement("FM405", "Dumbbell Shrugs", "Shoulders"),
+//            FitnessMovement("FM501", "Bicep Curl Machine", "Arms"),
+//            FitnessMovement("FM502", "Tricep Extension Machine", "Arms"),
+//            FitnessMovement("FM503", "Cable Bicep Curl", "Arms"),
+//            FitnessMovement("FM504", "Cable Tricep Down", "Arms"),
+//            FitnessMovement("FM505", "Forearm Curl", "Arms")
+//        )
+//
+//        movements.forEach { movement ->
+//            viewModel.insertFitnessMovement(movement)
+//        }
+//    }
 }
 
 

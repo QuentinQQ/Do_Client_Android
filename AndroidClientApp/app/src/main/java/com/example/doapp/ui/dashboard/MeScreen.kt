@@ -90,7 +90,6 @@ fun Me(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val userId = getUserId(context)
-
     val userInfo = userId?.let { viewModel.getUserInfoById(it).observeAsState().value }
 
     Column(
@@ -357,12 +356,12 @@ fun Me(
                 coroutineScope.launch {
                     googleSignInClient.signOut().addOnCompleteListener {
                         if (it.isSuccessful) {
-                            auth.signOut()  // Ensure Firebase auth is also cleared
+                            auth.signOut()
                             navController.navigate("login") {
                                 popUpTo("home") { inclusive = true }  // Clear back stack
                             }
                         } else {
-                            // Handle error, possibly show a Snackbar
+                            // Handle error
                         }
                     }
                 }

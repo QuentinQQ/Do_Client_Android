@@ -4,6 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.doapp.db.exercise.fitness_movement.FitnessMovement
+import com.example.doapp.db.exercise.fitness_movement.FitnessMovementDao
+import com.example.doapp.db.exercise.official_course.EachActionDetail
+import com.example.doapp.db.exercise.official_course.EachActionDetailDao
+import com.example.doapp.db.exercise.official_course.OfficialCourse
+import com.example.doapp.db.exercise.official_course.OfficialCourseDao
+import com.example.doapp.db.exercise.official_course.OfficialCourseSchedule
+import com.example.doapp.db.exercise.official_course.OfficialCourseScheduleDao
 import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.preferences.PreferencesDAO
 import com.example.doapp.db.personal_info.PersonalInfo
@@ -18,9 +26,13 @@ import com.example.doapp.db.users.UsersDAO
         Users::class,
         UserInfo::class,
         PersonalInfo::class,
-        Preferences::class
-               ],
-    version = 5,
+        Preferences::class,
+        FitnessMovement::class,
+        OfficialCourse::class,
+        OfficialCourseSchedule::class,
+        EachActionDetail::class
+    ],
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -28,6 +40,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userInfoDAO(): UserInfoDAO
     abstract fun personalInfoDAO(): PersonalInfoDAO
     abstract fun preferencesDAO(): PreferencesDAO
+    abstract fun fitnessMovementDao(): FitnessMovementDao
+    abstract fun officialCourseDao(): OfficialCourseDao
+    abstract fun officialCourseScheduleDao(): OfficialCourseScheduleDao
+    abstract fun eachActionDetailDao(): EachActionDetailDao
 
     companion object {
         @Volatile
