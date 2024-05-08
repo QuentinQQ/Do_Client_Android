@@ -36,6 +36,10 @@ class Repository(application: Application) {
     }
 
     /*-------Users Info-------*/
+    fun getUserInfoById(userId: String): Flow<UserInfo?> {
+        return userInfoDao.getUserInfoById(userId)
+    }
+
     suspend fun insertUserInfo(userInfo: UserInfo) {
         userInfoDao.insertUserInfo(userInfo)
     }

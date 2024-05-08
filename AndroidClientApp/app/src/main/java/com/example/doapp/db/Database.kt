@@ -20,7 +20,7 @@ import com.example.doapp.db.users.UsersDAO
         PersonalInfo::class,
         Preferences::class
                ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

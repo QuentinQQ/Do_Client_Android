@@ -136,7 +136,8 @@ fun MainNavigationBar(
                     showNewPageOverlay,
                     googleSignInClient,
                     auth,
-                    viewModel
+                    viewModel,
+                    context
 //                    userData = userData
 //                    userData = googleAuthUiClient.getSignedInUser(),
 //                    onSignOut = {

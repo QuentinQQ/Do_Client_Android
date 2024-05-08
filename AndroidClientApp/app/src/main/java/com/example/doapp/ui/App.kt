@@ -143,7 +143,8 @@ fun App(
                 showOverlay,
                 googleSignInClient,
                 auth,
-                viewModel
+                viewModel,
+                context
 //                userData = userData.value
 
 //                userData = googleAuthUiClient.getSignedInUser(),

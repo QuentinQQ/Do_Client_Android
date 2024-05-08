@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.dataProcess.saveUserId
 import com.example.doapp.db.ViewModel
 import com.example.doapp.db.userinfo.UserInfo
 import com.example.doapp.db.userinfo.UserInfoDAO
@@ -103,7 +104,8 @@ fun LoginScreen(
                         val userPhotoUrl = account.photoUrl.toString()
                         val userEmail = account.email.toString()
                         coroutineScope.launch {
-                            viewModel.insertUserInfo(UserInfo(userId, userId, userEmail, userName, userPhotoUrl))
+                            viewModel.insertUserInfo(UserInfo(userId, userId, userEmail, userName, userPhotoUrl)) // 保存用户数据到本地
+                            saveUserId(context, userId) //保存userId
                         }
                         navController.navigate("home")
                     } else {
@@ -334,6 +336,8 @@ fun handleLogin(
         }
     isLoading.value = false  // Stop loading
 }
+
+
 
 
 //@Preview(showBackground = true)

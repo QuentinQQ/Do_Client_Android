@@ -1,5 +1,6 @@
 package com.example.doapp.ui.dashboard
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,6 +41,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,6 +64,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.doapp.R
+import com.example.doapp.dataProcess.getUserId
 import com.example.doapp.db.ViewModel
 import com.example.doapp.login.UserData
 //import com.example.doapp.login.UserData
@@ -81,11 +84,14 @@ fun Me(
     showNewPageOverlay: MutableState<Boolean>,
     googleSignInClient: GoogleSignInClient,
     auth: FirebaseAuth,
-    viewModel: ViewModel
+    viewModel: ViewModel,
+    context: Context
 //    userData: UserData?
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val currentUserId =
+    val userId = getUserId(context)
+
+    val userInfo = userId?.let { viewModel.getUserInfoById(it).observeAsState().value }
 
     Column(
         modifier = Modifier
@@ -107,49 +113,31 @@ fun Me(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                currentUserInfo?.profilePictureUrl?.let { url ->
-                    AsyncImage(
-                        model = url,
-                        contentDescription = "Profile Picture",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape),
-                        contentScale = ContentScale.Crop
+                Column {
+
+                    userInfo?.profilePhotoUrl?.let { url ->
+                        AsyncImage(
+                            model = url,
+                            contentDescription = "Profile Picture",
+                            modifier = Modifier.size(60.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } ?: Image(
+                        painter = rememberVectorPainter(image = Icons.Default.AccountCircle),
+                        contentDescription = "Default Profile Picture",
+                        modifier = Modifier.size(60.dp).clip(CircleShape).border(2.dp, Color.Gray, CircleShape)
                     )
-                } ?: Image(
-                    painter = rememberVectorPainter(image = Icons.Default.AccountCircle),
-                    contentDescription = "Default Profile Picture",
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.Gray, CircleShape)
-                )
-//                }
+                }
+
                 Spacer(Modifier.width(20.dp))
 
                 Column {
-//                    Text(
-//                        text = "Quentin",
-//                        fontWeight = FontWeight.Bold,
-//                        fontSize = 25.sp
-//                    )
-//                    if(userData?.username != null) {
-//                        Text(
-//                            text = userData.username,
-//                            textAlign = TextAlign.Center,
-//                            fontSize = 25.sp,
-//                            fontWeight = FontWeight.Bold
-//                        )
-////                        Text(text = "User ID: 7894495")
-//                    } else {
-                        Text(
-                            text = "User",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 25.sp
-                        )
-                        Text(text = "User ID: ")
-//                    }
+                    Text(
+                        text = "User",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp
+                    )
+                    Text(text = "User ID: ")
                 }
             }
 
@@ -390,7 +378,9 @@ fun Me(
             modifier = Modifier.fillMaxSize()
         ) {
             // Cover a scrim
-            Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(0.5f)))
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray.copy(0.5f)))
 
             // add content in this scrim
             // 在这个遮罩层中添加内容

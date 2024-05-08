@@ -29,6 +29,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     /*-----User Info-----*/
     val allUserInfo: LiveData<List<UserInfo>> = cRepository.allUserInfo.asLiveData()
+    fun getUserInfoById(userId: String): LiveData<UserInfo?> {
+        return cRepository.getUserInfoById(userId).asLiveData()
+    }
     fun insertUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.insertUserInfo(userInfo)}
     fun updateUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.updateUserInfo(userInfo)}
     fun deleteUserInfo(userInfo: UserInfo) = viewModelScope.launch (Dispatchers.IO){cRepository.deleteUserInfo(userInfo)}
