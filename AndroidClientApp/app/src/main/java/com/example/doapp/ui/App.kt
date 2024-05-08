@@ -39,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.livedata.observeAsState
 import com.example.doapp.db.ViewModel
 import com.example.doapp.db.users.Users
+import com.example.doapp.login.UserData
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CoroutineScope
@@ -61,6 +62,8 @@ fun App(
     val users by viewModel.allUsers.observeAsState()
     val selectedUser = remember { mutableStateOf<Users?>(null) }
     val insertDialog = remember { mutableStateOf(false) }
+
+    val userData = remember { mutableStateOf<UserData?>(null) }
 
 //    // 谷歌登录初始化
 //    val auth = FirebaseAuth.getInstance()
@@ -125,7 +128,8 @@ fun App(
                 LoginScreen(
                     navController,
                     googleSignInClient,
-                    auth
+                    auth,
+                    viewModel
                 )
             }
 //            composable("login") { LoginScreen(navController) }  // 确保 LoginScreen 可以进行导航
@@ -138,7 +142,9 @@ fun App(
                 navController,
                 showOverlay,
                 googleSignInClient,
-                auth
+                auth,
+                userData = userData.value
+
 //                userData = googleAuthUiClient.getSignedInUser(),
 //                onSignOut = {
 //                    lifecycleScope.launch {
@@ -162,7 +168,8 @@ fun App(
             MainNavigationBar(
                 lifecycleScope,
                 googleSignInClient,
-                auth
+                auth,
+                userData = userData.value
             )
         }
     }

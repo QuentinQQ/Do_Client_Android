@@ -49,27 +49,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.db.ViewModel
+import com.example.doapp.db.userinfo.UserInfo
+import com.example.doapp.db.userinfo.UserInfoDAO
 import com.example.doapp.login.firebaseAuthWithGoogle
 import com.example.doapp.login.initiateGoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
-//import com.example.doapp.login.GoogleAuthUiClient
-//import com.example.doapp.login.GoogleSignIn
-//import com.example.doapp.login.SignInState
-//import com.example.doapp.login.SignInViewModel
-//import com.google.android.gms.auth.api.identity.BeginSignInRequest
-//import com.google.android.gms.auth.api.identity.Identity
-//import com.google.android.gms.auth.api.identity.SignInClient
 import kotlinx.coroutines.launch
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.*
-import androidx.compose.material3.CircularProgressIndicator
 
 
 
@@ -77,7 +72,8 @@ import androidx.compose.material3.CircularProgressIndicator
 fun LoginScreen(
     navController: NavHostController,
     googleSignInClient: GoogleSignInClient,
-    auth: FirebaseAuth
+    auth: FirebaseAuth,
+    viewModel: ViewModel
 //    signInState: SignInState,
 //    signInViewModel: SignInViewModel,
 //    googleAuthUiClient: GoogleAuthUiClient,
@@ -99,9 +95,15 @@ fun LoginScreen(
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account.idToken!!, auth) { isSuccess ->
+                firebaseAuthWithGoogle(account.idToken!!, auth) { isSuccess, user ->
                     isLoading.value = false
                     if (isSuccess) {
+                        val userId = account.id.toString()
+                        val userName = account.displayName.toString()
+                        val userPhotoUrl = account.photoUrl.toString()
+                        val userEmail = account.email
+                        coroutineScope.launch {
+                        }
                         navController.navigate("home")
                     } else {
                         coroutineScope.launch {
@@ -124,69 +126,6 @@ fun LoginScreen(
             }
         }
     }
-
-//    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//        .requestIdToken(context.getString(R.string.web_client_id))
-//        .requestEmail()
-//        .build()
-//    val googleSignInClient = GoogleSignIn.getClient(context, gso)
-//    val signInIntent = googleSignInClient.signInIntent
-//    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == RESULT_OK) {
-//            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-//            val account = task.getResult(ApiException::class.java)
-//            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-//            FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { authTask ->
-//                if (authTask.isSuccessful) {
-//                    navController.navigate("home")
-//                } else {
-//                    Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-
-//    // 处理 Google 登录的启动器
-//    val googleSignInLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.StartIntentSenderForResult()
-//    ) { result ->
-//        coroutineScope.launch {
-//            isLoading.value = true
-//            try {
-//                val signInResult = googleAuthUiClient.signInWithIntent(result.data ?: return@launch)
-//                signInViewModel.onSignInResult(signInResult)
-//                if (signInResult.data != null) {
-//                    navController.navigate("home") { popUpTo("login") { inclusive = true } }
-//                }
-//            } catch (e: Exception) {
-//                snackbarHostState.showSnackbar("Google sign-in failed: ${e.localizedMessage}")
-//            } finally {
-//                isLoading.value = false
-//            }
-//        }
-//    }
-//
-//    // 当按钮被点击时触发 Google 登录
-//    val onGoogleSignInClick = {
-//        coroutineScope.launch {
-//            val intentSender = googleAuthUiClient.signIn()
-//            if (intentSender != null) {
-//                googleSignInLauncher.launch(IntentSenderRequest.Builder(intentSender).build())
-//            } else {
-//                snackbarHostState.showSnackbar("Error initiating Google sign-in")
-//            }
-//        }
-//    }
-
-//    LaunchedEffect(key1 = signInState.signInError) {
-//        signInState.signInError?.let { error ->
-//            Toast.makeText(
-//                context,
-//                error,
-//                Toast.LENGTH_LONG
-//            ).show()
-//        }
-//    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -392,7 +331,7 @@ fun handleLogin(
                 snackbarHostState.showSnackbar("Failed to query database: ${exception.message}", duration = SnackbarDuration.Short)
             }
         }
-    isLoading.value = false // Stop loading
+    isLoading.value = false  // Stop loading
 }
 
 
