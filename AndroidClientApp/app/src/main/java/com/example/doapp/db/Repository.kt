@@ -1,8 +1,8 @@
 package com.example.doapp.db
 
 import android.app.Application
-import com.example.doapp.db.personalInfo.PersonalInfo
-import com.example.doapp.db.personalInfo.PersonalInfoDAO
+import com.example.doapp.db.personal_info.PersonalInfo
+import com.example.doapp.db.personal_info.PersonalInfoDAO
 import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.preferences.PreferencesDAO
 import com.example.doapp.db.userinfo.UserInfo

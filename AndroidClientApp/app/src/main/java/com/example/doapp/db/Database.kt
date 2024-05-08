@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.preferences.PreferencesDAO
-import com.example.doapp.db.personalInfo.PersonalInfo
-import com.example.doapp.db.personalInfo.PersonalInfoDAO
+import com.example.doapp.db.personal_info.PersonalInfo
+import com.example.doapp.db.personal_info.PersonalInfoDAO
 import com.example.doapp.db.userinfo.UserInfo
 import com.example.doapp.db.userinfo.UserInfoDAO
 import com.example.doapp.db.users.Users

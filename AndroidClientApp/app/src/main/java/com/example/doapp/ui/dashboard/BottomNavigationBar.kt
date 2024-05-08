@@ -1,28 +1,20 @@
 package com.example.doapp.ui.dashboard
 
 import android.content.Context
-import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home import androidx.compose.material3.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDestination.Companion.hierarchy import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,11 +22,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.bottomnavigationbar.NavBarItem
 import com.example.doapp.db.ViewModel
-import com.example.doapp.login.UserData
 //import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
-import com.example.doapp.ui.dashboard.HomeSubScreens.DetailsScreen
-import com.example.doapp.ui.dashboard.Routes
+import com.example.doapp.ui.dashboard.home.DetailsScreen
 import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.example.doapp.ui.dashboard.myprofile.HelpScreen
 import com.example.doapp.ui.theme.ButtonBlue
@@ -42,7 +32,6 @@ import com.example.doapp.ui.theme.LightBackground
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @Composable
