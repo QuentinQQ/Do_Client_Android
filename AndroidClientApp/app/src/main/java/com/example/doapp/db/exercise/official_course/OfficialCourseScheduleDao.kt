@@ -22,7 +22,7 @@ interface OfficialCourseScheduleDao {
     fun getOfficialCourseScheduleByScheduleId(scheduleId: String): Flow<OfficialCourseSchedule>
 
     @Query("SELECT * FROM OfficialCourseSchedule WHERE courseId = :courseId")
-    fun getOfficialCourseScheduleByCourseId(courseId: String): Flow<OfficialCourseSchedule>
+    fun getOfficialCourseScheduleByCourseId(courseId: String): Flow<List<OfficialCourseSchedule>>
 
     @Query("SELECT * FROM OfficialCourseSchedule")
     fun getAllOfficialCourseSchedules(): Flow<List<OfficialCourseSchedule>>

@@ -147,7 +147,7 @@ class Repository(application: Application) {
     suspend fun getOfficialCourseScheduleByScheduleId(scheduleId: String): Flow<OfficialCourseSchedule> =
         officialCourseScheduleDao.getOfficialCourseScheduleByScheduleId(scheduleId)
 
-    suspend fun getOfficialCourseScheduleByCourseId(courseId: String): Flow<OfficialCourseSchedule> =
+    suspend fun getOfficialCourseScheduleByCourseId(courseId: String): Flow<List<OfficialCourseSchedule>> =
         officialCourseScheduleDao.getOfficialCourseScheduleByCourseId(courseId)
 
     suspend fun getAllOfficialCourseSchedules(): Flow<List<OfficialCourseSchedule>> =

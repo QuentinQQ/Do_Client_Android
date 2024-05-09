@@ -28,6 +28,7 @@ data class EachActionDetail(
     val detailId: String,
     val scheduleId: String, // 外键，关联到 OfficialCourseSchedule
     val movementId: String, // 动作id
+    val movementName: String,
     val sequenceNum: Int, // 动作的顺序编号，在同一 OfficialCourseSchedule 内唯一
     val sets: Int, // 组数
     val weight: Double // 重量

@@ -106,7 +106,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getAllOfficialCourses(): LiveData<List<OfficialCourse>> =
         cRepository.getAllOfficialCourses().asLiveData()
-    suspend fun getOfficialCourseByName(courseName: String): LiveData<OfficialCourse> =
+    suspend fun getOfficialCourseByName(courseName: String): LiveData<OfficialCourse?> =
         cRepository.getOfficialCourseByName(courseName).asLiveData()
     suspend fun getOfficialCourseById(courseId: String): LiveData<OfficialCourse?> =
         cRepository.getOfficialCourseById(courseId).asLiveData()
@@ -126,7 +126,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         }
     suspend fun getOfficialCourseScheduleByScheduleId(scheduleId: String): LiveData<OfficialCourseSchedule?> =
         cRepository.getOfficialCourseScheduleByScheduleId(scheduleId).asLiveData()
-    suspend fun getOfficialCourseScheduleByCourseId(courseId: String): LiveData<OfficialCourseSchedule> =
+    suspend fun getOfficialCourseScheduleByCourseId(courseId: String): LiveData<List<OfficialCourseSchedule>> =
         cRepository.getOfficialCourseScheduleByCourseId(courseId).asLiveData()
     suspend fun getAllOfficialCourseSchedules(): LiveData<List<OfficialCourseSchedule>> =
         cRepository.getAllOfficialCourseSchedules().asLiveData()

@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
 //     初始化 fitness movement的数据
     private fun populateGymEquipmentMovements(viewModel: ViewModel) {
         val movements = listOf(
-            FitnessMovement("FM101", "Flat Bench Press", "Chest"),
+//            FitnessMovement("FM101", "Flat Bench Press", "Chest"),
             FitnessMovement("FM102", "Incline Bench Press", "Chest"),
             FitnessMovement("FM103", "Decline Bench Press", "Chest"),
             FitnessMovement("FM104", "Chest Fly Machine", "Chest"),
@@ -104,8 +104,8 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             // Insert movements here, or check if they exist before inserting
             // For example purposes, insert a course and its schedules
-            val course = OfficialCourse("OC1001", "Basic Full Body Workout For Male", 7, "Full body workout for beginners.")
-            viewModel.insertOfficialCourse(course)
+//            val course = OfficialCourse("OC1001", "Basic Full Body Workout For Male", 7, "Full body workout for beginners.")
+//            viewModel.insertOfficialCourse(course)
 
             // Create and insert schedules
             val schedules = listOf(
@@ -123,23 +123,23 @@ class MainActivity : ComponentActivity() {
 
             // Insert action details assuming movements are pre-defined and have specific IDs
             val actionDetails = listOf(
-                EachActionDetail("AD101", "SCH1001", "FM101", 1, 3, 20.0), // 平板杠铃卧推
-                EachActionDetail("AD102", "SCH1001", "FM204", 2, 3, 0.0), // 引体向上（假设用体重）
-                EachActionDetail("AD103", "SCH1001", "FM102", 3, 3, 15.0), // 斜板杠铃卧推
-                EachActionDetail("AD104", "SCH1001", "FM202", 4, 3, 25.0),  // 单臂哑铃划船（替代）
-                EachActionDetail("AD201", "SCH1002", "FM301", 1, 3, 40.0), // 腿部推蹬
-                EachActionDetail("AD202", "SCH1002", "FM302", 2, 3, 30.0), // 深蹲
-                EachActionDetail("AD203", "SCH1002", "FM303", 3, 3, 20.0), // 腿弯举
-                EachActionDetail("AD204", "SCH1002", "FM305", 4, 3, 10.0),  // 小腿提踵
-                EachActionDetail("AD301", "SCH1004", "FM401", 1, 3, 20.0), // 肩部推举
-                EachActionDetail("AD302", "SCH1004", "FM402", 2, 3, 5.0),  // 哑铃侧平举（替代）
-                EachActionDetail("AD303", "SCH1004", "FM101", 3, 3, 20.0), // 杠铃卧推
-                EachActionDetail("AD304", "SCH1004", "FM503", 4, 3, 10.0), // 弯举（替代）
-                EachActionDetail("AD305", "SCH1004", "FM502", 5, 3, 10.0),  // 颈后臂屈伸（替代）
-                EachActionDetail("AD401", "SCH1006", "FM105", 1, 3, 5.0),  // 哑铃飞鸟（替代）
-                EachActionDetail("AD402", "SCH1006", "FM201", 2, 3, 20.0), // 坡度拉力器下拉（替代）
-                EachActionDetail("AD403", "SCH1006", "FM101", 3, 3, 20.0), // 杠铃卧推
-                EachActionDetail("AD404", "SCH1006", "FM105", 4, 3, 5.0)   // 哑铃飞鸟（替代）
+                EachActionDetail("AD101", "SCH1001", "FM101", "Flat Bench Press", 1, 3, 20.0), // 平板杠铃卧推
+                EachActionDetail("AD102", "SCH1001", "FM204", "Pull-Ups (Assisted)", 2, 3, 0.0), // 引体向上（假设用体重）
+                EachActionDetail("AD103", "SCH1001", "FM102", "Incline Bench Press", 3, 3, 15.0), // 斜板杠铃卧推
+                EachActionDetail("AD104", "SCH1001", "FM202", "Seated Cable Row", 4, 3, 25.0), // 单臂哑铃划船（替代）
+                EachActionDetail("AD201", "SCH1002", "FM301", "Leg Press", 1, 3, 40.0), // 腿部推蹬
+                EachActionDetail("AD202", "SCH1002", "FM302", "Squat Machine", 2, 3, 30.0), // 深蹲
+                EachActionDetail("AD203", "SCH1002", "FM303", "Leg Curl Machine", 3, 3, 20.0), // 腿弯举
+                EachActionDetail("AD204", "SCH1002", "FM305", "Calf Raise Machine", 4, 3, 10.0), // 小腿提踵
+                EachActionDetail("AD301", "SCH1004", "FM401", "Shoulder Press Machine", 1, 3, 20.0), // 肩部推举
+                EachActionDetail("AD302", "SCH1004", "FM402", "Lateral Raise Machine", 2, 3, 5.0), // 哑铃侧平举（替代）
+                EachActionDetail("AD303", "SCH1004", "FM101", "Flat Bench Press", 3, 3, 20.0), // 杠铃卧推
+                EachActionDetail("AD304", "SCH1004", "FM503", "Cable Bicep Curl", 4, 3, 10.0), // 弯举（替代）
+                EachActionDetail("AD305", "SCH1004", "FM502", "Tricep Extension Machine", 5, 3, 10.0), // 颈后臂屈伸（替代）
+                EachActionDetail("AD401", "SCH1006", "FM105", "Cable Crossovers", 1, 3, 5.0), // 哑铃飞鸟（替代）
+                EachActionDetail("AD402", "SCH1006", "FM201", "Lat Pull Down", 2, 3, 20.0), // 坡度拉力器下拉（替代）
+                EachActionDetail("AD403", "SCH1006", "FM101", "Flat Bench Press", 3, 3, 20.0), // 杠铃卧推
+                EachActionDetail("AD404", "SCH1006", "FM105", "Cable Crossovers", 4, 3, 5.0) // 哑铃飞鸟（替代）
             )
             actionDetails.forEach { detail ->
                 viewModel.insertEachActionDetail(detail)
