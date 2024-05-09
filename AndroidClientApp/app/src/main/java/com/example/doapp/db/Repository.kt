@@ -9,6 +9,8 @@ import com.example.doapp.db.exercise.official_course.OfficialCourse
 import com.example.doapp.db.exercise.official_course.OfficialCourseDao
 import com.example.doapp.db.exercise.official_course.OfficialCourseSchedule
 import com.example.doapp.db.exercise.official_course.OfficialCourseScheduleDao
+import com.example.doapp.db.exercise.user_record.UserRecord
+import com.example.doapp.db.exercise.user_record.UserRecordDao
 import com.example.doapp.db.personal_info.PersonalInfo
 import com.example.doapp.db.personal_info.PersonalInfoDAO
 import com.example.doapp.db.preferences.Preferences
@@ -28,6 +30,7 @@ class Repository(application: Application) {
     private var officialCourseDao: OfficialCourseDao = AppDatabase.getDatabase(application).officialCourseDao()
     private var officialCourseScheduleDao: OfficialCourseScheduleDao = AppDatabase.getDatabase(application).officialCourseScheduleDao()
     private var eachActionDetailDao: EachActionDetailDao = AppDatabase.getDatabase(application).eachActionDetailDao()
+    private val userRecordDao: UserRecordDao = AppDatabase.getDatabase(application).userRecordDao()
 
     val allUsers: Flow<List<Users>> = usersDao.getAllUsersByUid()
     val allUserInfo: Flow<List<UserInfo>> = userInfoDao.getAllUserInfoByUid()
@@ -180,4 +183,23 @@ class Repository(application: Application) {
 
     suspend fun getActionDetailsByScheduleIdAndSequenceNum(scheduleId: String, sequenceNum: Int): Flow<EachActionDetail?> =
         eachActionDetailDao.getActionDetailsByScheduleIdAndSequenceNum(scheduleId, sequenceNum)
+
+    suspend fun insertUserRecord(record: UserRecord) {
+        userRecordDao.insertUserRecord(record)
+    }
+
+    suspend fun updateUserRecord(record: UserRecord) {
+        userRecordDao.updateUserRecord(record)
+    }
+
+    suspend fun deleteUserRecord(record: UserRecord) {
+        userRecordDao.deleteUserRecord(record)
+    }
+
+    suspend fun getUserRecordById(recordID: String): Flow<UserRecord> =
+        userRecordDao.getUserRecordById(recordID)
+
+    suspend fun getAllUserRecords(): Flow<List<UserRecord>> =
+        userRecordDao.getAllUserRecords()
 }
+

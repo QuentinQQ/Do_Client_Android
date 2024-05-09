@@ -12,6 +12,8 @@ import com.example.doapp.db.exercise.official_course.OfficialCourse
 import com.example.doapp.db.exercise.official_course.OfficialCourseDao
 import com.example.doapp.db.exercise.official_course.OfficialCourseSchedule
 import com.example.doapp.db.exercise.official_course.OfficialCourseScheduleDao
+import com.example.doapp.db.exercise.user_record.UserRecord
+import com.example.doapp.db.exercise.user_record.UserRecordDao
 import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.preferences.PreferencesDAO
 import com.example.doapp.db.personal_info.PersonalInfo
@@ -30,9 +32,10 @@ import com.example.doapp.db.users.UsersDAO
         FitnessMovement::class,
         OfficialCourse::class,
         OfficialCourseSchedule::class,
-        EachActionDetail::class
+        EachActionDetail::class,
+        UserRecord::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -44,6 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun officialCourseDao(): OfficialCourseDao
     abstract fun officialCourseScheduleDao(): OfficialCourseScheduleDao
     abstract fun eachActionDetailDao(): EachActionDetailDao
+    abstract fun userRecordDao(): UserRecordDao
 
     companion object {
         @Volatile
