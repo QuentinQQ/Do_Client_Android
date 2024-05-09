@@ -8,5 +8,6 @@ enum class Routes(val value: String) {
     Me("Me"),
     AboutDo("About"),
     HelpAndFeedback("HelpAndFeedback"),
-    DetailScreen("DetialScreen")
+    DetailScreen("DetailScreen"),
+    CourseDetailsScreen("CourseDetail")
 }

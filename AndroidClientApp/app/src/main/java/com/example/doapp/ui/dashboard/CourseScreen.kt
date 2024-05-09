@@ -190,13 +190,13 @@ fun Course(
         ) {
             LazyColumn(modifier = Modifier.weight(1f).padding(end = 4.dp)) {
                 items(column1Plans) { plan ->
-                    PlanItem(title = plan.first, imageRes = plan.second)
+                    PlanItem(title = plan.first, imageRes = plan.second, navController)
                 }
             }
 
             LazyColumn(modifier = Modifier.weight(1f).padding(start = 4.dp)) {
                 items(column2Plans) { plan ->
-                    PlanItem(title = plan.first, imageRes = plan.second)
+                    PlanItem(title = plan.first, imageRes = plan.second, navController)
                 }
             }
         }
@@ -245,15 +245,19 @@ fun Chip(text: String, selected: Boolean, onSelected: () -> Unit) {
 
 
 @Composable
-fun PlanItem(title: String, imageRes: Int, modifier: Modifier = Modifier) {
+fun PlanItem(
+    title: String,
+    imageRes: Int,
+    navController: NavHostController
+) {
 
     Card(
-        modifier = modifier
+        modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
 //            .aspectRatio(1f)
             .clickable {
-                // Handle plan item click here
+                navController.navigate("CourseDetail/$title")
             },
 //        colors = CardDefaults.cardColors(containerColor = CardWhite),
 //        shape = RoundedCornerShape(50.dp),

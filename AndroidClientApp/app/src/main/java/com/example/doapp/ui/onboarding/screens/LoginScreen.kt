@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.doapp.R
+import com.example.doapp.dataProcess.convertFitnessMovementToFirestore
 import com.example.doapp.dataProcess.saveUserId
 import com.example.doapp.db.ViewModel
 import com.example.doapp.db.userinfo.UserInfo
@@ -262,6 +263,7 @@ fun LoginScreen(
 //                    val signInIntent = googleSignInClient.signInIntent
 //                    googleSignInLauncher.launch(signInIntent)
                     initiateGoogleSignIn(googleSignInClient, googleSignInLauncher)
+
                 },
                 modifier = Modifier
                     .size(48.dp)
@@ -294,6 +296,7 @@ fun handleLogin(
     isLoading: MutableState<Boolean>
 ) {
     isLoading.value = true  // Start loading
+
 
     if (email.isEmpty() || password.isEmpty()) {
         coroutineScope.launch {
@@ -336,6 +339,7 @@ fun handleLogin(
         }
     isLoading.value = false  // Stop loading
 }
+
 
 
 

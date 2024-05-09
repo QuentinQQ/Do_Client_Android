@@ -16,14 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.bottomnavigationbar.NavBarItem
 import com.example.doapp.db.ViewModel
 //import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
+import com.example.doapp.ui.dashboard.course.CourseDetailsScreen
 import com.example.doapp.ui.dashboard.home.DetailsScreen
 import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.example.doapp.ui.dashboard.myprofile.HelpScreen
@@ -156,6 +159,24 @@ fun MainNavigationBar(
                     navController
                 ) //navController
             }
+//            composable(Routes.CourseDetailsScreen.value) {
+//                CourseDetailsScreen(
+//                    navController,
+//                    viewModel,
+//
+//                ) //navController
+//            }
+            composable(
+                "${Routes.CourseDetailsScreen.value}/{courseTitle}",
+                arguments = listOf(navArgument("courseTitle") { type = NavType.StringType })
+            ) { backStackEntry ->
+                CourseDetailsScreen(
+                    navController = navController,
+                    viewModel = viewModel,
+                    courseTitle = backStackEntry.arguments?.getString("courseTitle") ?: ""
+                )
+            }
+
         }
     }
     if (showNewPageOverlay.value) {

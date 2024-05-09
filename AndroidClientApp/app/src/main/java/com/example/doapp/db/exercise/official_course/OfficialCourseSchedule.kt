@@ -28,5 +28,7 @@ data class OfficialCourseSchedule(
     @ColumnInfo
     val courseId: String,
     @ColumnInfo
+    val scheduleDesc: String,
+    @ColumnInfo
     val dayNum: Int,
 )

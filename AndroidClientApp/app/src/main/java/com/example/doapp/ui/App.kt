@@ -40,6 +40,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.example.doapp.db.ViewModel
 import com.example.doapp.db.users.Users
 import com.example.doapp.login.UserData
+import com.example.doapp.ui.dashboard.Routes
+import com.example.doapp.ui.dashboard.course.CourseDetailsScreen
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CoroutineScope

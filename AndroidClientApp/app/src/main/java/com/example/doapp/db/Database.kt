@@ -32,7 +32,7 @@ import com.example.doapp.db.users.UsersDAO
         OfficialCourseSchedule::class,
         EachActionDetail::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
