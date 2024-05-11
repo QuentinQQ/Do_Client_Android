@@ -26,10 +26,12 @@ import com.example.bottomnavigationbar.NavBarItem
 import com.example.doapp.db.ViewModel
 //import com.example.doapp.login.GoogleAuthUiClient
 import com.example.doapp.ui.NewScreenScrim
+import com.example.doapp.ui.dashboard.HomeSubScreens.DetailsScreen
 import com.example.doapp.ui.dashboard.course.CourseDetailsScreen
-import com.example.doapp.ui.dashboard.home.DetailsScreen
+//import com.example.doapp.ui.dashboard.home.DetailsScreen
 import com.example.doapp.ui.dashboard.myprofile.AboutDoScreen
 import com.example.doapp.ui.dashboard.myprofile.HelpScreen
+import com.example.doapp.ui.onboarding.screens.LoginScreen
 import com.example.doapp.ui.theme.ButtonBlue
 import com.example.doapp.ui.theme.LightBackground
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -146,6 +148,9 @@ fun MainNavigationBar(
 //                    }
                 )
             }
+            composable(Routes.LoginScreen.value){
+                LoginScreen(navController, googleSignInClient, auth, viewModel)
+            }
             composable(Routes.AboutDo.value) {
                 AboutDoScreen(
                     navController
@@ -156,7 +161,8 @@ fun MainNavigationBar(
             }
             composable(Routes.DetailScreen.value) {
                 DetailsScreen(
-                    navController
+                    navController,
+                    viewModel
                 ) //navController
             }
 //            composable(Routes.CourseDetailsScreen.value) {
@@ -173,7 +179,8 @@ fun MainNavigationBar(
                 CourseDetailsScreen(
                     navController = navController,
                     viewModel = viewModel,
-                    courseTitle = backStackEntry.arguments?.getString("courseTitle") ?: ""
+                    courseTitle = backStackEntry.arguments?.getString("courseTitle") ?: "",
+                    context
                 )
             }
 

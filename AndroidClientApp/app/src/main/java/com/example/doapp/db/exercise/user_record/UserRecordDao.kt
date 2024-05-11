@@ -21,6 +21,12 @@ interface UserRecordDao {
     @Query("SELECT * FROM UserRecord WHERE recordID = :recordID")
     fun getUserRecordById(recordID: String): Flow<UserRecord>
 
+    @Query("SELECT * FROM UserRecord WHERE uid = :uid AND date = :date")
+    fun getUserRecordByUidAndDate(uid: String, date:String): Flow<List<UserRecord>>
+
+    @Query("SELECT * FROM UserRecord WHERE date = :date")
+    fun getUserRecordByDate(date:String): Flow<List<UserRecord>>
+
     @Query("SELECT * FROM UserRecord")
     fun getAllUserRecords(): Flow<List<UserRecord>>
 }

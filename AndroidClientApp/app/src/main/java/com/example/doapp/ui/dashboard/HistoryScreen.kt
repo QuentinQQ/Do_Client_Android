@@ -100,7 +100,9 @@ fun History(
         ) {
             when (selectedTab) {
                 HistoryTopNav.Calendar -> CalendarView()
-                HistoryTopNav.Statistics -> StatisticsView()
+                HistoryTopNav.Statistics -> StatisticsView(
+                    navController
+                )
             }
         }
     }

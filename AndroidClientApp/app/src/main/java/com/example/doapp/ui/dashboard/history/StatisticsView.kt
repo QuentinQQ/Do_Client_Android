@@ -32,6 +32,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -40,19 +43,49 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.doapp.R
+import com.example.doapp.ui.dashboard.New
 import com.example.doapp.ui.theme.CardWhite
 import com.example.doapp.ui.theme.LightBackground
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import java.time.LocalDate
 
 /**
  * Layout of Statistics screen, sub screen of History Screen
  */
 @Composable
-fun StatisticsView() {
+fun StatisticsView(navController: NavHostController) {
     // default to show the "Statistics" view
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by remember { mutableStateOf(0)
+    }
+    var lastWeekWorkouts = mapOf(
+        LocalDate.now() to 60,
+        LocalDate.now().minusDays(1) to 90,
+        LocalDate.now().minusDays(2) to 45,
+        LocalDate.now().minusDays(3) to 70,
+        LocalDate.now().minusDays(4) to 80,
+        LocalDate.now().minusDays(5) to 55,
+        LocalDate.now().minusDays(6) to 100
+    )
+    var thisWeekWorkouts = mapOf(
+        LocalDate.now() to 90,
+        LocalDate.now().minusDays(1) to 120,
+        LocalDate.now().minusDays(2) to 75,
+        LocalDate.now().minusDays(3) to 110,
+        LocalDate.now().minusDays(4) to 85,
+        LocalDate.now().minusDays(5) to 60,
+        LocalDate.now().minusDays(6) to 130
+    )
+    var diffMinutes = 30
 
     Column (
         Modifier.padding(start = 8.dp, end = 8.dp)
@@ -192,19 +225,18 @@ fun StatisticsView() {
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            Image(
-                                painter = painterResource(id = R.drawable.weekly_record_lastweek_bule),
-                                contentDescription = "Statistics weekly record"
+                            BarChart(
+                                lastWeekWorkouts = lastWeekWorkouts,
+                                thisWeekWorkouts = thisWeekWorkouts,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp)
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
                             Divider()
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            Image(
-                                painter = painterResource(id = R.drawable.weekly_record_thisweek_bule),
-                                contentDescription = "Statistics weekly record"
-                            )
 
                             Spacer(modifier = Modifier.height(16.dp))
 
@@ -223,13 +255,13 @@ fun StatisticsView() {
                                                     color = Color(0xFF3757FF)
                                                 )
                                             ) {
-                                                append("0")
+                                                append("295")
                                             }
                                             append(" minutes. \nCompared to the last week:")
                                         }
                                     )
                                 }
-                                Text(text = "-33 mins  \uD83D\uDE2B",
+                                Text(text = "-65 mins  \uD83D\uDE2B",
                                     modifier = Modifier
                                         .weight(0.5f)
                                         .align(Alignment.CenterVertically),
@@ -300,4 +332,52 @@ fun StatisticsView() {
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StatisticViewPreview() {
+    val navController = rememberNavController()
+    StatisticsView(navController)
+}
+
+@Composable
+private fun BarChart(
+    lastWeekWorkouts: Map<LocalDate, Int>,
+    thisWeekWorkouts: Map<LocalDate, Int>,
+    modifier: Modifier = Modifier
+) {
+    val days = lastWeekWorkouts.keys.toList()
+    val maxValue = (lastWeekWorkouts.values.maxOrNull() ?: 0).coerceAtLeast(thisWeekWorkouts.values.maxOrNull() ?: 0)
+
+    Canvas(modifier = modifier.fillMaxWidth()) {
+//        val barWidth = size.width / (days.size * 2f)
+        val barWidth = 20.dp.toPx()
+        val barMaxHeight = size.height
+        val barPadding = barWidth / 2
+
+        days.forEachIndexed { index, day ->
+            val lastWeekValue = lastWeekWorkouts[day] ?: 0
+            val thisWeekValue = thisWeekWorkouts[day] ?: 0
+
+            val lastWeekBarHeight = (lastWeekValue * barMaxHeight) / maxValue
+            val thisWeekBarHeight = (thisWeekValue * barMaxHeight) / maxValue
+
+            val startX = index * 2 * barWidth + barPadding
+
+            drawRoundRect(
+                color = Color.Blue,
+                topLeft = Offset(startX, size.height - lastWeekBarHeight),
+                size = Size(barWidth, lastWeekBarHeight),
+                cornerRadius = CornerRadius(4.dp.toPx())
+            )
+
+            drawRoundRect(
+                color = Color.Red,
+                topLeft = Offset(startX + barWidth, size.height - thisWeekBarHeight),
+                size = Size(barWidth, thisWeekBarHeight),
+                cornerRadius = CornerRadius(4.dp.toPx())
+            )
+        }
+    }
 }

@@ -76,6 +76,8 @@ import com.example.doapp.ui.theme.LightBackground
 import com.example.doapp.ui.theme.LightFouth
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
 @Composable
@@ -354,16 +356,17 @@ fun Me(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    googleSignInClient.signOut().addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            auth.signOut()
-                            navController.navigate("login") {
-                                popUpTo("home") { inclusive = true }  // Clear back stack
-                            }
-                        } else {
-                            // Handle error
-                        }
-                    }
+//                    googleSignInClient.signOut().addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            auth.signOut()
+//                            navController.navigate("login") {
+//                                popUpTo("home") { inclusive = true }  // Clear back stack
+//                            }
+//                        } else {
+//                            // Handle error
+//                        }
+//                    }
+                    performLogout(auth, googleSignInClient, navController)
                 }
             },
             modifier = Modifier
@@ -391,6 +394,45 @@ fun Me(
         }
     }
 
+}
+
+
+// 执行登出的函数
+fun performLogout(auth: FirebaseAuth, googleSignInClient: GoogleSignInClient, navController: NavHostController) {
+    auth.currentUser?.let { user ->
+        when {
+            user.isSignedInWithGoogle() -> {
+                // 如果是通过Google登录
+                googleSignInClient.signOut().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        auth.signOut()
+                        navController.navigateAndClearStack("login")
+                    } else {
+                        // Handle error
+                    }
+                }
+            }
+            else -> {
+                // 其他登录方式的处理
+                auth.signOut()
+                navController.navigateAndClearStack("login")
+            }
+        }
+    }
+}
+
+
+
+// 判断是否通过Google登录
+fun FirebaseUser.isSignedInWithGoogle(): Boolean {
+    return providerData.any { it.providerId == GoogleAuthProvider.PROVIDER_ID }
+}
+
+// 导航并清空导航栈
+fun NavHostController.navigateAndClearStack(route: String) {
+    navigate(route) {
+        popUpTo("home") { inclusive = true }  // Clear back stack
+    }
 }
 
 //@Preview(showBackground = true)

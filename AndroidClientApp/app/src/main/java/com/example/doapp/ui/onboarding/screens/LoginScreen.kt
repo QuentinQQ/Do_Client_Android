@@ -73,6 +73,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import androidx.compose.material.icons.filled.Visibility
+import com.example.doapp.login.isValidEmail
+import com.example.doapp.login.containsNoSpaces
 
 
 @Composable
@@ -81,10 +83,6 @@ fun LoginScreen(
     googleSignInClient: GoogleSignInClient,
     auth: FirebaseAuth,
     viewModel: ViewModel
-//    signInState: SignInState,
-//    signInViewModel: SignInViewModel,
-//    googleAuthUiClient: GoogleAuthUiClient,
-//    onSignInClick: () -> Unit,
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -210,6 +208,7 @@ fun LoginScreen(
                         Icon(imageVector  = image, "")
                     }
                 }
+
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -219,6 +218,12 @@ fun LoginScreen(
             } else {
                 Button(
                     onClick = {
+                        if (!isValidEmail(email.value)) {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Please enter a valid email address")
+                            }
+                            return@Button
+                        }
                         handleLogin(email.value, password.value, db, snackbarHostState, coroutineScope, navController, isLoading)
                     },
                     modifier = Modifier

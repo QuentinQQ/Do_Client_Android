@@ -1,6 +1,7 @@
 package com.example.doapp.db
 
 import android.app.Application
+import androidx.room.Query
 import com.example.doapp.db.exercise.fitness_movement.FitnessMovement
 import com.example.doapp.db.exercise.fitness_movement.FitnessMovementDao
 import com.example.doapp.db.exercise.official_course.EachActionDetail
@@ -169,7 +170,7 @@ class Repository(application: Application) {
         eachActionDetailDao.deleteEachActionDetail(detail)
     }
 
-    suspend fun getActionDetailsByScheduleId(scheduleId: String): Flow<List<EachActionDetail>> =
+    suspend fun getActionDetailsByScheduleId(scheduleId: String): Flow<EachActionDetail> =
         eachActionDetailDao.getActionDetailsByScheduleId(scheduleId)
 
     suspend fun getActionDetailsByDetailId(detailId: String): Flow<EachActionDetail?> =
@@ -196,10 +197,35 @@ class Repository(application: Application) {
         userRecordDao.deleteUserRecord(record)
     }
 
-    suspend fun getUserRecordById(recordID: String): Flow<UserRecord> =
+    fun getUserRecordById(recordID: String): Flow<UserRecord> =
         userRecordDao.getUserRecordById(recordID)
 
-    suspend fun getAllUserRecords(): Flow<List<UserRecord>> =
+
+    fun getUserRecordByUidAndDate(uid: String, date: String): Flow<List<UserRecord>> =
+        userRecordDao.getUserRecordByUidAndDate(uid, date)
+
+    fun getUserRecordByDate(date: String): Flow<List<UserRecord>> =
+        userRecordDao.getUserRecordByDate(date)
+
+    fun getAllUserRecords(): Flow<List<UserRecord>> =
         userRecordDao.getAllUserRecords()
+
+
+    fun getcount(courseId: String): Int =
+        officialCourseScheduleDao.getcount(courseId)
+
+    fun getOfficialCourseScheduleByCourseIdtest(courseId: String): List<OfficialCourseSchedule> =
+        officialCourseScheduleDao.getOfficialCourseScheduleByCourseIdtest(courseId)
+
+
+    suspend fun getOfficialCourseScheduleByCourseIdflow(courseId: String): Flow<OfficialCourseSchedule> =
+        officialCourseScheduleDao.getOfficialCourseScheduleByCourseIdflow(courseId)
+
+    fun getOfficialCourseScheduleBySchedule(scheduleId: String): OfficialCourseSchedule =
+        officialCourseScheduleDao.getOfficialCourseScheduleBySchedule(scheduleId)
+
+    fun getActionDetailsByScheduleIdtest(scheduleId: String): List<EachActionDetail> =
+        eachActionDetailDao.getActionDetailsByScheduleIdtest(scheduleId)
+
 }
 

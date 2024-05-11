@@ -22,7 +22,7 @@ interface EachActionDetailDao {
     fun getEachActionDetailByDetailId(detailId: String): Flow<EachActionDetail?>
 
     @Query("SELECT * FROM EachActionDetail WHERE scheduleId = :scheduleId")
-    fun getActionDetailsByScheduleId(scheduleId: String): Flow<List<EachActionDetail>>
+    fun getActionDetailsByScheduleId(scheduleId: String): Flow<EachActionDetail>
 
     @Query("SELECT * FROM EachActionDetail WHERE movementId = :movementId")
     fun getActionDetailsByMovementId(movementId: String): Flow<List<EachActionDetail>>
@@ -32,4 +32,7 @@ interface EachActionDetailDao {
 
     @Query("SELECT * FROM EachActionDetail WHERE scheduleId = :scheduleId AND sequenceNum = :sequenceNum")
     fun getActionDetailsByScheduleIdAndSequenceNum(scheduleId: String, sequenceNum: Int): Flow<EachActionDetail?>
+
+    @Query("SELECT * FROM EachActionDetail WHERE scheduleId = :scheduleId")
+    fun getActionDetailsByScheduleIdtest(scheduleId: String): List<EachActionDetail>
 }

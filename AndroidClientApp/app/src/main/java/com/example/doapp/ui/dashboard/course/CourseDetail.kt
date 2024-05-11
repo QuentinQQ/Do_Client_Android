@@ -1,5 +1,6 @@
 package com.example.doapp.ui.dashboard.course
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -40,66 +42,36 @@ import androidx.lifecycle.viewModelScope
 import com.example.doapp.db.exercise.official_course.OfficialCourse
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.doapp.dataProcess.getUserId
+import com.example.doapp.db.Repository
 import com.example.doapp.db.exercise.official_course.EachActionDetail
 import com.example.doapp.db.exercise.official_course.OfficialCourseSchedule
-import com.example.doapp.ui.dashboard.home.TrainingItem
+import com.example.doapp.db.exercise.user_record.UserRecord
+import com.google.android.play.integrity.internal.f
+//import com.example.doapp.ui.dashboard.home.TrainingItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
+//var courseSchedule = mutableStateListOf<OfficialCourseSchedule>()
+var actionlist = mutableStateListOf<EachActionDetail>()
 @Composable
 fun CourseDetailsScreen(
     navController: NavHostController,
     viewModel: ViewModel,
-    courseTitle: String
+    courseTitle: String,
+    context:Context
 ){
-//    var courseDetailsState by remember { mutableStateOf<OfficialCourse?>(null) }
-//    var courseSchedule by remember { mutableStateOf<List<OfficialCourseSchedule>?>(null) }
-//
-//    // LaunchedEffect观察课程标题的变化
-//    LaunchedEffect(key1 = courseTitle) {
-//        // 在协程中调用suspend函数获取课程详情
-//        courseDetailsState = viewModel.getOfficialCourseByName(courseTitle)
-//    }
-//
-//    // 当课程详情状态更新时，获取相关的课程日程
-//    LaunchedEffect(key1 = courseDetailsState) {
-//        courseDetailsState?.courseId?.let { courseId ->
-//            // 在协程中调用suspend函数获取课程日程
-//            courseSchedule = viewModel.getOfficialCourseScheduleByCourseId(courseId)
-//        }
-//    }
-//    var courseDetailsState by remember { mutableStateOf<OfficialCourse?>(null) }
-//    var courseSchedule by remember { mutableStateOf<List<OfficialCourseSchedule>?>(null) }
-//
-//    // 使用LaunchedEffect来观察和更新课程详细信息
-//    LaunchedEffect(key1 = courseTitle) {
-//        viewModel.getOfficialCourseByName(courseTitle).collect { course ->
-//            courseDetailsState = course
-//        }
-//    }
-//
-//    // 使用LaunchedEffect来加载和观察课程日程
-//    LaunchedEffect(key1 = courseDetailsState) {
-//        courseDetailsState?.courseId?.let { courseId ->
-//            viewModel.getOfficialCourseScheduleByCourseId(courseId).collect { schedules ->
-//                courseSchedule = schedules
-//            }
-//        }
-//    }
-    //第一种
-//    val officialCourseLiveData = viewModel.getOfficialCourseByName(courseTitle).observeAsState()
-//    val courseDetailsState = officialCourseLiveData.value
-//
-//    val courseSchedule = courseDetailsState?.let { officialCourse ->
-//        viewModel.getOfficialCourseScheduleByCourseId(officialCourse.courseId).observeAsState().value
-//    }
 
     var courseDetailsState by remember { mutableStateOf<OfficialCourse?>(null) }
     var courseSchedule by remember { mutableStateOf<List<OfficialCourseSchedule>?>(null) }
-
     LaunchedEffect(key1 = courseTitle) {
         // --------------------test----------------------
         println("courseTitle: $courseTitle") // 打印传递进来的 courseTitle
@@ -118,8 +90,8 @@ fun CourseDetailsScreen(
     LaunchedEffect(key1 = courseDetailsState) {
         courseDetailsState?.let { officialCourse ->
             val scheduleList = withContext(Dispatchers.IO) {
-                viewModel.getOfficialCourseScheduleByCourseId(officialCourse.courseId).value
-            } //确定了officialCourse.courseId不为空, courseSchedule即scheduleList应该是为null的
+                viewModel.getOfficialCourseScheduleByCourseIdtest(officialCourse.courseId)
+            }
             // --------------------test-----------------------
             println("scheduleList: $scheduleList")
             Log.d("scheduleList", "scheduleList: $scheduleList")
@@ -163,37 +135,40 @@ fun CourseDetailsScreen(
                 color = FontBlack
             )
         }
+//
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.Start,
+//        ) {
+//            courseDetailsState?.let {
+//                Text(
+//                    text = it.courseName,
+//                    style = MaterialTheme.typography.h5,
+//                    modifier = Modifier.padding(start = 8.dp),
+//                    color = FontBlack
+//                )
+//                Text(
+//                    text = it.courseDesc,
+//                    style = MaterialTheme.typography.h6,
+//                    modifier = Modifier.padding(start = 8.dp),
+//                    color = FontBlack
+//                )
+//            }
+//        }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
+        LazyColumn(
+            modifier = Modifier.weight(1f)
         ) {
-            courseDetailsState?.let {
-                Text(
-                    text = it.courseName,
-                    style = MaterialTheme.typography.h5,
-                    modifier = Modifier.padding(start = 8.dp),
-                    color = FontBlack
-                )
-                Text(
-                    text = it.courseDesc,
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(start = 8.dp),
-                    color = FontBlack
-                )
-            }
-        }
 
-        LazyColumn {
             courseSchedule?.let { schedules ->
                 val sortedSchedules = schedules.sortedBy { it.dayNum }
                 // --------------------test----------------------
                 println("Sorted Schedules: $sortedSchedules")
                 Log.d("Sorted Schedules", "Sorted Schedules: $sortedSchedules")
                 // --------------------test----------------------
-                items(sortedSchedules.size) { index ->
-                    val schedule = sortedSchedules[index]
+                items(sortedSchedules) { index ->
+                    val schedule = index
                     CourseScheduleCard(schedule = schedule, viewModel = viewModel)
                 }
             }
@@ -201,7 +176,28 @@ fun CourseDetailsScreen(
 
         Button(
             onClick = {
-
+                GlobalScope.launch {
+                    val sdf = SimpleDateFormat("yyyy-MM-dd")
+                    for (i in 0 until actionlist.size){
+                        var scheduleId = actionlist[i].scheduleId
+                        val daynum =  viewModel.getOfficialCourseScheduleBySchedule(scheduleId).dayNum
+                        val userid = getUserId(context)
+                        if (daynum==1){
+                            val datestr = sdf.format(Date())
+                            viewModel.insertUserRecord(UserRecord(i.toString(),userid.toString(),false,datestr,
+                                actionlist[i].movementId.toString(), actionlist[i].movementName, actionlist[i].sets,
+                                actionlist[i].sequenceNum, actionlist[i].weight,15))
+                        }else{
+                            val now = Calendar.getInstance()
+                            now.add(Calendar.DAY_OF_MONTH,daynum)
+                            val datestr = sdf.format(now.time)
+                            viewModel.insertUserRecord(UserRecord(i.toString(),userid.toString(),false,datestr,
+                                actionlist[i].movementId.toString(), actionlist[i].movementName, actionlist[i].sets,
+                                actionlist[i].sequenceNum, actionlist[i].weight,15))
+                        }
+                    }
+                }
+                navController.navigate("course")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -229,17 +225,21 @@ fun CourseScheduleCard(
     schedule: OfficialCourseSchedule,
     viewModel: ViewModel
 ) {
+//    var actionDetails by remember { mutableStateOf<List<EachActionDetail>?>(null) }
     var actionDetails by remember { mutableStateOf<List<EachActionDetail>>(emptyList()) }
 
     LaunchedEffect(schedule.scheduleId) {
-        val liveData = viewModel.getActionDetailsByScheduleId(schedule.scheduleId)
-        actionDetails = liveData.value ?: emptyList()
+        GlobalScope.launch {
+            val liveData = viewModel.getActionDetailsByScheduleIdtest(schedule.scheduleId)
+            actionDetails = liveData?: emptyList()
+        }
     }
 
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp)),
         elevation = 8.dp
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -253,8 +253,11 @@ fun CourseScheduleCard(
                 style = MaterialTheme.typography.subtitle1,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
+            Log.d("test","sizwe111"+actionDetails.size)
 
             actionDetails.forEach { detail ->
+                actionlist.add(detail)
+                Log.d("test","sizwe"+actionlist.size)
                 ActionDetailRow(detail)
             }
         }
@@ -271,6 +274,28 @@ fun ActionDetailRow(detail: EachActionDetail) {
     ) {
         Text(detail.movementName)
         Text("${detail.sets} sets | ${detail.weight} kg")
+    }
+}
+
+suspend fun save(context: Context, viewModel: ViewModel){
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    for (i in 0 until actionlist.size){
+        var scheduleId = actionlist[i].scheduleId
+        val daynum =  viewModel.getOfficialCourseScheduleBySchedule(scheduleId).dayNum
+        val userid = getUserId(context)
+        if (daynum==1){
+            val datestr = sdf.format(Date())
+            viewModel.insertUserRecord(UserRecord(i.toString(),userid.toString(),false,datestr,
+                actionlist[i].movementId.toString(), actionlist[i].movementName, actionlist[i].sets,
+                actionlist[i].sequenceNum, actionlist[i].weight,15))
+        }else{
+            val now = Calendar.getInstance()
+            now.add(Calendar.DAY_OF_MONTH,daynum)
+            val datestr = sdf.format(now.time)
+            viewModel.insertUserRecord(UserRecord(i.toString(),userid.toString(),false,datestr,
+                actionlist[i].movementId.toString(), actionlist[i].movementName, actionlist[i].sets,
+                actionlist[i].sequenceNum, actionlist[i].weight,15))
+        }
     }
 }
 //@Composable

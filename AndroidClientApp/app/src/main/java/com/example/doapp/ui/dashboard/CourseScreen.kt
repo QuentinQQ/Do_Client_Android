@@ -142,9 +142,9 @@ fun Course(
                     )
                 },
                 modifier = Modifier
-                    .background(LightBackground)
+                    .background(color = LightBackground)
                     .padding(4.dp)
-                    .width(280.dp),
+                    .fillMaxWidth(),
                 containerColor = LightBackground
             ) {
                 tabs.forEachIndexed { index, title ->

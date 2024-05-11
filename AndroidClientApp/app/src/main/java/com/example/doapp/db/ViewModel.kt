@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.doapp.db.Repository
 import com.example.doapp.db.exercise.fitness_movement.FitnessMovement
@@ -15,7 +16,11 @@ import com.example.doapp.db.personal_info.PersonalInfo
 import com.example.doapp.db.preferences.Preferences
 import com.example.doapp.db.userinfo.UserInfo
 import com.example.doapp.db.users.Users
+import com.example.doapp.ui.dashboard.HomeSubScreens.TrainingItemData
+import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
@@ -137,6 +142,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         cRepository.insertEachActionDetail(detail)
     }
 
+
     fun updateEachActionDetail(detail: EachActionDetail) = viewModelScope.launch(Dispatchers.IO) {
         cRepository.updateEachActionDetail(detail)
     }
@@ -145,7 +151,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         cRepository.deleteEachActionDetail(detail)
     }
 
-    suspend fun getActionDetailsByScheduleId(scheduleId: String): LiveData<List<EachActionDetail>> =
+    suspend fun getActionDetailsByScheduleId(scheduleId: String): LiveData<EachActionDetail?> =
         cRepository.getActionDetailsByScheduleId(scheduleId).asLiveData()
 
     suspend fun getActionDetailsByDetailId(detailId: String): LiveData<EachActionDetail?> =
@@ -173,10 +179,31 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         cRepository.deleteUserRecord(record)
     }
 
-    suspend fun getUserRecordById(recordID: String): LiveData<UserRecord> =
+    fun getUserRecordById(recordID: String): LiveData<UserRecord> =
         cRepository.getUserRecordById(recordID).asLiveData()
 
-    suspend fun getAllUserRecords(): LiveData<List<UserRecord>> =
+    fun getUserRecordByUidAndDate(uid: String, date: String): Flow<List<UserRecord>> =
+        cRepository.getUserRecordByUidAndDate(uid, date)
+
+    fun getUserRecordByDate(date: String): Flow<List<UserRecord>> =
+        cRepository.getUserRecordByDate(date)
+
+    fun getAllUserRecords(): LiveData<List<UserRecord>> =
         cRepository.getAllUserRecords().asLiveData()
+
+    fun getcount(courseId: String): Int =
+        cRepository.getcount(courseId)
+
+    fun getOfficialCourseScheduleByCourseIdtest(courseId: String): List<OfficialCourseSchedule> =
+        cRepository.getOfficialCourseScheduleByCourseIdtest(courseId)
+
+    suspend fun getOfficialCourseScheduleByCourseIdflow(courseId: String): LiveData<OfficialCourseSchedule?> =
+        cRepository.getOfficialCourseScheduleByCourseIdflow(courseId).asLiveData()
+
+    fun getOfficialCourseScheduleBySchedule(scheduleId: String): OfficialCourseSchedule =
+        cRepository.getOfficialCourseScheduleBySchedule(scheduleId)
+
+    fun getActionDetailsByScheduleIdtest(scheduleId: String): List<EachActionDetail> =
+        cRepository.getActionDetailsByScheduleIdtest(scheduleId)
 }
 

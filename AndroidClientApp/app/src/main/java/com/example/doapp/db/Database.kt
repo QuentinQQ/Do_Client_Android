@@ -35,7 +35,7 @@ import com.example.doapp.db.users.UsersDAO
         EachActionDetail::class,
         UserRecord::class
     ],
-    version = 8,
+    version = 12,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
