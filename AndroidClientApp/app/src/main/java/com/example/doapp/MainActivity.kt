@@ -56,8 +56,8 @@ class MainActivity : ComponentActivity() {
 
         }
 
-        populateGymEquipmentMovements(viewModel)
-        populateInitialData()
+//        populateGymEquipmentMovements(viewModel)
+//        populateInitialData()
 //        uploadDataToFirestore()
 
     }
